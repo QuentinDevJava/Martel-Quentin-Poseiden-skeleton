@@ -10,14 +10,8 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-6">
-				<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
-				<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-				<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
-				<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
-				<a href="/ruleName/list">Rule</a>
-			</div>
-		<div th:replace="~{LogoutFragment}"></div>
+			<div th:replace="~{navBarFragment}"></div>
+			<div th:replace="~{LogoutFragment}"></div>
 		</div>
 		<div class="row">
 			<h2>Bid List</h2>
