@@ -52,7 +52,7 @@ public class RatingController {
 		// TODO: check data valid and save to db, after saving return Rating list
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("rating formulaire erreur");
 		}
 
 		ratingService.save(rating);
@@ -65,7 +65,7 @@ public class RatingController {
 		// TODO: get Rating by Id and to model then show to the form
 		Rating rating = ratingService.getById(id);
 		if (rating == null) {
-			log.warn("bidList est vide ou null");
+			log.warn("rating est vide ou null");
 		}
 		model.addAttribute("rating", rating);
 		return "rating/update";

@@ -51,7 +51,7 @@ public class CurveController {
 		// TODO: check data valid and save to db, after saving return Curve list
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("curvePoint formulaire erreur");
 		}
 		curveService.save(curvePoint);
 		return "curvePoint/add";
@@ -62,7 +62,7 @@ public class CurveController {
 		// TODO: get CurvePoint by Id and to model then show to the form
 		CurvePoint curvePoint = curveService.getById(id);
 		if (curvePoint == null) {
-			log.warn("bidList est vide ou null");
+			log.warn("curvePoint est vide ou null");
 		}
 		model.addAttribute("curvePoint", curvePoint);
 
