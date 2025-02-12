@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.UserRepository;
 
+//TODO utilité de cette class c'est spring security qui gere cette partie ?
 @Controller
 @RequestMapping("app")
 public class LoginController {
