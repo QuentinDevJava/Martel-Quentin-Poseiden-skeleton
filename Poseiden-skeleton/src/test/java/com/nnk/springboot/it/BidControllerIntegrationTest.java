@@ -1,9 +1,14 @@
 package com.nnk.springboot.it;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -22,10 +27,12 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.service.BidService;
 
-@Disabled
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username = "testuser", roles = "ADMIN")
+@Transactional
+@WithMockUser(username = "testuser", roles = { "ADMIN" })
 class BidControllerIntegrationTest {
 
 	@Autowired
@@ -69,41 +76,97 @@ class BidControllerIntegrationTest {
 
 	@Test
 	void testAddBidForm() throws Exception {
-		mockMvc.perform(get("/bidList/add")).andExpect(status().isOk()).andExpect(view().name("bidList/add"));
+		mockMvc.perform(get("/bidList/add"))
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("bidList/add"));
 	}
 
-	// TODO voir pour utilisation webmockmvc dans le context spring security
-	// @AutoConfigureMockMvc @WithMockUser
 	@Test
 	void testValidateBid() throws Exception {
 
-		mockMvc.perform(post("/bidList/validate").param("account", bid1.getAccount()).param("type", bid1.getType())
-				.param("bidQuantity", bid1.getBidQuantity().toString())).andExpect(status().isOk())
+		bid1 = bidService.getByAccount("updateTest");
+		assertNull(bid1);
+
+		mockMvc.perform(post("/bidList/validate")
+
+				.param("account", "updateTest")
+
+				.param("type", "updateTest")
+
+				.param("bidQuantity", "10.00")
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
 				.andExpect(view().name("bidList/add"));
+
+		bid1 = bidService.getByAccount("updateTest");
+
+		assertNotNull(bid1);
+
+		assertEquals("updateTest", bid1.getType());
+		assertEquals(10.00, bid1.getBidQuantity());
+
 	}
 
 	@Test
 	void testShowUpdateForm() throws Exception {
 		bidService.save(bid1);
+		bid1 = bidService.getByAccount("Account test");
+		int bidId = bid1.getBidListId();
 
-		mockMvc.perform(get("/bidList/update/{id}", 1)).andExpect(status().isOk())
-				.andExpect(view().name("bidList/update")).andExpect(model().attributeExists("bidList"));
+		mockMvc.perform(get("/bidList/update/{id}", bidId))
+
+				.andExpect(status().isOk())
+
+				.andExpect(model().attributeExists("bidList"))
+
+				.andExpect(view().name("bidList/update"));
+
 	}
 
 	@Test
 	void testUpdateBid() throws Exception {
-		bidService.save(bid1);
 
-		bid1.setBidListId(1);
+		bidService.save(bid1);
+		bid1 = bidService.getByAccount("Account test");
+		int bidId = bid1.getBidListId();
+
 		bid1.setBidQuantity(200.00);
-		mockMvc.perform(post("/bidList/update/{id}", 1).flashAttr("bidList", bid1))
-				.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/bidList/list"));
+
+		mockMvc.perform(post("/bidList/update/{id}", bidId)
+
+				.param("bidListId", String.valueOf(bidId))
+
+				.param("bidQuantity", "200.00")
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isFound())
+
+				.andExpect(redirectedUrl("/bidList/list"));
+
+		bid1 = bidService.getById(bidId);
+
+		assertEquals(200, bid1.getBidQuantity());
+
 	}
 
 	@Test
 	void testDeleteBid() throws Exception {
 		bidService.save(bid1);
-		mockMvc.perform(get("/bidList/delete/{id}", 1)).andExpect(status().is3xxRedirection()).andDo(print())
-				.andExpect(view().name("redirect:/bidList/list"));
+		bid1 = bidService.getByAccount("Account test");
+		int bidId = bid1.getBidListId();
+		mockMvc.perform(get("/bidList/delete/{id}", bidId)).andExpect(status().isFound()).andDo(print())
+				.andExpect(redirectedUrl("/bidList/list"));
+		bid1 = bidService.getById(bidId);
+		assertNull(bid1);
 	}
 }

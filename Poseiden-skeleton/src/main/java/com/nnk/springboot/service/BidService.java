@@ -33,4 +33,8 @@ public class BidService {
 		bidListRepository.deleteById(id);
 	}
 
+	public BidList getByAccount(String account) {
+		return bidListRepository.findByAccount(account);
+	}
+
 }

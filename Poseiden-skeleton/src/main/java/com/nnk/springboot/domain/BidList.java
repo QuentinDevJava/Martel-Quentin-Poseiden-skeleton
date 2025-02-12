@@ -8,6 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,12 +25,16 @@ public class BidList {
 	@Column(name = "bid_list_id")
 	private Integer bidListId;
 
+	@NotBlank
 	@Column(name = "account")
 	private String account;
 
+	@NotBlank
 	@Column(name = "type")
 	private String type;
 
+	@NotNull(message = "Bid quantity cannot be null.")
+	@Min(value = 1, message = "Bid quantity must be greater than or equal to 1.")
 	@Column(name = "bid_quantiy")
 	private Double bidQuantity;
 
