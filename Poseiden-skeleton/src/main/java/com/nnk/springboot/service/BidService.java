@@ -26,7 +26,8 @@ public class BidService {
 	}
 
 	public BidList getById(Integer id) {
-		return bidListRepository.findById(id).orElse(null);
+		return bidListRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid BidList Id:" + id));
 	}
 
 	public void deleteById(Integer id) {

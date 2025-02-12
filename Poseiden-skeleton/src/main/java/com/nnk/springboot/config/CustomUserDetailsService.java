@@ -1,4 +1,4 @@
-package com.nnk.springboot.service;
+package com.nnk.springboot.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.User;
+import com.nnk.springboot.service.UserService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

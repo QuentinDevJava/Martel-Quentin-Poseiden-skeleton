@@ -27,11 +27,16 @@ public class CurveService {
 	}
 
 	public CurvePoint getById(Integer id) {
-		return curvePointRepository.findById(id).orElse(null);
+		return curvePointRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid CurvePoint Id:" + id));
 	}
 
 	public void deleteById(Integer id) {
 		curvePointRepository.deleteById(id);
+	}
+
+	public CurvePoint getByCurveId(Integer curveId) {
+		return curvePointRepository.findByCurveId(curveId);
 	}
 
 }

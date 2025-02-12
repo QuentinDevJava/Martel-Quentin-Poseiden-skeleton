@@ -1,6 +1,6 @@
 package com.nnk.springboot.ut;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -85,10 +85,11 @@ class TradeServiceTest {
 		when(tradeRepository.findById(1)).thenReturn(Optional.empty());
 
 		// Act
-		Trade result = tradeService.getById(1);
+		assertThrows(IllegalArgumentException.class, () -> {
+			tradeService.getById(1);
+		});
 
 		// Assert
-		assertNull(result);
 		verify(tradeRepository, times(1)).findById(1);
 	}
 

@@ -3,6 +3,7 @@ package com.nnk.springboot.it;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -75,6 +76,16 @@ public class CurveServiceIntegrationTest {
 		// Assert
 		assertNotNull(result);
 		assertEquals(20.00, result.getTerm());
+	}
+
+	@Test
+	void testGetByIdError() {
+		int invalidId = 99999999;
+		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+			curveService.getById(invalidId);
+		});
+
+		assertEquals("Invalid CurvePoint Id:" + invalidId, exception.getMessage());
 	}
 
 	@Test

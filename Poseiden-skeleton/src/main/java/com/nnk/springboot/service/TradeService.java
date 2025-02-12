@@ -25,11 +25,15 @@ public class TradeService {
 	}
 
 	public Trade getById(Integer id) {
-		return tradeRepository.findById(id).orElse(null);
+		return tradeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Trade Id:" + id));
 	}
 
 	public void deleteById(Integer id) {
 		tradeRepository.deleteById(id);
+	}
+
+	public Trade getByAccount(String account) {
+		return tradeRepository.findByAccount(account);
 	}
 
 }

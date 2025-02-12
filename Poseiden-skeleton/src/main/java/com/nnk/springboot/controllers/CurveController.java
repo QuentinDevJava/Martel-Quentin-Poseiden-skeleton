@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.service.CurveService;
@@ -29,7 +28,7 @@ public class CurveController {
 	@Autowired
 	private HttpServletRequest httpServletRequest;
 
-	@RequestMapping("/curvePoint/list")
+	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
 		// TODO: find all Curve Point, add to model
 		List<CurvePoint> curvePoints = curveService.getAll();
@@ -42,7 +41,7 @@ public class CurveController {
 	}
 
 	@GetMapping("/curvePoint/add")
-	public String addBidForm(CurvePoint bid) {
+	public String addCurvePointForm(CurvePoint bid) {
 		return "curvePoint/add";
 	}
 
@@ -61,16 +60,16 @@ public class CurveController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		// TODO: get CurvePoint by Id and to model then show to the form
 		CurvePoint curvePoint = curveService.getById(id);
-		if (curvePoint == null) {
-			log.warn("curvePoint est vide ou null");
-		}
+//		if (curvePoint == null) {
+//			log.warn("curvePoint est vide ou null");
+//		}
 		model.addAttribute("curvePoint", curvePoint);
 
 		return "curvePoint/update";
 	}
 
 	@PostMapping("/curvePoint/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
+	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 			Model model) {
 		// TODO: check required fields, if valid call service to update Curve and return
 		// Curve list
@@ -87,9 +86,12 @@ public class CurveController {
 	}
 
 	@GetMapping("/curvePoint/delete/{id}")
-	public String deleteBid(@PathVariable("id") Integer id, Model model) {
+	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Curve by Id and delete the Curve, return to Curve list
-
+//		CurvePoint curvePoint = curveService.getById(id);
+//		if (curvePoint == null) {
+//			log.warn("curvePoint est vide ou null");
+//		}
 		curveService.deleteById(id);
 		List<CurvePoint> curvePoints = curveService.getAll();
 		model.addAttribute("curvePoints", curvePoints);

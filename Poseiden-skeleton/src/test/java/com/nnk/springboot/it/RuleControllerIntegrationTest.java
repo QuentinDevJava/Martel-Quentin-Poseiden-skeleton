@@ -1,0 +1,198 @@
+package com.nnk.springboot.it;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.service.RuleNameService;
+
+import jakarta.transaction.Transactional;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+@WithMockUser(username = "testuser", roles = { "ADMIN" })
+class RuleControllerIntegrationTest {
+
+	@Autowired
+	private RuleNameService ruleNameService;
+
+	@Autowired
+	private RuleNameRepository ruleNameRepository;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	RuleName ruleName;
+	RuleName ruleName2;
+
+	List<BidList> bids = new ArrayList<>();
+
+	@BeforeEach
+	void setUp() {
+		ruleName = new RuleName("Rule Name1", "Description1", "Json1", "Template1", "SQL1", "SQL Part1");
+		ruleName2 = new RuleName("Rule Name2", "Description2", "Json2", "Template2", "SQL2", "SQL Part2");
+		ruleNameRepository.deleteAll();
+	}
+
+	@Test
+	void testGetCurvePointList() throws Exception {
+		ruleNameService.save(ruleName);
+		ruleNameService.save(ruleName2);
+
+		mockMvc.perform(get("/ruleName/list"))
+
+				.andExpect(status().isOk())
+
+				.andDo(print())
+
+				.andExpect(view().name("ruleName/list"))
+
+				.andExpect(model().attributeExists("ruleNames"))
+
+				.andExpect(model().attributeExists("username"));
+	}
+
+	@Test
+	void testAddCurvePointForm() throws Exception {
+		mockMvc.perform(get("/ruleName/add"))
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("ruleName/add"));
+	}
+
+	@Test
+	void testValidate() throws Exception {
+
+		RuleName ruleNameTest = ruleNameService.getByName(ruleName.getName());
+		assertNull(ruleNameTest);
+
+		mockMvc.perform(post("/ruleName/validate")
+
+				.param("name", ruleName.getName())
+
+				.param("description", ruleName.getDescription())
+
+				.param("json", ruleName.getJson())
+
+				.param("template", ruleName.getTemplate())
+
+				.param("sqlStr", ruleName.getSqlStr())
+
+				.param("sqlPart", ruleName.getSqlPart())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("ruleName/add"));
+
+		ruleNameTest = ruleNameService.getByName(ruleName.getName());
+
+		assertNotNull(ruleName);
+
+		assertEquals(ruleName.getName(), ruleNameTest.getName());
+		assertEquals(ruleName.getDescription(), ruleNameTest.getDescription());
+		assertEquals(ruleName.getJson(), ruleNameTest.getJson());
+		assertEquals(ruleName.getTemplate(), ruleNameTest.getTemplate());
+		assertEquals(ruleName.getSqlStr(), ruleNameTest.getSqlStr());
+		assertEquals(ruleName.getSqlPart(), ruleNameTest.getSqlPart());
+
+	}
+
+	@Test
+	void testShowUpdateForm() throws Exception {
+		ruleNameService.save(ruleName);
+		ruleName = ruleNameService.getByName(ruleName.getName());
+		int ratingId = ruleName.getId();
+
+		mockMvc.perform(get("/ruleName/update/{id}", ratingId))
+
+				.andExpect(status().isOk())
+
+				.andExpect(model().attributeExists("ruleName"))
+
+				.andExpect(view().name("ruleName/update"));
+
+	}
+
+	@Test
+	void testUpdateCurvePoint() throws Exception {
+
+		ruleNameService.save(ruleName);
+		ruleName = ruleNameService.getByName(ruleName.getName());
+		int ratingId = ruleName.getId();
+
+		ruleName.setDescription("Test");
+
+		mockMvc.perform(post("/ruleName/update/{id}", ratingId)
+
+				.param("name", ruleName.getName())
+
+				.param("description", ruleName.getDescription())
+
+				.param("json", ruleName.getJson())
+
+				.param("template", ruleName.getTemplate())
+
+				.param("sqlStr", ruleName.getSqlStr())
+
+				.param("sqlPart", ruleName.getSqlPart())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isFound())
+
+				.andExpect(redirectedUrl("/ruleName/list"));
+
+		ruleName = ruleNameService.getById(ratingId);
+
+		assertEquals("Test", ruleName.getDescription());
+
+	}
+
+	@Test
+	void testDeleteCurvePoint() throws Exception {
+		ruleNameService.save(ruleName);
+		ruleName = ruleNameService.getByName(ruleName.getName());
+		int ratingId = ruleName.getId();
+		mockMvc.perform(get("/ruleName/delete/{id}", ratingId))
+
+				.andExpect(status().isFound())
+
+				.andDo(print())
+
+				.andExpect(redirectedUrl("/ruleName/list"));
+
+		List<RuleName> ruleNameTest = ruleNameService.getAll();
+		assertTrue(ruleNameTest.isEmpty());
+	}
+}

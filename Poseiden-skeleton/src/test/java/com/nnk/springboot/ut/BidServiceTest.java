@@ -1,6 +1,6 @@
 package com.nnk.springboot.ut;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -84,10 +84,10 @@ class BidServiceTest {
 		when(bidListRepository.findById(1)).thenReturn(Optional.empty());
 
 		// Act
-		BidList result = bidService.getById(1);
-
+		assertThrows(IllegalArgumentException.class, () -> {
+			bidService.getById(1);
+		});
 		// Assert
-		assertNull(result);
 		verify(bidListRepository, times(1)).findById(1);
 	}
 

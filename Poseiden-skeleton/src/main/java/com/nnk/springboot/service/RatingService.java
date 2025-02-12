@@ -26,11 +26,15 @@ public class RatingService {
 	}
 
 	public Rating getById(Integer id) {
-		return ratingRepository.findById(id).orElse(null);
+		return ratingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid Rating Id:" + id));
 	}
 
 	public void deleteById(Integer id) {
 		ratingRepository.deleteById(id);
+	}
+
+	public Rating getByMoodysRating(String moodysRating) {
+		return ratingRepository.findByMoodysRating(moodysRating);
 	}
 
 }

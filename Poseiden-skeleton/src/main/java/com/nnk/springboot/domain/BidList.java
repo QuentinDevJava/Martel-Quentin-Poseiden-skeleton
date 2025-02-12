@@ -14,6 +14,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The Class BidList.
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -92,6 +95,13 @@ public class BidList {
 	@Column(name = "side")
 	private String side;
 
+	/**
+	 * Instantiates a new bid list.
+	 *
+	 * @param account     the account
+	 * @param type        the type
+	 * @param bidQuantity the bid quantity
+	 */
 	public BidList(String account, String type, Double bidQuantity) {
 		super();
 		this.account = account;

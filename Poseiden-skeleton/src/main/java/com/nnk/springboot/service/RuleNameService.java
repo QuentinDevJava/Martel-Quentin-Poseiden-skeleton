@@ -26,11 +26,16 @@ public class RuleNameService {
 	}
 
 	public RuleName getById(Integer id) {
-		return ruleNameRepository.findById(id).orElse(null);
+		return ruleNameRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid RuleName Id:" + id));
 	}
 
 	public void deleteById(Integer id) {
 		ruleNameRepository.deleteById(id);
+	}
+
+	public RuleName getByName(String name) {
+		return ruleNameRepository.findByName(name);
 	}
 
 }

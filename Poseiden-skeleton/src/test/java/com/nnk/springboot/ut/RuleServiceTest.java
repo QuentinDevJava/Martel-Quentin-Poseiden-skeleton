@@ -1,6 +1,6 @@
 package com.nnk.springboot.ut;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -85,10 +85,10 @@ class RuleServiceTest {
 		when(ruleNameRepository.findById(1)).thenReturn(Optional.empty());
 
 		// Act
-		RuleName result = ruleNameService.getById(1);
-
+		assertThrows(IllegalArgumentException.class, () -> {
+			ruleNameService.getById(1);
+		});
 		// Assert
-		assertNull(result);
 		verify(ruleNameRepository, times(1)).findById(1);
 	}
 

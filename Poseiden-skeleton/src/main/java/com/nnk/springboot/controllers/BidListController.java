@@ -63,9 +63,9 @@ public class BidListController {
 		// TODO: get Bid by Id and to model then show to the form
 
 		BidList bidList = bidService.getById(id);
-		if (bidList == null) {
-			log.warn("bidList est vide ou null");
-		}
+//		if (bidList == null) {
+//			log.warn("bidList est vide ou null");
+//		}
 		model.addAttribute("bidList", bidList);
 
 		return "bidList/update";
@@ -90,7 +90,10 @@ public class BidListController {
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Bid by Id and delete the bid, return to Bid list
-
+//		BidList bidList = bidService.getById(id);
+//		if (bidList == null) {
+//			log.warn("bidList est vide ou null");
+//		}
 		bidService.deleteById(id);
 		List<BidList> bidLists = bidService.getAll();
 		model.addAttribute("bidLists", bidLists);

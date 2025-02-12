@@ -3,6 +3,7 @@ package com.nnk.springboot.it;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,11 +28,8 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.service.BidService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class BidControllerIntegrationTest {
 
@@ -86,16 +84,16 @@ class BidControllerIntegrationTest {
 	@Test
 	void testValidateBid() throws Exception {
 
-		bid1 = bidService.getByAccount("updateTest");
-		assertNull(bid1);
+		BidList bidTest = bidService.getByAccount(bid1.getAccount());
+		assertNull(bidTest);
 
 		mockMvc.perform(post("/bidList/validate")
 
-				.param("account", "updateTest")
+				.param("account", bid1.getAccount())
 
-				.param("type", "updateTest")
+				.param("type", bid1.getType())
 
-				.param("bidQuantity", "10.00")
+				.param("bidQuantity", bid1.getBidQuantity().toString())
 
 				.with(csrf()))
 
@@ -105,12 +103,12 @@ class BidControllerIntegrationTest {
 
 				.andExpect(view().name("bidList/add"));
 
-		bid1 = bidService.getByAccount("updateTest");
+		bidTest = bidService.getByAccount(bid1.getAccount());
 
 		assertNotNull(bid1);
 
-		assertEquals("updateTest", bid1.getType());
-		assertEquals(10.00, bid1.getBidQuantity());
+		assertEquals(bid1.getType(), bidTest.getType());
+		assertEquals(bid1.getBidQuantity(), bidTest.getBidQuantity());
 
 	}
 
@@ -143,6 +141,10 @@ class BidControllerIntegrationTest {
 
 				.param("bidListId", String.valueOf(bidId))
 
+				.param("type", bid1.getType())
+
+				.param("account", bid1.getAccount())
+
 				.param("bidQuantity", "200.00")
 
 				.with(csrf()))
@@ -162,11 +164,17 @@ class BidControllerIntegrationTest {
 	@Test
 	void testDeleteBid() throws Exception {
 		bidService.save(bid1);
-		bid1 = bidService.getByAccount("Account test");
+		bid1 = bidService.getByAccount(bid1.getAccount());
 		int bidId = bid1.getBidListId();
-		mockMvc.perform(get("/bidList/delete/{id}", bidId)).andExpect(status().isFound()).andDo(print())
+		mockMvc.perform(get("/bidList/delete/{id}", bidId))
+
+				.andExpect(status().isFound())
+
+				.andDo(print())
+
 				.andExpect(redirectedUrl("/bidList/list"));
-		bid1 = bidService.getById(bidId);
-		assertNull(bid1);
+
+		List<BidList> bidTest = bidService.getAll();
+		assertTrue(bidTest.isEmpty());
 	}
 }

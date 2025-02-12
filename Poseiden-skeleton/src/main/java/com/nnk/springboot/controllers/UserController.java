@@ -14,6 +14,7 @@ import com.nnk.springboot.repositories.UserRepository;
 
 import jakarta.validation.Valid;
 
+//TODO appel direct au repository et gestion de .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));  ?
 @Controller
 public class UserController {
 
