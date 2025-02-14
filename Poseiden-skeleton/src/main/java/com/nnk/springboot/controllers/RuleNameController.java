@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RuleNameController.
  */
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RuleNameController {
 
 	/** The rule name service. */
-	// TODO: Inject RuleName service
 	@Autowired
 	private RuleNameService ruleNameService;
 
@@ -43,7 +41,7 @@ public class RuleNameController {
 	 */
 	@GetMapping("/ruleName/list")
 	public String home(Model model) {
-		// TODO: find all RuleName, add to model
+
 		List<RuleName> ruleNames = ruleNameService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
@@ -74,14 +72,13 @@ public class RuleNameController {
 	 */
 	@PostMapping("/ruleName/validate")
 	public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return RuleName list
+
 		if (result.hasErrors()) {
 			log.warn("ruleName formulaire erreur");
+			return "ruleName/add";
 		}
-
 		ruleNameService.save(ruleName);
-
-		return "ruleName/add";
+		return "redirect:/ruleName/list";
 	}
 
 	/**
@@ -93,11 +90,7 @@ public class RuleNameController {
 	 */
 	@GetMapping("/ruleName/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get RuleName by Id and to model then show to the form
 		RuleName ruleName = ruleNameService.getById(id);
-//		if (ruleName == null) {
-//			log.warn("bidList est vide ou null");
-//		}
 		model.addAttribute("ruleName", ruleName);
 		return "ruleName/update";
 	}
@@ -114,11 +107,10 @@ public class RuleNameController {
 	@PostMapping("/ruleName/update/{id}")
 	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
 			Model model) {
-		// TODO: check required fields, if valid call service to update RuleName and
-		// return RuleName list
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "ruleName/update";
 		}
 
 		ruleName.setId(id);

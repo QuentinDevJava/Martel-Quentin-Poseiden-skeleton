@@ -14,7 +14,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BidList.
  */
@@ -31,12 +30,12 @@ public class BidList {
 	private Integer bidListId;
 
 	/** The account. */
-	@NotBlank
+	@NotBlank(message = "Account is mandatory")
 	@Column(name = "account")
 	private String account;
 
 	/** The type. */
-	@NotBlank
+	@NotBlank(message = "Type is mandatory")
 	@Column(name = "type")
 	private String type;
 

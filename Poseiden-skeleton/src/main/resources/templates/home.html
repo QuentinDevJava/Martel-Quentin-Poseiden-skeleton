@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title> Spring Boot </title>
+    <title> HOME PAGE </title>
 	<link rel="stylesheet" href="../../css/bootstrap.min.css" >
 
 </head>
@@ -9,16 +9,16 @@
 <div class="container">
 	<div class="row">
 		<div th:replace="~{navBarFragment}"></div>
-		<div th:replace="~{LogoutFragment}"></div>
-
 	</div>
 	<div class="row">
 		<h3> HOME PAGE </h3>
 	</div>
 	<div class="row">
-		<p >
-			<a href="/login">Login</a> or create one <a href="/user/list">User management</a>
-		</p>
+		<div th:if="${adminRole}">
+			<p> Create one 
+			<a href="/user/list">User management</a>
+			</p>
+		</div>
 	</div>
 </div>
 </body>

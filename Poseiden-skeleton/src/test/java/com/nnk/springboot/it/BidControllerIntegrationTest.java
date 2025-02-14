@@ -101,7 +101,7 @@ class BidControllerIntegrationTest {
 
 				.andExpect(status().isOk())
 
-				.andExpect(view().name("bidList/add"));
+				.andExpect(view().name("bidList/list"));
 
 		bidTest = bidService.getByAccount(bid1.getAccount());
 

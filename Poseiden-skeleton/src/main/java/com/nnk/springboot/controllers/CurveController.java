@@ -18,16 +18,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CurveController.
  */
 @Slf4j
 @Controller
 public class CurveController {
-	
+
 	/** The curve service. */
-	// TODO: Inject Curve Point service
 	@Autowired
 	private CurveService curveService;
 
@@ -43,7 +41,7 @@ public class CurveController {
 	 */
 	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
-		// TODO: find all Curve Point, add to model
+
 		List<CurvePoint> curvePoints = curveService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
@@ -74,13 +72,13 @@ public class CurveController {
 	 */
 	@PostMapping("/curvePoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return Curve list
 
 		if (result.hasErrors()) {
 			log.warn("curvePoint formulaire erreur");
+			return "curvePoint/add";
 		}
 		curveService.save(curvePoint);
-		return "curvePoint/add";
+		return "redirect:/curvePoint/list";
 	}
 
 	/**
@@ -92,13 +90,8 @@ public class CurveController {
 	 */
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get CurvePoint by Id and to model then show to the form
 		CurvePoint curvePoint = curveService.getById(id);
-//		if (curvePoint == null) {
-//			log.warn("curvePoint est vide ou null");
-//		}
 		model.addAttribute("curvePoint", curvePoint);
-
 		return "curvePoint/update";
 	}
 
@@ -114,17 +107,16 @@ public class CurveController {
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 			Model model) {
-		// TODO: check required fields, if valid call service to update Curve and return
-		// Curve list
 
 		if (result.hasErrors()) {
 			log.warn("curvepoint formulaire erreur");
+			return "curvePoint/update";
+
 		}
 		curvePoint.setId(id);
 		curveService.save(curvePoint);
 		List<CurvePoint> curvePoints = curveService.getAll();
 		model.addAttribute("curvePoints", curvePoints);
-
 		return "redirect:/curvePoint/list";
 	}
 

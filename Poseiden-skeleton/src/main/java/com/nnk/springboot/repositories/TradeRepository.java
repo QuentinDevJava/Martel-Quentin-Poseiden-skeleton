@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nnk.springboot.domain.Trade;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface TradeRepository.
  */

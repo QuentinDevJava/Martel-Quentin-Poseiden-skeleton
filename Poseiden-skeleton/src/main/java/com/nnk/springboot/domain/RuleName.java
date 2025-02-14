@@ -6,10 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RuleName.
  */
@@ -27,26 +27,32 @@ public class RuleName {
 
 	/** The name. */
 	@Column(name = "name")
+	@NotBlank(message = "Name is mandatory")
 	private String name;
 
 	/** The description. */
 	@Column(name = "description")
+	@NotBlank(message = "Description is mandatory")
 	private String description;
 
 	/** The json. */
 	@Column(name = "json")
+	@NotBlank(message = "Json is mandatory")
 	private String json;
 
 	/** The template. */
 	@Column(name = "template")
+	@NotBlank(message = "Template is mandatory")
 	private String template;
 
 	/** The sql str. */
 	@Column(name = "sql_str")
+	@NotBlank(message = "SqlStr is mandatory")
 	private String sqlStr;
 
 	/** The sql part. */
 	@Column(name = "sql_part")
+	@NotBlank(message = "SqlPart is mandatory")
 	private String sqlPart;
 
 	/**

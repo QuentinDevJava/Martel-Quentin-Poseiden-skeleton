@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.service.UserService;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomUserDetailsService.
  */

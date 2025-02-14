@@ -14,7 +14,6 @@ import com.nnk.springboot.service.UserService;
 
 import jakarta.validation.Valid;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserController.
  */
@@ -63,7 +62,8 @@ public class UserController {
 		}
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
-		userService.save(user);
+
+		userService.addUser(user);
 		model.addAttribute("users", userService.findAll());
 		return "redirect:/user/list";
 

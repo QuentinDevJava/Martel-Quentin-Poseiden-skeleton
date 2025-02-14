@@ -18,14 +18,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BidListController.
  */
 @Slf4j
 @Controller
 public class BidListController {
-	// TODO: Inject Bid service
 
 	/** The bid service. */
 	@Autowired
@@ -73,15 +71,12 @@ public class BidListController {
 	 */
 	@PostMapping("/bidList/validate")
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return bid list
-
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "bidList/add";
 		}
-
 		bidService.save(bid);
-
-		return "bidList/add";
+		return "redirect:/bidList/list";
 	}
 
 	/**
@@ -93,14 +88,8 @@ public class BidListController {
 	 */
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get Bid by Id and to model then show to the form
-
 		BidList bidList = bidService.getById(id);
-//		if (bidList == null) {
-//			log.warn("bidList est vide ou null");
-//		}
 		model.addAttribute("bidList", bidList);
-
 		return "bidList/update";
 	}
 
@@ -115,13 +104,10 @@ public class BidListController {
 	 */
 	@PostMapping("/bidList/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
-		// TODO: check required fields, if valid call service to update Bid and return
-		// list Bid
-
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "bidList/update";
 		}
-
 		bidList.setBidListId(id);
 		bidService.save(bidList);
 		List<BidList> bidLists = bidService.getAll();

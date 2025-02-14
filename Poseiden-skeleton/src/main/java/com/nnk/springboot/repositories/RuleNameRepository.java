@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nnk.springboot.domain.RuleName;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface RuleNameRepository.
  */

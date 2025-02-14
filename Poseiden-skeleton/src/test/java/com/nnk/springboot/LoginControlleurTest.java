@@ -41,8 +41,6 @@ public class LoginControlleurTest {
 				.andDo(print()).andExpect(unauthenticated());
 	}
 
-//TODO hypotese seul l'admin ajoute des comptes utilisateurs 
-	@Test
 	@WithMockUser(username = "adminTest", roles = { "USER", "ADMIN" })
 	void accessPageWithAdminRole() throws Exception {
 		mockMvc.perform(get("/user/add")).andDo(print()).andExpect(status().isOk());

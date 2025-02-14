@@ -10,7 +10,6 @@ import com.nnk.springboot.repositories.BidListRepository;
 
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BidService.
  */

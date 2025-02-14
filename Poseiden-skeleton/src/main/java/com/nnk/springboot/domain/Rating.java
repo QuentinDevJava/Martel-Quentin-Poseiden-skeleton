@@ -6,10 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Rating.
  */
@@ -27,18 +28,22 @@ public class Rating {
 
 	/** The moodys rating. */
 	@Column(name = "moodys_rating")
+	@NotBlank(message = "MoodysRating is mandatory")
 	private String moodysRating;
 
 	/** The sand P rating. */
 	@Column(name = "sandprating")
+	@NotBlank(message = "SandPRating is mandatory")
 	private String sandPRating;
 
 	/** The fitch rating. */
 	@Column(name = "fitch_rating")
+	@NotBlank(message = "FitchRating is mandatory")
 	private String fitchRating;
 
 	/** The order number. */
 	@Column(name = "order_number")
+	@NotNull(message = "Order is mandatory")
 	private Integer orderNumber;
 
 	/**

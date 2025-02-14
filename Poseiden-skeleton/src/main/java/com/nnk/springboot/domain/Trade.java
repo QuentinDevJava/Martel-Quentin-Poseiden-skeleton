@@ -8,10 +8,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Trade.
  */
@@ -29,14 +30,17 @@ public class Trade {
 
 	/** The account. */
 	@Column(name = "account")
+	@NotBlank(message = "Account is mandatory")
 	String account;
 
 	/** The type. */
 	@Column(name = "type")
+	@NotBlank(message = "Type is mandatory")
 	String type;
 
 	/** The buy quantity. */
 	@Column(name = "buy_quantity")
+	@NotNull(message = "Buy Quantity is mandatory")
 	Double buyQuantity;
 
 	/** The sell quantity. */

@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RatingController.
  */
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class RatingController {
 
 	/** The rating service. */
-	// TODO: Inject Rating service
 	@Autowired
 	private RatingService ratingService;
 
@@ -43,8 +41,6 @@ public class RatingController {
 	 */
 	@GetMapping("/rating/list")
 	public String home(Model model) {
-		// TODO: find all Rating, add to model
-
 		List<Rating> ratingLists = ratingService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
@@ -75,15 +71,14 @@ public class RatingController {
 	 */
 	@PostMapping("/rating/validate")
 	public String validate(@Valid Rating rating, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return Rating list
 
 		if (result.hasErrors()) {
 			log.warn("rating formulaire erreur");
+			return "rating/add";
+
 		}
-
 		ratingService.save(rating);
-
-		return "rating/add";
+		return "redirect:/rating/list";
 	}
 
 	/**
@@ -95,11 +90,7 @@ public class RatingController {
 	 */
 	@GetMapping("/rating/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get Rating by Id and to model then show to the form
 		Rating rating = ratingService.getById(id);
-//		if (rating == null) {
-//			log.warn("rating est vide ou null");
-//		}
 		model.addAttribute("rating", rating);
 		return "rating/update";
 	}
@@ -116,10 +107,10 @@ public class RatingController {
 	@PostMapping("/rating/update/{id}")
 	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
 			Model model) {
-		// TODO: check required fields, if valid call service to update Rating and
-		// return Rating list
+
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "rating/update";
 		}
 
 		rating.setId(id);

@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import jakarta.servlet.DispatcherType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SecurityConfig.
  */
@@ -40,9 +39,9 @@ public class SecurityConfig {
 
 				.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
-				.requestMatchers("/", "/login", "/home", "/user/list", "/css/**", "/logout").permitAll()
+				.requestMatchers("/login", "/css/**", "/logout").permitAll()
 
-				.requestMatchers("/user/**").hasRole("ADMIN")
+				.requestMatchers("/user/**").hasAnyRole("ADMIN")
 
 				.anyRequest().authenticated())
 

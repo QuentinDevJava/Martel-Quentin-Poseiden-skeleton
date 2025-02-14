@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nnk.springboot.domain.CurvePoint;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface CurvePointRepository.
  */

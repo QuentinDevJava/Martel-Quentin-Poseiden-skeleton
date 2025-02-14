@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserService.
  */
@@ -64,6 +63,24 @@ public class UserService {
 	 */
 	public void delete(User user) {
 		userRepository.delete(user);
+	}
+
+	public boolean addUser(User user) {
+		if (userIsValide(user.getUsername())) {
+			save(user);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean userIsValide(String username) {
+		User user = getByUsername(username);
+		return user == null ? true : false;
+	}
+
+	public boolean isAdmin(StringBuilder username) {
+		User user = getByUsername(username.toString());
+		return "ADMIN".equals(user.getRole());
 	}
 
 }

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import com.nnk.springboot.domain.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface UserRepository.
  */

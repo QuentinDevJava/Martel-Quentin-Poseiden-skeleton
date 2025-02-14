@@ -10,7 +10,6 @@ import com.nnk.springboot.repositories.TradeRepository;
 
 import jakarta.validation.Valid;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TradeService.
  */

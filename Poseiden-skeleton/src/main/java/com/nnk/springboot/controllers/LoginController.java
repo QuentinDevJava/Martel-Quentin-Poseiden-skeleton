@@ -8,11 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.UserRepository;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LoginController.
  */
-//TODO utilité de cette class c'est spring security qui gere cette partie ?
+//TODO utilité de cette class c'est spring security qui gere cette partie voir pour utiliser la page 403 
 @Controller
 @RequestMapping("app")
 public class LoginController {

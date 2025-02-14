@@ -8,10 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CurvePoint.
  */
@@ -37,10 +37,12 @@ public class CurvePoint {
 
 	/** The term. */
 	@Column(name = "term")
+	@NotNull(message = "Term is mandatory")
 	private Double term;
 
 	/** The value. */
 	@Column(name = "value")
+	@NotNull(message = "Value is mandatory")
 	private Double value;
 
 	/** The creation date. */

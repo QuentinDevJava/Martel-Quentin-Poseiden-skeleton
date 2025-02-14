@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TradeController.
  */
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class TradeController {
 
 	/** The trade service. */
-	// TODO: Inject Trade service
 	@Autowired
 	private TradeService tradeService;
 
@@ -43,7 +41,7 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/list")
 	public String home(Model model) {
-		// TODO: find all Trade, add to model
+
 		List<Trade> trades = tradeService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
@@ -74,15 +72,13 @@ public class TradeController {
 	 */
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return Trade list
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "trade/add";
 		}
-
 		tradeService.save(trade);
-
-		return "trade/add";
+		return "redirect:/trade/list";
 	}
 
 	/**
@@ -94,13 +90,8 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get Trade by Id and to model then show to the form
 		Trade trade = tradeService.getById(id);
-//		if (trade == null) {
-//			log.warn("bidList est vide ou null");
-//		}
 		model.addAttribute("trade", trade);
-
 		return "trade/update";
 	}
 
@@ -115,11 +106,10 @@ public class TradeController {
 	 */
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
-		// TODO: check required fields, if valid call service to update Trade and return
-		// Trade list
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
+			return "trade/update";
 		}
 
 		trade.setTradeId(id);
