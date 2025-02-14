@@ -1,15 +1,16 @@
 package com.nnk.springboot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import jakarta.servlet.DispatcherType;
@@ -20,12 +21,8 @@ import jakarta.servlet.DispatcherType;
  */
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
-public class SecurityConfig {
-
-	/** The custom user details service. */
-	@Autowired
-	private CustomUserDetailsService customUserDetailsService;
+@Profile("test")
+public class TestSecurityConfig {
 
 	/**
 	 * Web.
@@ -63,22 +60,13 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
-	/**
-	 * Authentication manager.
-	 *
-	 * @param http                  the http
-	 * @param bCryptPasswordEncoder the b crypt password encoder
-	 * @return the authentication manager
-	 * @throws Exception the exception
-	 */
 	@Bean
-	AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-			throws Exception {
-		AuthenticationManagerBuilder authenticationManagerBuilder = http
-				.getSharedObject(AuthenticationManagerBuilder.class);
-		authenticationManagerBuilder.userDetailsService(customUserDetailsService)
-				.passwordEncoder(bCryptPasswordEncoder);
-		return authenticationManagerBuilder.build();
+	UserDetailsService userDetailsService() { // USER en mémoire pour tester spring security login
+		UserDetails user = User.builder().username("userTest").password(passwordEncoder().encode("userTest"))
+				.roles("USER").build();
+		UserDetails admin = User.builder().username("adminTest").password(passwordEncoder().encode("adminTest"))
+				.roles("USER", "ADMIN").build();
+		return new InMemoryUserDetailsManager(user, admin);
 	}
 
 }

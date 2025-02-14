@@ -18,17 +18,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TradeController.
+ */
 @Slf4j
 @Controller
 public class TradeController {
 
+	/** The trade service. */
 	// TODO: Inject Trade service
 	@Autowired
 	private TradeService tradeService;
 
+	/** The http servlet request. */
 	@Autowired
 	private HttpServletRequest httpServletRequest;
 
+	/**
+	 * Home.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/trade/list")
 	public String home(Model model) {
 		// TODO: find all Trade, add to model
@@ -41,11 +53,25 @@ public class TradeController {
 		return "trade/list";
 	}
 
+	/**
+	 * Adds the user.
+	 *
+	 * @param bid the bid
+	 * @return the string
+	 */
 	@GetMapping("/trade/add")
 	public String addUser(Trade bid) {
 		return "trade/add";
 	}
 
+	/**
+	 * Validate.
+	 *
+	 * @param trade  the trade
+	 * @param result the result
+	 * @param model  the model
+	 * @return the string
+	 */
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return Trade list
@@ -59,6 +85,13 @@ public class TradeController {
 		return "trade/add";
 	}
 
+	/**
+	 * Show update form.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		// TODO: get Trade by Id and to model then show to the form
@@ -71,6 +104,15 @@ public class TradeController {
 		return "trade/update";
 	}
 
+	/**
+	 * Update trade.
+	 *
+	 * @param id     the id
+	 * @param trade  the trade
+	 * @param result the result
+	 * @param model  the model
+	 * @return the string
+	 */
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
 		// TODO: check required fields, if valid call service to update Trade and return
@@ -88,6 +130,13 @@ public class TradeController {
 		return "redirect:/trade/list";
 	}
 
+	/**
+	 * Delete trade.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Trade by Id and delete the Trade, return to Trade list

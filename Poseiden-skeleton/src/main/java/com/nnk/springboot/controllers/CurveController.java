@@ -18,16 +18,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CurveController.
+ */
 @Slf4j
 @Controller
 public class CurveController {
+	
+	/** The curve service. */
 	// TODO: Inject Curve Point service
 	@Autowired
 	private CurveService curveService;
 
+	/** The http servlet request. */
 	@Autowired
 	private HttpServletRequest httpServletRequest;
 
+	/**
+	 * Home.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
 		// TODO: find all Curve Point, add to model
@@ -40,11 +53,25 @@ public class CurveController {
 		return "curvePoint/list";
 	}
 
+	/**
+	 * Adds the curve point form.
+	 *
+	 * @param bid the bid
+	 * @return the string
+	 */
 	@GetMapping("/curvePoint/add")
 	public String addCurvePointForm(CurvePoint bid) {
 		return "curvePoint/add";
 	}
 
+	/**
+	 * Validate.
+	 *
+	 * @param curvePoint the curve point
+	 * @param result     the result
+	 * @param model      the model
+	 * @return the string
+	 */
 	@PostMapping("/curvePoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return Curve list
@@ -56,6 +83,13 @@ public class CurveController {
 		return "curvePoint/add";
 	}
 
+	/**
+	 * Show update form.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		// TODO: get CurvePoint by Id and to model then show to the form
@@ -68,6 +102,15 @@ public class CurveController {
 		return "curvePoint/update";
 	}
 
+	/**
+	 * Update curve point.
+	 *
+	 * @param id         the id
+	 * @param curvePoint the curve point
+	 * @param result     the result
+	 * @param model      the model
+	 * @return the string
+	 */
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 			Model model) {
@@ -85,6 +128,13 @@ public class CurveController {
 		return "redirect:/curvePoint/list";
 	}
 
+	/**
+	 * Delete curve point.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Curve by Id and delete the Curve, return to Curve list

@@ -18,17 +18,29 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RatingController.
+ */
 @Slf4j
 @Controller
 public class RatingController {
 
+	/** The rating service. */
 	// TODO: Inject Rating service
 	@Autowired
 	private RatingService ratingService;
 
+	/** The http servlet request. */
 	@Autowired
 	private HttpServletRequest httpServletRequest;
 
+	/**
+	 * Home.
+	 *
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/rating/list")
 	public String home(Model model) {
 		// TODO: find all Rating, add to model
@@ -42,11 +54,25 @@ public class RatingController {
 		return "rating/list";
 	}
 
+	/**
+	 * Adds the rating form.
+	 *
+	 * @param rating the rating
+	 * @return the string
+	 */
 	@GetMapping("/rating/add")
 	public String addRatingForm(Rating rating) {
 		return "rating/add";
 	}
 
+	/**
+	 * Validate.
+	 *
+	 * @param rating the rating
+	 * @param result the result
+	 * @param model  the model
+	 * @return the string
+	 */
 	@PostMapping("/rating/validate")
 	public String validate(@Valid Rating rating, BindingResult result, Model model) {
 		// TODO: check data valid and save to db, after saving return Rating list
@@ -60,6 +86,13 @@ public class RatingController {
 		return "rating/add";
 	}
 
+	/**
+	 * Show update form.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/rating/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		// TODO: get Rating by Id and to model then show to the form
@@ -71,6 +104,15 @@ public class RatingController {
 		return "rating/update";
 	}
 
+	/**
+	 * Update rating.
+	 *
+	 * @param id     the id
+	 * @param rating the rating
+	 * @param result the result
+	 * @param model  the model
+	 * @return the string
+	 */
 	@PostMapping("/rating/update/{id}")
 	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
 			Model model) {
@@ -87,6 +129,13 @@ public class RatingController {
 		return "redirect:/rating/list";
 	}
 
+	/**
+	 * Delete rating.
+	 *
+	 * @param id    the id
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Rating by Id and delete the Rating, return to Rating list

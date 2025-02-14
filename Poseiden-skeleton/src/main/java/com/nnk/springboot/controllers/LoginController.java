@@ -8,14 +8,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.repositories.UserRepository;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LoginController.
+ */
 //TODO utilité de cette class c'est spring security qui gere cette partie ?
 @Controller
 @RequestMapping("app")
 public class LoginController {
 
+	/** The user repository. */
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * Login.
+	 *
+	 * @return the model and view
+	 */
 	@GetMapping("/login")
 	public ModelAndView login() {
 		ModelAndView mav = new ModelAndView();
@@ -23,6 +33,11 @@ public class LoginController {
 		return mav;
 	}
 
+	/**
+	 * Gets the all user articles.
+	 *
+	 * @return the all user articles
+	 */
 	@GetMapping("/secure/article-details")
 	public ModelAndView getAllUserArticles() {
 		ModelAndView mav = new ModelAndView();
@@ -31,6 +46,11 @@ public class LoginController {
 		return mav;
 	}
 
+	/**
+	 * Error.
+	 *
+	 * @return the model and view
+	 */
 	@GetMapping("/error")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
