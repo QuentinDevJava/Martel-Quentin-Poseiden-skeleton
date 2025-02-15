@@ -86,7 +86,7 @@ class RuleControllerIntegrationTest {
 	}
 
 	@Test
-	void testValidate() throws Exception {
+	void testValidateRuleName() throws Exception {
 
 		RuleName ruleNameTest = ruleNameService.getByName(ruleName.getName());
 		assertNull(ruleNameTest);
@@ -109,9 +109,9 @@ class RuleControllerIntegrationTest {
 
 				.andDo(print())
 
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 
-				.andExpect(view().name("ruleName/add"));
+				.andExpect(view().name("redirect:/ruleName/list"));
 
 		ruleNameTest = ruleNameService.getByName(ruleName.getName());
 

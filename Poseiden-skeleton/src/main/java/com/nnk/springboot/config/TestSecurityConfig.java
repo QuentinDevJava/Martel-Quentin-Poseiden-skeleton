@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import jakarta.servlet.DispatcherType;
 
-// d
 /**
  * The Class SecurityConfig.
  */
@@ -37,7 +36,7 @@ public class TestSecurityConfig {
 
 				.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
-				.requestMatchers("/", "/login", "/home", "/user/list", "/css/**", "/logout").permitAll()
+				.requestMatchers("/", "/login", "/css/**", "/logout").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
@@ -60,8 +59,13 @@ public class TestSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * User details service.
+	 *
+	 * @return the user details service
+	 */
 	@Bean
-	UserDetailsService userDetailsService() { // USER en mémoire pour tester spring security login
+	UserDetailsService userDetailsService() {
 		UserDetails user = User.builder().username("userTest").password(passwordEncoder().encode("userTest"))
 				.roles("USER").build();
 		UserDetails admin = User.builder().username("adminTest").password(passwordEncoder().encode("adminTest"))

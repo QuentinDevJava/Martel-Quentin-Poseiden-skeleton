@@ -34,8 +34,8 @@ public class TradeServiceIntegrationTest {
 
 	@BeforeEach
 	void setUp() {
-		trade1 = new Trade("test1", "test1");
-		trade2 = new Trade("test2", "test2");
+		trade1 = new Trade("test1", "test1", 10.00);
+		trade2 = new Trade("test2", "test2", 10.00);
 		tradeRepository.deleteAll();
 	}
 

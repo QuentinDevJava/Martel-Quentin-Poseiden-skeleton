@@ -11,7 +11,8 @@ import com.nnk.springboot.repositories.UserRepository;
 /**
  * The Class LoginController.
  */
-//TODO utilité de cette class c'est spring security qui gere cette partie voir pour utiliser la page 403 
+
+//TODO utilité de cette class c'est spring security qui gere cette partie voir pour redefinir la page de spring security vers la page 403 
 @Controller
 @RequestMapping("app")
 public class LoginController {

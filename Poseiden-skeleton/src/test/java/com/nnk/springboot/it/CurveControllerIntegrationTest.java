@@ -86,7 +86,7 @@ class CurveControllerIntegrationTest {
 	}
 
 	@Test
-	void testValidate() throws Exception {
+	void testValidateCurvePoint() throws Exception {
 
 		CurvePoint curvePointTest = curveService.getByCurveId(curvePoint.getCurveId());
 		assertNull(curvePointTest);
@@ -103,9 +103,9 @@ class CurveControllerIntegrationTest {
 
 				.andDo(print())
 
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 
-				.andExpect(view().name("curvePoint/add"));
+				.andExpect(view().name("redirect:/curvePoint/list"));
 
 		curvePointTest = curveService.getByCurveId(curvePoint.getCurveId());
 

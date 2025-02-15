@@ -99,9 +99,9 @@ class BidControllerIntegrationTest {
 
 				.andDo(print())
 
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 
-				.andExpect(view().name("bidList/list"));
+				.andExpect(view().name("redirect:/bidList/list"));
 
 		bidTest = bidService.getByAccount(bid1.getAccount());
 

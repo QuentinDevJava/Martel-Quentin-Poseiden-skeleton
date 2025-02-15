@@ -86,7 +86,7 @@ class RatingControllerIntegrationTest {
 	}
 
 	@Test
-	void testValidate() throws Exception {
+	void testValidateRating() throws Exception {
 
 		Rating ratingTest = ratingService.getByMoodysRating(rating.getMoodysRating());
 
@@ -106,9 +106,9 @@ class RatingControllerIntegrationTest {
 
 				.andDo(print())
 
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 
-				.andExpect(view().name("rating/add"));
+				.andExpect(view().name("redirect:/rating/list"));
 
 		ratingTest = ratingService.getByMoodysRating(rating.getMoodysRating());
 

@@ -53,8 +53,8 @@ class TradeControllerIntegrationTest {
 
 	@BeforeEach
 	void setUp() {
-		trade = new Trade("test1", "test1");
-		trade2 = new Trade("test2", "test2");
+		trade = new Trade("test1", "test1", 10.00);
+		trade2 = new Trade("test2", "test2", 20.00);
 		tradeRepository.deleteAll();
 	}
 
@@ -86,7 +86,7 @@ class TradeControllerIntegrationTest {
 	}
 
 	@Test
-	void testValidate() throws Exception {
+	void testValidateTrade() throws Exception {
 
 		Trade tradeTest = tradeService.getByAccount(trade.getAccount());
 		assertNull(tradeTest);
@@ -97,13 +97,15 @@ class TradeControllerIntegrationTest {
 
 				.param("type", trade.getType())
 
+				.param("buyQuantity", trade.getBuyQuantity().toString())
+
 				.with(csrf()))
 
 				.andDo(print())
 
-				.andExpect(status().isOk())
+				.andExpect(status().isFound())
 
-				.andExpect(view().name("trade/add"));
+				.andExpect(view().name("redirect:/trade/list"));
 
 		tradeTest = tradeService.getByAccount(trade.getAccount());
 
@@ -143,6 +145,8 @@ class TradeControllerIntegrationTest {
 				.param("account", trade.getAccount())
 
 				.param("type", trade.getType())
+
+				.param("buyQuantity", trade.getBuyQuantity().toString())
 
 				.with(csrf()))
 

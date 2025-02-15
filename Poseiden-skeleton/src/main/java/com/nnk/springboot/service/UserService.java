@@ -3,6 +3,7 @@ package com.nnk.springboot.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.User;
@@ -17,6 +18,8 @@ public class UserService {
 	/** The user repository. */
 	@Autowired
 	private UserRepository userRepository;
+
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	/**
 	 * Gets the by username.
@@ -43,6 +46,7 @@ public class UserService {
 	 * @param user the user
 	 */
 	public void save(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
@@ -75,7 +79,7 @@ public class UserService {
 
 	private boolean userIsValide(String username) {
 		User user = getByUsername(username);
-		return user == null ? true : false;
+		return user == null;
 	}
 
 	public boolean isAdmin(StringBuilder username) {

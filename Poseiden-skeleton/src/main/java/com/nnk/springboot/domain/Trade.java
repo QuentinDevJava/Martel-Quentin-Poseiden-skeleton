@@ -117,9 +117,10 @@ public class Trade {
 	 * @param account the account
 	 * @param type    the type
 	 */
-	public Trade(String account, String type) {
+	public Trade(String account, String type, Double buyQuantity) {
 		super();
 		this.account = account;
 		this.type = type;
+		this.buyQuantity = buyQuantity;
 	}
 }

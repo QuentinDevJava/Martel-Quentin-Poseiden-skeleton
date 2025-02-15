@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,12 +59,13 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user/add";
 		}
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
 
-		userService.addUser(user);
-		model.addAttribute("users", userService.findAll());
-		return "redirect:/user/list";
+		if (userService.addUser(user)) {
+			model.addAttribute("users", userService.findAll());
+			return "redirect:/user/list";
+		}
+		result.rejectValue("username", "error.user", "The username: " + user.getUsername() + " is used");
+		return "user/add";
 
 	}
 
@@ -99,9 +99,6 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user/update";
 		}
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
-		user.setPassword(user.getPassword());
 		user.setId(id);
 		userService.save(user);
 		model.addAttribute("users", userService.findAll());

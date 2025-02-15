@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -31,7 +32,7 @@ public class HomeController {
 	 * @return the string
 	 */
 	@GetMapping({ "/*", "" })
-	public String home(Principal userConnect, Model model) {
+	public String home(Authentication userConnect, Model model) {
 
 		StringBuilder userInfo = new StringBuilder();
 
@@ -57,7 +58,7 @@ public class HomeController {
 	 * @param userConnect the user connect
 	 * @return the username login info
 	 */
-	private StringBuilder getUsernameLoginInfo(Principal userConnect) {
+	private StringBuilder getUsernameLoginInfo(Authentication userConnect) {
 		StringBuilder userInfo = new StringBuilder();
 		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) userConnect;
 		if (token.isAuthenticated()) {
