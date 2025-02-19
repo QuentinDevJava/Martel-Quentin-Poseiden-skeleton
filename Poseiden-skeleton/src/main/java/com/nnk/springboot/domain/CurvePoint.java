@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,11 +39,13 @@ public class CurvePoint {
 	/** The term. */
 	@Column(name = "term")
 	@NotNull(message = "Term is mandatory")
+	@DecimalMin(value = "0.01", message = "Term must be greater than or equal to 0.01.")
 	private Double term;
 
 	/** The value. */
 	@Column(name = "value")
 	@NotNull(message = "Value is mandatory")
+	@DecimalMin(value = "0.01", message = "Term must be greater than or equal to 0.01.")
 	private Double value;
 
 	/** The creation date. */

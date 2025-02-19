@@ -31,7 +31,7 @@ public class HomeController {
 	 * @param model       the model
 	 * @return the string
 	 */
-	@GetMapping({ "/*", "" })
+	@GetMapping({ "/", "" })
 	public String home(Authentication userConnect, Model model) {
 
 		StringBuilder userInfo = new StringBuilder();

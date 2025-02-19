@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -41,7 +41,7 @@ public class BidList {
 
 	/** The bid quantity. */
 	@NotNull(message = "Bid quantity cannot be null.")
-	@Min(value = 1, message = "Bid quantity must be greater than or equal to 1.")
+	@DecimalMin(value = "0.01", message = "Bid quantity must be greater than or equal to 0.01.")
 	@Column(name = "bid_quantiy")
 	private Double bidQuantity;
 

@@ -3,10 +3,9 @@ package com.nnk.springboot.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.service.UserService;
 
 /**
  * The Class LoginController.
@@ -14,12 +13,11 @@ import com.nnk.springboot.repositories.UserRepository;
 
 //TODO utilité de cette class c'est spring security qui gere cette partie voir pour redefinir la page de spring security vers la page 403 
 @Controller
-@RequestMapping("app")
 public class LoginController {
 
 	/** The user repository. */
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	/**
 	 * Login.
@@ -41,7 +39,7 @@ public class LoginController {
 	@GetMapping("/secure/article-details")
 	public ModelAndView getAllUserArticles() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("users", userRepository.findAll());
+		mav.addObject("users", userService.findAll());
 		mav.setViewName("user/list");
 		return mav;
 	}
@@ -51,12 +49,12 @@ public class LoginController {
 	 *
 	 * @return the model and view
 	 */
-	@GetMapping("/error")
+	@GetMapping("/error403")
 	public ModelAndView error() {
 		ModelAndView mav = new ModelAndView();
 		String errorMessage = "You are not authorized for the requested data.";
 		mav.addObject("errorMsg", errorMessage);
-		mav.setViewName("403");
+		mav.setViewName("error/403");
 		return mav;
 	}
 }

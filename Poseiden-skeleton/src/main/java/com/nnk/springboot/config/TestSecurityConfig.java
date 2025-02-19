@@ -36,15 +36,13 @@ public class TestSecurityConfig {
 
 				.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
-				.requestMatchers("/", "/login", "/css/**", "/logout").permitAll()
+				.requestMatchers("/login", "/css/**", "/logout").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
-				.anyRequest().authenticated())
+				.anyRequest().authenticated()).exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
-				.formLogin(Customizer.withDefaults())
-
-				.oauth2Login(Customizer.withDefaults());
+				.formLogin(Customizer.withDefaults());
 
 		return http.build();
 	}
