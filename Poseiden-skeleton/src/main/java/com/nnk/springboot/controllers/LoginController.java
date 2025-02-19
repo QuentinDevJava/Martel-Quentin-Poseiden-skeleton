@@ -11,7 +11,6 @@ import com.nnk.springboot.service.UserService;
  * The Class LoginController.
  */
 
-//TODO utilité de cette class c'est spring security qui gere cette partie voir pour redefinir la page de spring security vers la page 403 
 @Controller
 public class LoginController {
 

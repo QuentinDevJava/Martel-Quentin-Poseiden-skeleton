@@ -65,8 +65,8 @@ public class UserService {
 	 *
 	 * @param user the user
 	 */
-	public void delete(User user) {
-		userRepository.delete(user);
+	public void deleteById(Integer id) {
+		userRepository.deleteById(id);
 	}
 
 	public boolean addUser(User user) {

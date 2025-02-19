@@ -129,11 +129,6 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		// TODO: Find Trade by Id and delete the Trade, return to Trade list
-//		Trade trade = tradeService.getById(id);
-//		if (trade == null) {
-//		log.warn("bidList est vide ou null");
-//	}
 		tradeService.deleteById(id);
 		List<Trade> trades = tradeService.getAll();
 		model.addAttribute("trades", trades);

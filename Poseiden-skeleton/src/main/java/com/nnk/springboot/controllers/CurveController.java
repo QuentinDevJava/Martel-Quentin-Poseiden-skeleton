@@ -129,11 +129,6 @@ public class CurveController {
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
-		// TODO: Find Curve by Id and delete the Curve, return to Curve list
-//		CurvePoint curvePoint = curveService.getById(id);
-//		if (curvePoint == null) {
-//			log.warn("curvePoint est vide ou null");
-//		}
 		curveService.deleteById(id);
 		List<CurvePoint> curvePoints = curveService.getAll();
 		model.addAttribute("curvePoints", curvePoints);

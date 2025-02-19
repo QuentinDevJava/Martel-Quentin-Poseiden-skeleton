@@ -130,11 +130,6 @@ public class RuleNameController {
 	 */
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-		// TODO: Find RuleName by Id and delete the RuleName, return to Rule list
-//		RuleName ruleName = ruleNameService.getById(id);
-//		if (ruleName == null) {
-//			log.warn("bidList est vide ou null");
-//		}
 		ruleNameService.deleteById(id);
 		List<RuleName> ruleNames = ruleNameService.getAll();
 		model.addAttribute("ruleNames", ruleNames);

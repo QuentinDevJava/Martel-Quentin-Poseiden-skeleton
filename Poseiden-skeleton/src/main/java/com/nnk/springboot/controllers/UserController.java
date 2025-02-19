@@ -114,8 +114,7 @@ public class UserController {
 	 */
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
-		User user = userService.findById(id);
-		userService.delete(user);
+		userService.deleteById(id);
 		model.addAttribute("users", userService.findAll());
 		return "redirect:/user/list";
 	}
