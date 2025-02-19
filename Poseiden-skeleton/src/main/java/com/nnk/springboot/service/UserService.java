@@ -10,7 +10,22 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
 /**
- * The Class UserService.
+ * Service class for managing users.
+ * <p>
+ * <b>Methods:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #getByUsername} :</b> Retrieves a user by their username.</li>
+ * <li><b>{@link #findAll} :</b> Retrieves all users from the system.</li>
+ * <li><b>{@link #save} :</b> Saves a new user or updates an existing user.</li>
+ * <li><b>{@link #findById} :</b> Retrieves a user by their ID.</li>
+ * <li><b>{@link #deleteById} :</b> Deletes a user by their ID.</li>
+ * <li><b>{@link #addUser} :</b> Adds a new user after validating the
+ * username.</li>
+ * <li><b>{@link #userIsValide} :</b> Validates if the username is
+ * available.</li>
+ * <li><b>{@link #isAdmin} :</b> Checks if the user has the "ADMIN" role.</li>
+ * </ul>
  */
 @Service
 public class UserService {
