@@ -16,22 +16,25 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.service.UserService;
 
 /**
- * The Class CustomUserDetailsService.
+ * Custom service to load user details in production. Implements Spring
+ * Security's UserDetailsService.
  */
 @Profile("prod")
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	/** The user service. */
+	/** Service to access users. */
 	@Autowired
 	private UserService userService;
 
 	/**
-	 * Load user by username.
-	 *
-	 * @param username the username
-	 * @return the user details
-	 * @throws UsernameNotFoundException the username not found exception
+	 * Load a user by their username.
+	 * 
+	 * This method is used by Spring Security for authentication.
+	 * 
+	 * @param username the username.
+	 * @return the user details.
+	 * @throws UsernameNotFoundException if the user is not found.
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -41,10 +44,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 	/**
-	 * Gets the granted authorities.
+	 * Get the user's roles.
+	 * 
+	 * This method converts a role into a list of `GrantedAuthority` objects that
+	 * Spring Security uses to manage access authorization.
 	 *
-	 * @param role the role
-	 * @return the granted authorities
+	 * @param role the user's role.
+	 * @return a list of authorities.
 	 */
 	private List<GrantedAuthority> getGrantedAuthorities(String role) {
 		List<GrantedAuthority> authorities = new ArrayList<>();

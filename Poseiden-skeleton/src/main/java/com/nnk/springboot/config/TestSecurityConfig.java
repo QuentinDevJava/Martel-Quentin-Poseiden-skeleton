@@ -13,10 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import jakarta.servlet.DispatcherType;
-
 /**
- * The Class SecurityConfig.
+ * Security configuration for the application in test mode. Only active when the
+ * 'test' profile is used.
+ * 
+ * - Allows access to certain pages (login, logout, css) without authentication.
+ * - Restricts access to "/user/**" pages to users with the "ADMIN" role. - Uses
+ * BCrypt password encoding. - Defines an in-memory user "userTest" and an admin
+ * "adminTest".
  */
 @Configuration
 @EnableWebSecurity
@@ -24,23 +28,23 @@ import jakarta.servlet.DispatcherType;
 public class TestSecurityConfig {
 
 	/**
-	 * Web.
-	 *
-	 * @param http the http
-	 * @return the security filter chain
-	 * @throws Exception the exception
+	 * Configures HTTP security for the test mode.
+	 * 
+	 * @param http the HttpSecurity object for configuring HTTP security.
+	 * @return the security filter chain.
+	 * @throws Exception if there is a configuration error.
 	 */
 	@Bean
 	SecurityFilterChain web(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 
-				.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-
 				.requestMatchers("/login", "/css/**", "/logout").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
-				.anyRequest().authenticated()).exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
+				.anyRequest().authenticated())
+
+				.exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
 				.formLogin(Customizer.withDefaults());
 
@@ -48,9 +52,9 @@ public class TestSecurityConfig {
 	}
 
 	/**
-	 * Password encoder.
-	 *
-	 * @return the b crypt password encoder
+	 * Defines the password encoder.
+	 * 
+	 * @return the BCrypt encoder.
 	 */
 	@Bean
 	BCryptPasswordEncoder passwordEncoder() {
@@ -58,9 +62,10 @@ public class TestSecurityConfig {
 	}
 
 	/**
-	 * User details service.
-	 *
-	 * @return the user details service
+	 * Creates an in-memory user details service. (for test in
+	 * LoginControlleurTest.)
+	 * 
+	 * @return the UserDetailsService.
 	 */
 	@Bean
 	UserDetailsService userDetailsService() {
@@ -70,5 +75,4 @@ public class TestSecurityConfig {
 				.roles("USER", "ADMIN").build();
 		return new InMemoryUserDetailsManager(user, admin);
 	}
-
 }

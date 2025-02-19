@@ -21,14 +21,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class OAuth2UserService.
+ * Service to load OAuth2 users. If the user does not exist, a new user is
+ * created with a temporary password and a default "USER" role.
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OAuth2UserService extends DefaultOAuth2UserService {
 
-	/** The user service. */
+	/** Service to access users. */
 	@Autowired
 	private final UserService userService;
 
@@ -36,10 +37,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	private Random random = new Random();
 
 	/**
-	 * Load user.
-	 *
-	 * @param oAuth2UserRequest the o auth 2 user request
-	 * @return the o auth 2 user
+	 * Loads an OAuth2 user, creating a new user if needed.
+	 * 
+	 * @param oAuth2UserRequest the OAuth2 user request.
+	 * @return the OAuth2 user with its roles and attributes.
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
@@ -55,7 +56,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 			user.setFullname(username);
 			user.setUsername(username);
 			user.setPassword(generateValidTemporaryPassword());
-			user.setRole("ADMIN");
+			user.setRole("USER");
 			userService.save(user);
 		}
 		Collection<GrantedAuthority> authorities = Collections
@@ -67,8 +68,8 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	/**
 	 * Generate valid temporary password.
-	 *
-	 * @return the string
+	 * 
+	 * @return a temporary password.
 	 */
 	private String generateValidTemporaryPassword() {
 		String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
