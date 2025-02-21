@@ -1,9 +1,11 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.BIDLISTS;
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_BIDLISTS;
+
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import com.nnk.springboot.service.BidService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,15 +26,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class BidListController {
 
 	/** The bid service. */
-	@Autowired
-	private BidService bidService;
+	private final BidService bidService;
 
 	/** The http servlet request. */
-	@Autowired
-	private HttpServletRequest httpServletRequest;
+	private final HttpServletRequest httpServletRequest;
 
 	/**
 	 * Home.
@@ -44,7 +46,7 @@ public class BidListController {
 		List<BidList> bidLists = bidService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
-		model.addAttribute("bidLists", bidLists);
+		model.addAttribute(BIDLISTS, bidLists);
 		model.addAttribute("username", userConnect.getName());
 
 		return "bidList/list";
@@ -76,7 +78,7 @@ public class BidListController {
 			return "bidList/add";
 		}
 		bidService.save(bid);
-		return "redirect:/bidList/list";
+		return REDIRECT_BIDLISTS;
 	}
 
 	/**
@@ -111,8 +113,8 @@ public class BidListController {
 		bidList.setBidListId(id);
 		bidService.save(bidList);
 		List<BidList> bidLists = bidService.getAll();
-		model.addAttribute("bidLists", bidLists);
-		return "redirect:/bidList/list";
+		model.addAttribute(BIDLISTS, bidLists);
+		return REDIRECT_BIDLISTS;
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class BidListController {
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		bidService.deleteById(id);
 		List<BidList> bidLists = bidService.getAll();
-		model.addAttribute("bidLists", bidLists);
-		return "redirect:/bidList/list";
+		model.addAttribute(BIDLISTS, bidLists);
+		return REDIRECT_BIDLISTS;
 	}
 }

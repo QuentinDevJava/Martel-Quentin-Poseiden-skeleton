@@ -19,7 +19,7 @@ import com.nnk.springboot.repositories.RuleNameRepository;
 import com.nnk.springboot.service.RuleNameService;
 
 @SpringBootTest
-public class RuleServiceIntegrationTest {
+class RuleServiceIntegrationTest {
 
 	@Autowired
 	private RuleNameService ruleNameService;

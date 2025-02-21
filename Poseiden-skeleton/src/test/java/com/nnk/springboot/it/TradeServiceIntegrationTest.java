@@ -19,7 +19,7 @@ import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.service.TradeService;
 
 @SpringBootTest
-public class TradeServiceIntegrationTest {
+class TradeServiceIntegrationTest {
 
 	@Autowired
 	private TradeService tradeService;

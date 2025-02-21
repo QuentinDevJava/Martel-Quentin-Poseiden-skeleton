@@ -19,7 +19,7 @@ import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.service.BidService;
 
 @SpringBootTest
-public class BidServiceIntegrationTest {
+class BidServiceIntegrationTest {
 
 	@Autowired
 	private BidService bidService;

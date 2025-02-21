@@ -48,7 +48,9 @@ public class SecurityConfig {
 
 				.requestMatchers("/user/**", "/secure/**").hasAnyRole("ADMIN")
 
-				.anyRequest().authenticated()).exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
+				.anyRequest().authenticated())
+
+				.exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
 				.formLogin(Customizer.withDefaults())
 

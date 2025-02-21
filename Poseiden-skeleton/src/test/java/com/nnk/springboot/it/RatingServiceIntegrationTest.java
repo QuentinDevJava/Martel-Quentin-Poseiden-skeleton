@@ -19,7 +19,7 @@ import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.service.RatingService;
 
 @SpringBootTest
-public class RatingServiceIntegrationTest {
+class RatingServiceIntegrationTest {
 
 	@Autowired
 	private RatingService ratingService;

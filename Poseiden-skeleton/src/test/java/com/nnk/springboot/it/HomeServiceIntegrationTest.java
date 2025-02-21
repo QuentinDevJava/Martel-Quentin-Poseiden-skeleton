@@ -6,5 +6,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 //TODO a faire ?
 @Disabled
 @SpringBootTest
-public class HomeServiceIntegrationTest {
+class HomeServiceIntegrationTest {
 }

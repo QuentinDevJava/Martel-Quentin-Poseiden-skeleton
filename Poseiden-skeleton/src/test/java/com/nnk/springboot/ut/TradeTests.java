@@ -18,18 +18,18 @@ public class TradeTests {
 	private TradeRepository tradeRepository;
 
 	@Test
-	public void tradeTest() {
+	void tradeTest() {
 		Trade trade = new Trade("Trade Account", "Type", 10.00);
 
 		// Save
 		trade = tradeRepository.save(trade);
 		Assertions.assertNotNull(trade.getTradeId());
-		Assertions.assertEquals(trade.getAccount(), "Trade Account");
+		Assertions.assertEquals("Trade Account", trade.getAccount());
 
 		// Update
 		trade.setAccount("Trade Account Update");
 		trade = tradeRepository.save(trade);
-		Assertions.assertEquals(trade.getAccount(), "Trade Account Update");
+		Assertions.assertEquals("Trade Account Update", trade.getAccount());
 
 		// Find
 		List<Trade> listResult = tradeRepository.findAll();

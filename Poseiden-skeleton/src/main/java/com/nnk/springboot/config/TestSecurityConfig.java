@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -45,4 +46,15 @@ public class TestSecurityConfig {
 
 		return http.build();
 	}
+
+	/**
+	 * Declares a password encoder for hashing passwords using the BCrypt algorithm.
+	 * 
+	 * @return A {@link BCryptPasswordEncoder} for password encoding.
+	 */
+	@Bean
+	BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 }

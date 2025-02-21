@@ -18,7 +18,7 @@ public class RatingTests {
 	private RatingRepository ratingRepository;
 
 	@Test
-	public void ratingTest() {
+	void ratingTest() {
 		Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
 
 		// Save

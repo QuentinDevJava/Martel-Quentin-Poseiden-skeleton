@@ -3,7 +3,6 @@ package com.nnk.springboot.controllers;
 import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +15,7 @@ import com.nnk.springboot.service.RatingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -23,15 +23,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class RatingController {
 
 	/** The rating service. */
-	@Autowired
-	private RatingService ratingService;
+	private final RatingService ratingService;
 
 	/** The http servlet request. */
-	@Autowired
-	private HttpServletRequest httpServletRequest;
+	private final HttpServletRequest httpServletRequest;
 
 	/**
 	 * Home.

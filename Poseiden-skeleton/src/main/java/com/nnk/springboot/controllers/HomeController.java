@@ -9,19 +9,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.nnk.springboot.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The Class HomeController.
  */
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 
 	private final UserService userService;
 
 	private String userInfo;
-
-	HomeController(UserService userService) {
-		this.userService = userService;
-	}
 
 	/**
 	 * Home.

@@ -6,6 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 //TODO a faire ?
 @Disabled
 @SpringBootTest
-public class UserServiceIntegrationTest {
+class UserServiceIntegrationTest {
 
 }

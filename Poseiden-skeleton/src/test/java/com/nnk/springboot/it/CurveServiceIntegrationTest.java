@@ -19,7 +19,7 @@ import com.nnk.springboot.repositories.CurvePointRepository;
 import com.nnk.springboot.service.CurveService;
 
 @SpringBootTest
-public class CurveServiceIntegrationTest {
+class CurveServiceIntegrationTest {
 
 	@Autowired
 	private CurveService curveService;

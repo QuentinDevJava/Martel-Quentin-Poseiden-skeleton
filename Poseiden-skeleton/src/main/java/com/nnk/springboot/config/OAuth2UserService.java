@@ -1,11 +1,11 @@
 package com.nnk.springboot.config;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -30,11 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 public class OAuth2UserService extends DefaultOAuth2UserService {
 
 	/** Service to access users. */
-	@Autowired
 	private final UserService userService;
 
 	/** The random. */
-	private Random random = new Random();
+	private Random random = new SecureRandom();
 
 	/**
 	 * Loads an OAuth2 user, creating a new user if needed.

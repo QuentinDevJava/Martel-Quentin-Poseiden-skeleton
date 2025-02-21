@@ -7,19 +7,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nnk.springboot.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * The Class LoginController.
  */
-
+@Slf4j
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
 
 	/** The user repository. */
 	private final UserService userService;
-
-	LoginController(UserService userService) {
-		this.userService = userService;
-	}
 
 	/**
 	 * Login.

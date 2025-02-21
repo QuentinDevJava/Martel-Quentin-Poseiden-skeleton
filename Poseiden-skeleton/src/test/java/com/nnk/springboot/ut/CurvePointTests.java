@@ -18,7 +18,7 @@ public class CurvePointTests {
 	private CurvePointRepository curvePointRepository;
 
 	@Test
-	public void curvePointTest() {
+	void curvePointTest() {
 		CurvePoint curvePoint = new CurvePoint(10, 10d, 30d);
 
 		// Save
