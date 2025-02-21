@@ -3,7 +3,6 @@ package com.nnk.springboot.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,8 +23,11 @@ import com.nnk.springboot.service.UserService;
 public class CustomUserDetailsService implements UserDetailsService {
 
 	/** Service to access users. */
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	CustomUserDetailsService(UserService userService) {
+		this.userService = userService;
+	}
 
 	/**
 	 * Load a user by their username.
@@ -39,6 +41,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User dataBaseUser = userService.getByUsername(username);
+		if (dataBaseUser == null) {
+			throw new UsernameNotFoundException("Username or password unknow");
+		}
 		return new org.springframework.security.core.userdetails.User(dataBaseUser.getUsername(),
 				dataBaseUser.getPassword(), getGrantedAuthorities(dataBaseUser.getRole()));
 	}

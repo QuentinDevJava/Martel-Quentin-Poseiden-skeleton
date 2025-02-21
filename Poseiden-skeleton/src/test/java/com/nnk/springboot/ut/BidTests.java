@@ -24,12 +24,12 @@ public class BidTests {
 		// Save
 		bid = bidListRepository.save(bid);
 		Assertions.assertNotNull(bid.getBidListId());
-		Assertions.assertEquals(bid.getBidQuantity(), 10d, 10d);
+		Assertions.assertEquals(10d, bid.getBidQuantity());
 
 		// Update
 		bid.setBidQuantity(20d);
 		bid = bidListRepository.save(bid);
-		Assertions.assertEquals(bid.getBidQuantity(), 20d, 20d);
+		Assertions.assertEquals(20d, bid.getBidQuantity());
 
 		// Find
 		List<BidList> listResult = bidListRepository.findAll();

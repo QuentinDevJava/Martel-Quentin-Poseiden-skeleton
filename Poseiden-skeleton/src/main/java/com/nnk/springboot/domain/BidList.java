@@ -11,14 +11,16 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * The Class BidList.
  */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "bidlist")
 public class BidList {

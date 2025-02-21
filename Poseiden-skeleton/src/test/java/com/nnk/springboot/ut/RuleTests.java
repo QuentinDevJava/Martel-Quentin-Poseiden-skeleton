@@ -24,12 +24,12 @@ public class RuleTests {
 		// Save
 		rule = ruleNameRepository.save(rule);
 		Assertions.assertNotNull(rule.getId());
-		Assertions.assertEquals(rule.getName(), "Rule Name");
+		Assertions.assertEquals("Rule Name", rule.getName());
 
 		// Update
 		rule.setName("Rule Name Update");
 		rule = ruleNameRepository.save(rule);
-		Assertions.assertEquals(rule.getName(), "Rule Name Update");
+		Assertions.assertEquals("Rule Name Update", rule.getName());
 
 		// Find
 		List<RuleName> listResult = ruleNameRepository.findAll();

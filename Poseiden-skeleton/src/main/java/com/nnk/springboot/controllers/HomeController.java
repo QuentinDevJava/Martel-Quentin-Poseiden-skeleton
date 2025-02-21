@@ -1,14 +1,8 @@
 package com.nnk.springboot.controllers;
 
-import java.security.Principal;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +15,13 @@ import com.nnk.springboot.service.UserService;
 @Controller
 public class HomeController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	private String userInfo;
+
+	HomeController(UserService userService) {
+		this.userService = userService;
+	}
 
 	/**
 	 * Home.
@@ -34,68 +33,16 @@ public class HomeController {
 	@GetMapping({ "/", "" })
 	public String home(Authentication userConnect, Model model) {
 
-		StringBuilder userInfo = new StringBuilder();
-
 		if (userConnect instanceof UsernamePasswordAuthenticationToken) {
-
-			userInfo.append(getUsernameLoginInfo(userConnect));
-
-			model.addAttribute("adminRole", userService.isAdmin(getUsernameLoginInfo(userConnect)));
+			userInfo = userService.getUsernameLoginInfo(userConnect);
+			model.addAttribute("adminRole", userService.isAdmin(userInfo));
 
 		} else if (userConnect instanceof OAuth2AuthenticationToken) {
-			userInfo.append(getOauth2LoginInfo(userConnect));
-			model.addAttribute("adminRole", "true");
-
+			userInfo = userService.getOauth2LoginInfo(userConnect);
+			model.addAttribute("adminRole", userService.isAdmin(userInfo));
 		}
-
-		model.addAttribute("username", userInfo.toString());
+		model.addAttribute("username", userInfo);
 		return "home";
-	}
-
-	/**
-	 * Gets the username login info.
-	 *
-	 * @param userConnect the user connect
-	 * @return the username login info
-	 */
-	private StringBuilder getUsernameLoginInfo(Authentication userConnect) {
-		StringBuilder userInfo = new StringBuilder();
-		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) userConnect;
-		if (token.isAuthenticated()) {
-			User userPrincipal = (User) token.getPrincipal();
-			userInfo.append(userPrincipal.getUsername());
-
-		} else {
-			userInfo.append(userConnect.getName());
-		}
-		return userInfo;
-	}
-
-	/**
-	 * Gets the oauth 2 login info.
-	 *
-	 * @param user the user
-	 * @return the oauth 2 login info
-	 */
-	private StringBuilder getOauth2LoginInfo(Principal user) {
-		StringBuilder protectedInfo = new StringBuilder();
-		OAuth2AuthenticationToken authToken = ((OAuth2AuthenticationToken) user);
-		if (authToken.isAuthenticated()) {
-			Map<String, Object> userAttributes = ((DefaultOAuth2User) authToken.getPrincipal()).getAttributes();
-			if (userAttributes.get("Name") == null || userAttributes.get("Name") == "") {
-				protectedInfo.append(" Login : " + userAttributes.get("login"));
-
-			} else if (userAttributes.get("login") == null || userAttributes.get("Name") == "") {
-				protectedInfo.append("Name and login info is empty or null");
-			} else {
-				protectedInfo.append("Name : " + userAttributes.get("name"));
-				protectedInfo.append(" Login : " + userAttributes.get("login"));
-			}
-
-		} else {
-			protectedInfo.append("NA");
-		}
-		return protectedInfo;
 	}
 
 	/**

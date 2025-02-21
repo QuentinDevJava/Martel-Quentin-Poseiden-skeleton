@@ -1,9 +1,13 @@
 package com.nnk.springboot.service;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.User;
@@ -31,10 +35,13 @@ import com.nnk.springboot.repositories.UserRepository;
 public class UserService {
 
 	/** The user repository. */
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	/**
 	 * Gets the by username.
@@ -97,9 +104,44 @@ public class UserService {
 		return user == null;
 	}
 
-	public boolean isAdmin(StringBuilder username) {
-		User user = getByUsername(username.toString());
+	public boolean isAdmin(String username) {
+		User user = getByUsername(username);
+		if (user == null) {
+			return false;
+		}
 		return "ADMIN".equals(user.getRole());
+	}
+
+	/**
+	 * Gets the username login info.
+	 *
+	 * @param userConnect the user connect
+	 * @return the username login info
+	 */
+	public String getUsernameLoginInfo(Authentication userConnect) {
+		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) userConnect;
+		org.springframework.security.core.userdetails.User userPrincipal = (org.springframework.security.core.userdetails.User) token
+				.getPrincipal();
+		return userPrincipal.getUsername();
+	}
+
+	/**
+	 * Gets the oauth 2 login info.
+	 *
+	 * @param userConnect the user
+	 * @return the oauth 2 login info
+	 */
+	public String getOauth2LoginInfo(Authentication userConnect) {
+		StringBuilder protectedInfo = new StringBuilder();
+		OAuth2AuthenticationToken authToken = ((OAuth2AuthenticationToken) userConnect);
+		Map<String, Object> userAttributes = ((DefaultOAuth2User) authToken.getPrincipal()).getAttributes();
+		if (userAttributes.get("Name") == null || userAttributes.get("Name") == "") {
+			protectedInfo.append(userAttributes.get("login"));
+
+		} else {
+			protectedInfo.append("Login info is empty or null");
+		}
+		return protectedInfo.toString();
 	}
 
 }
