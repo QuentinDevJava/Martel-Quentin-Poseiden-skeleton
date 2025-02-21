@@ -2,25 +2,23 @@ package com.nnk.springboot.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 
 import jakarta.validation.Valid;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Class CurveService.
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class CurveService {
 
 	/** The curve point repository. */
-	@Autowired
-	private CurvePointRepository curvePointRepository;
+	private final CurvePointRepository curvePointRepository;
 
 	/**
 	 * Gets the all.

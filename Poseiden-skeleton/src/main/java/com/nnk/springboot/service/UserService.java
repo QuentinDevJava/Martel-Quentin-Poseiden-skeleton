@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Service class for managing users.
  * <p>
@@ -31,6 +33,7 @@ import com.nnk.springboot.repositories.UserRepository;
  * <li><b>{@link #isAdmin} :</b> Checks if the user has the "ADMIN" role.</li>
  * </ul>
  */
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
@@ -38,10 +41,6 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-	UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
 	/**
 	 * Gets the by username.

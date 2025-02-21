@@ -2,24 +2,22 @@ package com.nnk.springboot.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Class RuleNameService.
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class RuleNameService {
 
 	/** The rule name repository. */
-	@Autowired
-	private RuleNameRepository ruleNameRepository;
+	private final RuleNameRepository ruleNameRepository;
 
 	/**
 	 * Gets the all.

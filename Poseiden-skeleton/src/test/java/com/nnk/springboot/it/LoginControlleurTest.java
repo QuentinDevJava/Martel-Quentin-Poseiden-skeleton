@@ -31,6 +31,7 @@ public class LoginControlleurTest {
 	}
 
 	@Test
+	@WithMockUser(username = "userTest", roles = { "USER" }, password = "userTest")
 	void userLoginTest() throws Exception {
 		mockMvc.perform(formLogin("/login").user("userTest").password("userTest")).andExpect(authenticated());
 	}

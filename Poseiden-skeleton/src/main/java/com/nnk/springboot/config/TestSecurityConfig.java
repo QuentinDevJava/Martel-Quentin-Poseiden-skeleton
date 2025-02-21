@@ -6,11 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -49,30 +44,5 @@ public class TestSecurityConfig {
 				.formLogin(Customizer.withDefaults());
 
 		return http.build();
-	}
-
-	/**
-	 * Defines the password encoder.
-	 * 
-	 * @return the BCrypt encoder.
-	 */
-	@Bean
-	BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	/**
-	 * Creates an in-memory user details service. (for test in
-	 * LoginControlleurTest.)
-	 * 
-	 * @return the UserDetailsService.
-	 */
-	@Bean
-	UserDetailsService userDetailsService() {
-		UserDetails user = User.builder().username("userTest").password(passwordEncoder().encode("userTest"))
-				.roles("USER").build();
-		UserDetails admin = User.builder().username("adminTest").password(passwordEncoder().encode("adminTest"))
-				.roles("USER", "ADMIN").build();
-		return new InMemoryUserDetailsManager(user, admin);
 	}
 }

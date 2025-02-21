@@ -2,23 +2,23 @@ package com.nnk.springboot.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Class TradeService.
  */
+@RequiredArgsConstructor
 @Service
 public class TradeService {
 
 	/** The trade repository. */
-	@Autowired
-	private TradeRepository tradeRepository;
+	private final TradeRepository tradeRepository;
 
 	/**
 	 * Gets the all.
