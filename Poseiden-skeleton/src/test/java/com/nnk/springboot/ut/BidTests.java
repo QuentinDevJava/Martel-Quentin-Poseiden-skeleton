@@ -12,7 +12,7 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
 @SpringBootTest
-public class BidTests {
+class BidTests {
 
 	@Autowired
 	private BidListRepository bidListRepository;

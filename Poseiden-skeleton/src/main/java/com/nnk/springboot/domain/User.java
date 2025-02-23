@@ -9,13 +9,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * The Class User.
  */
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -46,5 +46,13 @@ public class User {
 	@Column(name = "role")
 	@NotBlank(message = "Role is mandatory")
 	private String role;
+
+	public User(String fullname, String username, String password, String role) {
+		super();
+		this.fullname = fullname;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	}
 
 }

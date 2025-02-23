@@ -12,7 +12,7 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 
 @SpringBootTest
-public class CurvePointTests {
+class CurvePointTests {
 
 	@Autowired
 	private CurvePointRepository curvePointRepository;

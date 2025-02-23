@@ -99,4 +99,14 @@ class CurveServiceTest {
 		// Assert
 		verify(curvePointRepository, times(1)).deleteById(1);
 	}
+
+	@Test
+	void testGetByCurveId() {
+		// Act
+		curveService.getByCurveId(curve1.getCurveId());
+
+		// Assert
+		verify(curvePointRepository, times(1)).findByCurveId(curve1.getCurveId());
+	}
+
 }

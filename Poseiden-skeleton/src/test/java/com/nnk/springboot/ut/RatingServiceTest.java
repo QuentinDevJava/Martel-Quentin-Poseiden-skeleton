@@ -100,4 +100,13 @@ class RatingServiceTest {
 		// Assert
 		verify(ratingRepository, times(1)).deleteById(1);
 	}
+
+	@Test
+	void testGetByMoodysRating() {
+		// Act
+		ratingService.getByMoodysRating(rating1.getMoodysRating());
+
+		// Assert
+		verify(ratingRepository, times(1)).findByMoodysRating(rating1.getMoodysRating());
+	}
 }

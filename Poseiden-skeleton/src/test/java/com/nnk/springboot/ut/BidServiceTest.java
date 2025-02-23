@@ -99,4 +99,13 @@ class BidServiceTest {
 		// Assert
 		verify(bidListRepository, times(1)).deleteById(1);
 	}
+
+	@Test
+	void testGetByAccount() {
+		// Act
+		bidService.getByAccount(bid1.getAccount());
+
+		// Assert
+		verify(bidListRepository, times(1)).findByAccount(bid1.getAccount());
+	}
 }

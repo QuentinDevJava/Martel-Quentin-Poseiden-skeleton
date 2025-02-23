@@ -12,7 +12,7 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
 @SpringBootTest
-public class TradeTests {
+class TradeTests {
 
 	@Autowired
 	private TradeRepository tradeRepository;

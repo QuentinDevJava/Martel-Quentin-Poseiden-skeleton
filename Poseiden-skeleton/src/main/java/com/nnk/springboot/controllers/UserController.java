@@ -31,7 +31,7 @@ public class UserController {
 	 */
 	@GetMapping("/user/list")
 	public String home(Model model) {
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("users", userService.getAll());
 		return "user/list";
 	}
 
@@ -61,7 +61,7 @@ public class UserController {
 		}
 
 		if (userService.addUser(user)) {
-			model.addAttribute("users", userService.findAll());
+			model.addAttribute("users", userService.getAll());
 			return "redirect:/user/list";
 		}
 		result.rejectValue("username", "error.user", "The username: " + user.getUsername() + " is used");
@@ -78,7 +78,7 @@ public class UserController {
 	 */
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		User user = userService.findById(id);
+		User user = userService.getById(id);
 
 		user.setPassword("");
 		model.addAttribute("user", user);
@@ -101,7 +101,7 @@ public class UserController {
 		}
 		user.setId(id);
 		userService.save(user);
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("users", userService.getAll());
 		return "redirect:/user/list";
 	}
 
@@ -115,7 +115,7 @@ public class UserController {
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
 		userService.deleteById(id);
-		model.addAttribute("users", userService.findAll());
+		model.addAttribute("users", userService.getAll());
 		return "redirect:/user/list";
 	}
 }

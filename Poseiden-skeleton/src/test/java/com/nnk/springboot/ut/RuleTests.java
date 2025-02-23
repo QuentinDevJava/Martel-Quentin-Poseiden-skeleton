@@ -12,7 +12,7 @@ import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 
 @SpringBootTest
-public class RuleTests {
+class RuleTests {
 
 	@Autowired
 	private RuleNameRepository ruleNameRepository;

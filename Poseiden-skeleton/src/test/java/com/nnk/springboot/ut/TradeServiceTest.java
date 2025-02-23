@@ -100,4 +100,13 @@ class TradeServiceTest {
 		// Assert
 		verify(tradeRepository, times(1)).deleteById(1);
 	}
+
+	@Test
+	void testgetByAccount() {
+		// Act
+		tradeService.getByAccount(trade1.getAccount());
+
+		// Assert
+		verify(tradeRepository, times(1)).findByAccount(trade1.getAccount());
+	}
 }

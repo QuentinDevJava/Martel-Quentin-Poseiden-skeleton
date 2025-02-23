@@ -100,4 +100,13 @@ class RuleServiceTest {
 		// Assert
 		verify(ruleNameRepository, times(1)).deleteById(1);
 	}
+
+	@Test
+	void testGetByName() {
+		// Act
+		ruleNameService.getByName(rule1.getName());
+
+		// Assert
+		verify(ruleNameRepository, times(1)).findByName(rule1.getName());
+	}
 }

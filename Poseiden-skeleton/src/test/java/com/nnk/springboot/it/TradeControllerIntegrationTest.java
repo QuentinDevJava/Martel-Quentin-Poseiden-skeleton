@@ -59,7 +59,7 @@ class TradeControllerIntegrationTest {
 	}
 
 	@Test
-	void testGetCurvePointList() throws Exception {
+	void testGetTradeList() throws Exception {
 		tradeService.save(trade);
 		tradeService.save(trade2);
 
@@ -77,7 +77,7 @@ class TradeControllerIntegrationTest {
 	}
 
 	@Test
-	void testAddCurvePointForm() throws Exception {
+	void testAddTradeForm() throws Exception {
 		mockMvc.perform(get("/trade/add"))
 
 				.andExpect(status().isOk())
@@ -119,9 +119,9 @@ class TradeControllerIntegrationTest {
 	void testShowUpdateForm() throws Exception {
 		tradeService.save(trade);
 		trade = tradeService.getByAccount(trade.getAccount());
-		int curvePointId = trade.getTradeId();
+		int tradeId = trade.getTradeId();
 
-		mockMvc.perform(get("/trade/update/{id}", curvePointId))
+		mockMvc.perform(get("/trade/update/{id}", tradeId))
 
 				.andExpect(status().isOk())
 
@@ -132,15 +132,15 @@ class TradeControllerIntegrationTest {
 	}
 
 	@Test
-	void testUpdateCurvePoint() throws Exception {
+	void testUpdateTrade() throws Exception {
 
 		tradeService.save(trade);
 		trade = tradeService.getByAccount(trade.getAccount());
-		int curvePointId = trade.getTradeId();
+		int tradeId = trade.getTradeId();
 
 		trade.setType("Test");
 
-		mockMvc.perform(post("/trade/update/{id}", curvePointId)
+		mockMvc.perform(post("/trade/update/{id}", tradeId)
 
 				.param("account", trade.getAccount())
 
@@ -156,18 +156,18 @@ class TradeControllerIntegrationTest {
 
 				.andExpect(redirectedUrl("/trade/list"));
 
-		trade = tradeService.getById(curvePointId);
+		trade = tradeService.getById(tradeId);
 
 		assertEquals("Test", trade.getType());
 
 	}
 
 	@Test
-	void testDeleteCurvePoint() throws Exception {
+	void testDeleteTrade() throws Exception {
 		tradeService.save(trade);
 		trade = tradeService.getByAccount(trade.getAccount());
-		int curvePointId = trade.getTradeId();
-		mockMvc.perform(get("/trade/delete/{id}", curvePointId))
+		int tradeId = trade.getTradeId();
+		mockMvc.perform(get("/trade/delete/{id}", tradeId))
 
 				.andExpect(status().isFound())
 

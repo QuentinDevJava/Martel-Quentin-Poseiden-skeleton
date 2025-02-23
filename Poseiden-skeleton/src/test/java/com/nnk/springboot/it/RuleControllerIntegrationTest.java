@@ -59,7 +59,7 @@ class RuleControllerIntegrationTest {
 	}
 
 	@Test
-	void testGetCurvePointList() throws Exception {
+	void testGetRuleNameList() throws Exception {
 		ruleNameService.save(ruleName);
 		ruleNameService.save(ruleName2);
 
@@ -77,7 +77,7 @@ class RuleControllerIntegrationTest {
 	}
 
 	@Test
-	void testAddCurvePointForm() throws Exception {
+	void testAddRuleNameForm() throws Exception {
 		mockMvc.perform(get("/ruleName/add"))
 
 				.andExpect(status().isOk())
@@ -130,9 +130,9 @@ class RuleControllerIntegrationTest {
 	void testShowUpdateForm() throws Exception {
 		ruleNameService.save(ruleName);
 		ruleName = ruleNameService.getByName(ruleName.getName());
-		int ratingId = ruleName.getId();
+		int ruleNameId = ruleName.getId();
 
-		mockMvc.perform(get("/ruleName/update/{id}", ratingId))
+		mockMvc.perform(get("/ruleName/update/{id}", ruleNameId))
 
 				.andExpect(status().isOk())
 
@@ -143,15 +143,15 @@ class RuleControllerIntegrationTest {
 	}
 
 	@Test
-	void testUpdateCurvePoint() throws Exception {
+	void testUpdateRuleName() throws Exception {
 
 		ruleNameService.save(ruleName);
 		ruleName = ruleNameService.getByName(ruleName.getName());
-		int ratingId = ruleName.getId();
+		int ruleNameId = ruleName.getId();
 
 		ruleName.setDescription("Test");
 
-		mockMvc.perform(post("/ruleName/update/{id}", ratingId)
+		mockMvc.perform(post("/ruleName/update/{id}", ruleNameId)
 
 				.param("name", ruleName.getName())
 
@@ -173,18 +173,18 @@ class RuleControllerIntegrationTest {
 
 				.andExpect(redirectedUrl("/ruleName/list"));
 
-		ruleName = ruleNameService.getById(ratingId);
+		ruleName = ruleNameService.getById(ruleNameId);
 
 		assertEquals("Test", ruleName.getDescription());
 
 	}
 
 	@Test
-	void testDeleteCurvePoint() throws Exception {
+	void testDeleteRuleName() throws Exception {
 		ruleNameService.save(ruleName);
 		ruleName = ruleNameService.getByName(ruleName.getName());
-		int ratingId = ruleName.getId();
-		mockMvc.perform(get("/ruleName/delete/{id}", ratingId))
+		int ruleNameId = ruleName.getId();
+		mockMvc.perform(get("/ruleName/delete/{id}", ruleNameId))
 
 				.andExpect(status().isFound())
 

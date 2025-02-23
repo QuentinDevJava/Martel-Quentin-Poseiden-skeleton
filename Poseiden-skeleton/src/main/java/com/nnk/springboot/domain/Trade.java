@@ -26,90 +26,90 @@ public class Trade {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "trade_id")
-	Integer tradeId;
+	private Integer tradeId;
 
 	/** The account. */
 	@Column(name = "account")
 	@NotBlank(message = "Account is mandatory")
-	String account;
+	private String account;
 
 	/** The type. */
 	@Column(name = "type")
 	@NotBlank(message = "Type is mandatory")
-	String type;
+	private String type;
 
 	/** The buy quantity. */
 	@Column(name = "buy_quantity")
 	@NotNull(message = "Buy Quantity is mandatory")
-	Double buyQuantity;
+	private Double buyQuantity;
 
 	/** The sell quantity. */
 	@Column(name = "sell_quantity")
-	Double sellQuantity;
+	private Double sellQuantity;
 
 	/** The buy price. */
 	@Column(name = "buy_price")
-	Double buyPrice;
+	private Double buyPrice;
 
 	/** The sell price. */
 	@Column(name = "sell_price")
-	Double sellPrice;
+	private Double sellPrice;
 
 	/** The benchmark. */
 	@Column(name = "benchmark")
-	String benchmark;
+	private String benchmark;
 
 	/** The trade date. */
 	@Column(name = "trade_date")
-	Timestamp tradeDate;
+	private Timestamp tradeDate;
 
 	/** The security. */
 	@Column(name = "security")
-	String security;
+	private String security;
 
 	/** The status. */
 	@Column(name = "status")
-	String status;
+	private String status;
 
 	/** The trader. */
 	@Column(name = "trader")
-	String trader;
+	private String trader;
 
 	/** The book. */
 	@Column(name = "book")
-	String book;
+	private String book;
 
 	/** The creation name. */
 	@Column(name = "creation_name")
-	String creationName;
+	private String creationName;
 
 	/** The creation date. */
 	@Column(name = "creation_date")
-	Timestamp creationDate;
+	private Timestamp creationDate;
 
 	/** The revision name. */
 	@Column(name = "revision_name")
-	String revisionName;
+	private String revisionName;
 
 	/** The revision date. */
 	@Column(name = "revision_date")
-	Timestamp revisionDate;
+	private Timestamp revisionDate;
 
 	/** The deal name. */
 	@Column(name = "deal_name")
-	String dealName;
+	private String dealName;
 
 	/** The deal type. */
 	@Column(name = "deal_type")
-	String dealType;
+	private String dealType;
 
 	/** The source list id. */
 	@Column(name = "source_list_id")
-	String sourceListId;
+	private String sourceListId;
 
 	/** The side. */
 	@Column(name = "side")
-	String side;
+	private String side;
 
 	/**
 	 * Instantiates a new trade.

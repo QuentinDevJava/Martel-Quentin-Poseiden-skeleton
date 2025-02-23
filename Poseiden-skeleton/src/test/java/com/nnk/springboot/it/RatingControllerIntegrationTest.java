@@ -59,7 +59,7 @@ class RatingControllerIntegrationTest {
 	}
 
 	@Test
-	void testGetCurvePointList() throws Exception {
+	void testGetRatingList() throws Exception {
 		ratingService.save(rating);
 		ratingService.save(rating2);
 
@@ -77,7 +77,7 @@ class RatingControllerIntegrationTest {
 	}
 
 	@Test
-	void testAddCurvePointForm() throws Exception {
+	void testAddRatingForm() throws Exception {
 		mockMvc.perform(get("/rating/add"))
 
 				.andExpect(status().isOk())
@@ -170,7 +170,7 @@ class RatingControllerIntegrationTest {
 	}
 
 	@Test
-	void testDeleteCurvePoint() throws Exception {
+	void testDeleteRating() throws Exception {
 		ratingService.save(rating);
 		rating = ratingService.getByMoodysRating(rating.getMoodysRating());
 		int ratingId = rating.getId();

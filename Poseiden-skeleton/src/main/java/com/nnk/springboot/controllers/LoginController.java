@@ -41,7 +41,7 @@ public class LoginController {
 	@GetMapping("/secure/article-details")
 	public ModelAndView getAllUserArticles() {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("users", userService.findAll());
+		mav.addObject("users", userService.getAll());
 		mav.setViewName("user/list");
 		return mav;
 	}

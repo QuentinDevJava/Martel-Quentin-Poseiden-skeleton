@@ -12,7 +12,7 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 
 @SpringBootTest
-public class RatingTests {
+class RatingTests {
 
 	@Autowired
 	private RatingRepository ratingRepository;

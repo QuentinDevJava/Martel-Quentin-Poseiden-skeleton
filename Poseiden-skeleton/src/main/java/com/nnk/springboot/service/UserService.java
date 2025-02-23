@@ -2,6 +2,7 @@ package com.nnk.springboot.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,7 +58,7 @@ public class UserService {
 	 *
 	 * @return the list
 	 */
-	public List<User> findAll() {
+	public List<User> getAll() {
 		return userRepository.findAll();
 	}
 
@@ -77,7 +78,7 @@ public class UserService {
 	 * @param id the id
 	 * @return the user
 	 */
-	public User findById(Integer id) {
+	public User getById(Integer id) {
 		return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
 	}
 
@@ -91,21 +92,16 @@ public class UserService {
 	}
 
 	public boolean addUser(User user) {
-		if (userIsValide(user.getUsername())) {
-			save(user);
-			return true;
+		if (Objects.isNull(getByUsername(user.getUsername()))) {
+			return false;
 		}
-		return false;
-	}
-
-	private boolean userIsValide(String username) {
-		User user = getByUsername(username);
-		return user == null;
+		save(user);
+		return true;
 	}
 
 	public boolean isAdmin(String username) {
 		User user = getByUsername(username);
-		if (user == null) {
+		if (Objects.isNull(user)) {
 			return false;
 		}
 		return "ADMIN".equals(user.getRole());
