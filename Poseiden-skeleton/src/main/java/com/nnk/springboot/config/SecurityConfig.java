@@ -50,7 +50,7 @@ public class SecurityConfig {
 
 				.anyRequest().authenticated())
 
-				.exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
+				// .exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
 				.formLogin(Customizer.withDefaults())
 

@@ -1,5 +1,10 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.CURVEPOINTS;
+import static com.nnk.springboot.constants.AppConstants.CURVEPOINT_ADD;
+import static com.nnk.springboot.constants.AppConstants.CURVEPOINT_UPDATE;
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_CURVEPOINT_LIST;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -44,7 +49,7 @@ public class CurveController {
 		List<CurvePoint> curvePoints = curveService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
-		model.addAttribute("curvePoints", curvePoints);
+		model.addAttribute(CURVEPOINTS, curvePoints);
 		model.addAttribute("username", userConnect.getName());
 
 		return "curvePoint/list";
@@ -58,7 +63,7 @@ public class CurveController {
 	 */
 	@GetMapping("/curvePoint/add")
 	public String addCurvePointForm(CurvePoint bid) {
-		return "curvePoint/add";
+		return CURVEPOINT_ADD;
 	}
 
 	/**
@@ -74,10 +79,10 @@ public class CurveController {
 
 		if (result.hasErrors()) {
 			log.warn("curvePoint formulaire erreur");
-			return "curvePoint/add";
+			return CURVEPOINT_ADD;
 		}
 		curveService.save(curvePoint);
-		return "redirect:/curvePoint/list";
+		return REDIRECT_CURVEPOINT_LIST;
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class CurveController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		CurvePoint curvePoint = curveService.getById(id);
 		model.addAttribute("curvePoint", curvePoint);
-		return "curvePoint/update";
+		return CURVEPOINT_UPDATE;
 	}
 
 	/**
@@ -109,14 +114,14 @@ public class CurveController {
 
 		if (result.hasErrors()) {
 			log.warn("curvepoint formulaire erreur");
-			return "curvePoint/update";
+			return CURVEPOINT_UPDATE;
 
 		}
 		curvePoint.setId(id);
 		curveService.save(curvePoint);
 		List<CurvePoint> curvePoints = curveService.getAll();
-		model.addAttribute("curvePoints", curvePoints);
-		return "redirect:/curvePoint/list";
+		model.addAttribute(CURVEPOINTS, curvePoints);
+		return REDIRECT_CURVEPOINT_LIST;
 	}
 
 	/**
@@ -130,7 +135,7 @@ public class CurveController {
 	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
 		curveService.deleteById(id);
 		List<CurvePoint> curvePoints = curveService.getAll();
-		model.addAttribute("curvePoints", curvePoints);
-		return "redirect:/curvePoint/list";
+		model.addAttribute(CURVEPOINTS, curvePoints);
+		return REDIRECT_CURVEPOINT_LIST;
 	}
 }

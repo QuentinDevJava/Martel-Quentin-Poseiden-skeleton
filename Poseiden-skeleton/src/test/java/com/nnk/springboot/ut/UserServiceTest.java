@@ -70,7 +70,7 @@ class UserServiceTest {
 	@Test
 	void testAddUser() {
 		// Arrange
-		when(userRepository.findByUsername(user1.getUsername())).thenReturn(user1);
+		when(userRepository.findByUsername(user1.getUsername())).thenReturn(null);
 
 		// Act
 		userService.addUser(user1);

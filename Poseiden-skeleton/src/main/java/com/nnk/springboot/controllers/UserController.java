@@ -1,5 +1,10 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_USER_LIST;
+import static com.nnk.springboot.constants.AppConstants.USERS;
+import static com.nnk.springboot.constants.AppConstants.USER_ADD;
+import static com.nnk.springboot.constants.AppConstants.USER_UPDATE;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +36,7 @@ public class UserController {
 	 */
 	@GetMapping("/user/list")
 	public String home(Model model) {
-		model.addAttribute("users", userService.getAll());
+		model.addAttribute(USERS, userService.getAll());
 		return "user/list";
 	}
 
@@ -43,7 +48,7 @@ public class UserController {
 	 */
 	@GetMapping("/user/add")
 	public String addUser(User bid) {
-		return "user/add";
+		return USER_ADD;
 	}
 
 	/**
@@ -57,15 +62,15 @@ public class UserController {
 	@PostMapping("/user/validate")
 	public String validate(@Valid User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "user/add";
+			return USER_ADD;
 		}
 
 		if (userService.addUser(user)) {
-			model.addAttribute("users", userService.getAll());
-			return "redirect:/user/list";
+			model.addAttribute(USERS, userService.getAll());
+			return REDIRECT_USER_LIST;
 		}
 		result.rejectValue("username", "error.user", "The username: " + user.getUsername() + " is used");
-		return "user/add";
+		return USER_ADD;
 
 	}
 
@@ -82,7 +87,7 @@ public class UserController {
 
 		user.setPassword("");
 		model.addAttribute("user", user);
-		return "user/update";
+		return USER_UPDATE;
 	}
 
 	/**
@@ -97,12 +102,12 @@ public class UserController {
 	@PostMapping("/user/update/{id}")
 	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "user/update";
+			return USER_UPDATE;
 		}
 		user.setId(id);
 		userService.save(user);
-		model.addAttribute("users", userService.getAll());
-		return "redirect:/user/list";
+		model.addAttribute(USERS, userService.getAll());
+		return REDIRECT_USER_LIST;
 	}
 
 	/**
@@ -115,7 +120,7 @@ public class UserController {
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {
 		userService.deleteById(id);
-		model.addAttribute("users", userService.getAll());
-		return "redirect:/user/list";
+		model.addAttribute(USERS, userService.getAll());
+		return REDIRECT_USER_LIST;
 	}
 }

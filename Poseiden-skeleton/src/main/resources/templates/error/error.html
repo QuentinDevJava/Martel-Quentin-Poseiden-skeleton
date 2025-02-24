@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-      <title>Spring Boot</title>
+      <title>Error Page</title>
 </head>
 <body>
-   <h3>Access Denied Exception</h3>
+   <h3 th:text="${errorTitle}"> </h3>
    <div class="container">
 	Logged in user: <b th:inline="text" class="user" th:text="${username}"></b>
 	<form th:action="@{/logout}" method="POST">

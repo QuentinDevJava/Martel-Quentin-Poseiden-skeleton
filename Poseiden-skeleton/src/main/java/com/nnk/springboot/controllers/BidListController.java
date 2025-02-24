@@ -1,6 +1,8 @@
 package com.nnk.springboot.controllers;
 
 import static com.nnk.springboot.constants.AppConstants.BIDLISTS;
+import static com.nnk.springboot.constants.AppConstants.BIDLISTS_ADD;
+import static com.nnk.springboot.constants.AppConstants.BIDLISTS_UPDATE;
 import static com.nnk.springboot.constants.AppConstants.REDIRECT_BIDLISTS;
 
 import java.security.Principal;
@@ -60,7 +62,7 @@ public class BidListController {
 	 */
 	@GetMapping("/bidList/add")
 	public String addBidForm(BidList bid) {
-		return "bidList/add";
+		return BIDLISTS_ADD;
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class BidListController {
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "bidList/add";
+			return BIDLISTS_ADD;
 		}
 		bidService.save(bid);
 		return REDIRECT_BIDLISTS;
@@ -92,7 +94,7 @@ public class BidListController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		BidList bidList = bidService.getById(id);
 		model.addAttribute("bidList", bidList);
-		return "bidList/update";
+		return BIDLISTS_UPDATE;
 	}
 
 	/**
@@ -108,7 +110,7 @@ public class BidListController {
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "bidList/update";
+			return BIDLISTS_UPDATE;
 		}
 		bidList.setBidListId(id);
 		bidService.save(bidList);

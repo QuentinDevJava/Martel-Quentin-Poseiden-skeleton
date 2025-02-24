@@ -85,7 +85,7 @@ class UserServiceIntegrationTest {
 			userService.getById(invalidId);
 		});
 
-		assertEquals("Invalid user Id:" + invalidId, exception.getMessage());
+		assertEquals("Invalid user ID: " + invalidId, exception.getMessage());
 	}
 
 	@Test

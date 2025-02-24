@@ -1,5 +1,10 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_RULENAME_LIST;
+import static com.nnk.springboot.constants.AppConstants.RULENAMES;
+import static com.nnk.springboot.constants.AppConstants.RULENAME_ADD;
+import static com.nnk.springboot.constants.AppConstants.RULENAME_UPDATE;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -44,7 +49,7 @@ public class RuleNameController {
 		List<RuleName> ruleNames = ruleNameService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
-		model.addAttribute("ruleNames", ruleNames);
+		model.addAttribute(RULENAMES, ruleNames);
 		model.addAttribute("username", userConnect.getName());
 
 		return "ruleName/list";
@@ -58,7 +63,7 @@ public class RuleNameController {
 	 */
 	@GetMapping("/ruleName/add")
 	public String addRuleForm(RuleName ruleName) {
-		return "ruleName/add";
+		return RULENAME_ADD;
 	}
 
 	/**
@@ -74,10 +79,10 @@ public class RuleNameController {
 
 		if (result.hasErrors()) {
 			log.warn("ruleName formulaire erreur");
-			return "ruleName/add";
+			return RULENAME_ADD;
 		}
 		ruleNameService.save(ruleName);
-		return "redirect:/ruleName/list";
+		return REDIRECT_RULENAME_LIST;
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class RuleNameController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		RuleName ruleName = ruleNameService.getById(id);
 		model.addAttribute("ruleName", ruleName);
-		return "ruleName/update";
+		return RULENAME_UPDATE;
 	}
 
 	/**
@@ -109,7 +114,7 @@ public class RuleNameController {
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "ruleName/update";
+			return RULENAME_UPDATE;
 		}
 
 		ruleName.setId(id);
@@ -117,7 +122,7 @@ public class RuleNameController {
 		List<RuleName> ruleNames = ruleNameService.getAll();
 		model.addAttribute("ruleName", ruleNames);
 
-		return "redirect:/ruleName/list";
+		return REDIRECT_RULENAME_LIST;
 	}
 
 	/**
@@ -131,8 +136,8 @@ public class RuleNameController {
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 		ruleNameService.deleteById(id);
 		List<RuleName> ruleNames = ruleNameService.getAll();
-		model.addAttribute("ruleNames", ruleNames);
+		model.addAttribute(RULENAMES, ruleNames);
 
-		return "redirect:/ruleName/list";
+		return REDIRECT_RULENAME_LIST;
 	}
 }

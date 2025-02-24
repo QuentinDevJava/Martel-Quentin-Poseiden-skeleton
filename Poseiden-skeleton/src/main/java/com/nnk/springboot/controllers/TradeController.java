@@ -1,5 +1,10 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_TRADE_LIST;
+import static com.nnk.springboot.constants.AppConstants.TRADES;
+import static com.nnk.springboot.constants.AppConstants.TRADE_ADD;
+import static com.nnk.springboot.constants.AppConstants.TRADE_UPDATE;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -44,7 +49,7 @@ public class TradeController {
 		List<Trade> trades = tradeService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
-		model.addAttribute("trades", trades);
+		model.addAttribute(TRADES, trades);
 		model.addAttribute("username", userConnect.getName());
 
 		return "trade/list";
@@ -58,7 +63,7 @@ public class TradeController {
 	 */
 	@GetMapping("/trade/add")
 	public String addUser(Trade bid) {
-		return "trade/add";
+		return TRADE_ADD;
 	}
 
 	/**
@@ -74,10 +79,10 @@ public class TradeController {
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "trade/add";
+			return TRADE_ADD;
 		}
 		tradeService.save(trade);
-		return "redirect:/trade/list";
+		return REDIRECT_TRADE_LIST;
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class TradeController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Trade trade = tradeService.getById(id);
 		model.addAttribute("trade", trade);
-		return "trade/update";
+		return TRADE_UPDATE;
 	}
 
 	/**
@@ -108,15 +113,15 @@ public class TradeController {
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "trade/update";
+			return TRADE_UPDATE;
 		}
 
 		trade.setTradeId(id);
 		tradeService.save(trade);
 		List<Trade> trades = tradeService.getAll();
-		model.addAttribute("trades", trades);
+		model.addAttribute(TRADES, trades);
 
-		return "redirect:/trade/list";
+		return REDIRECT_TRADE_LIST;
 	}
 
 	/**
@@ -130,7 +135,7 @@ public class TradeController {
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
 		tradeService.deleteById(id);
 		List<Trade> trades = tradeService.getAll();
-		model.addAttribute("trades", trades);
-		return "redirect:/trade/list";
+		model.addAttribute(TRADES, trades);
+		return REDIRECT_TRADE_LIST;
 	}
 }

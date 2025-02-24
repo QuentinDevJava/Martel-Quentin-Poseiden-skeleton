@@ -1,5 +1,10 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.RATINGS;
+import static com.nnk.springboot.constants.AppConstants.RATING_ADD;
+import static com.nnk.springboot.constants.AppConstants.RATING_UPDATE;
+import static com.nnk.springboot.constants.AppConstants.REDIRECT_RATING_LIST;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -43,7 +48,7 @@ public class RatingController {
 		List<Rating> ratingLists = ratingService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
 
-		model.addAttribute("ratings", ratingLists);
+		model.addAttribute(RATINGS, ratingLists);
 		model.addAttribute("username", userConnect.getName());
 
 		return "rating/list";
@@ -57,7 +62,7 @@ public class RatingController {
 	 */
 	@GetMapping("/rating/add")
 	public String addRatingForm(Rating rating) {
-		return "rating/add";
+		return RATING_ADD;
 	}
 
 	/**
@@ -73,11 +78,11 @@ public class RatingController {
 
 		if (result.hasErrors()) {
 			log.warn("rating formulaire erreur");
-			return "rating/add";
+			return RATING_ADD;
 
 		}
 		ratingService.save(rating);
-		return "redirect:/rating/list";
+		return REDIRECT_RATING_LIST;
 	}
 
 	/**
@@ -91,7 +96,7 @@ public class RatingController {
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Rating rating = ratingService.getById(id);
 		model.addAttribute("rating", rating);
-		return "rating/update";
+		return RATING_UPDATE;
 	}
 
 	/**
@@ -109,14 +114,14 @@ public class RatingController {
 
 		if (result.hasErrors()) {
 			log.warn("bidList formulaire erreur");
-			return "rating/update";
+			return RATING_UPDATE;
 		}
 
 		rating.setId(id);
 		ratingService.save(rating);
 		List<Rating> ratings = ratingService.getAll();
-		model.addAttribute("ratings", ratings);
-		return "redirect:/rating/list";
+		model.addAttribute(RATINGS, ratings);
+		return REDIRECT_RATING_LIST;
 	}
 
 	/**
@@ -130,8 +135,8 @@ public class RatingController {
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
 		ratingService.deleteById(id);
 		List<Rating> ratings = ratingService.getAll();
-		model.addAttribute("ratings", ratings);
+		model.addAttribute(RATINGS, ratings);
 
-		return "redirect:/rating/list";
+		return REDIRECT_RATING_LIST;
 	}
 }
