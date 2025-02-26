@@ -17,11 +17,31 @@ import com.nnk.springboot.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Service class handling user operations. This class implements business logic
- * for user management, including authentication, validation, and persistence.
+ * The Class UserService.
  * 
- * @author YourName
- * @since AppVersion
+ * Service class responsible for managing user operations. *
+ * 
+ * <p>
+ * Service class responsible for managing {@link User} entities. *
+ * </p>
+ * 
+ * <p>
+ * <b>Key Methods:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #getByUsername(String)} - Retrieves a user by their username.</li>
+ * <li>{@link #getAll()} - Retrieves all users from the system.</li>
+ * <li>{@link #save(User)} - Saves or updates a user.</li>
+ * <li>{@link #getById(Integer)} - Retrieves a user by their ID.</li>
+ * <li>{@link #deleteById(Integer)} - Deletes a user by their ID.</li>
+ * <li>{@link #addUser(User)} - Adds a new user if the username is not already
+ * taken.</li>
+ * <li>{@link #isAdmin(String)} - Checks if a user has the ADMIN role.</li>
+ * <li>{@link #getUsernameLoginInfo(Authentication)} - Retrieves the username
+ * from the authentication token for a standard user.</li>
+ * <li>{@link #getOauth2LoginInfo(Authentication)} - Retrieves the login
+ * information for an authenticated user via OAuth2.</li>
+ * </ul>
  */
 @RequiredArgsConstructor
 @Service
