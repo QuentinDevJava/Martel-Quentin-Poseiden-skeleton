@@ -12,7 +12,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The Class Rating.
+ * Represents a rating in the system.
+ * 
+ * This class maps to the "rating" table in the database.
+ * 
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #Rating(String, String, String, Integer)} :</b> Creates a new
+ * rating with the specified Moody's rating, Sand rating, Fitch rating, and
+ * order number.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #moodysRating}, {@link #sandPRating}, and {@link #fitchRating}
+ * must not be blank.</li>
+ * <li>{@link #orderNumber} must not be null.</li>
+ * </ul>
  */
 @Entity
 @Data
@@ -47,12 +67,13 @@ public class Rating {
 	private Integer orderNumber;
 
 	/**
-	 * Instantiates a new rating.
+	 * Instantiates a new rating with the specified Moody's rating, Sand rating,
+	 * Fitch rating, and order number.
 	 *
-	 * @param moodysRating the moodys rating
-	 * @param sandPRating  the sand P rating
-	 * @param fitchRating  the fitch rating
-	 * @param orderNumber  the order number
+	 * @param moodysRating the Moody's rating
+	 * @param sandPRating  the Sand rating
+	 * @param fitchRating  the Fitch rating
+	 * @param orderNumber  the order number of the rating
 	 */
 	public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
 		super();

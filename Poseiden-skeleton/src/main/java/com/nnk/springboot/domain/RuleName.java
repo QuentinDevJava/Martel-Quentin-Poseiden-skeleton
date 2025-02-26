@@ -11,7 +11,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The Class RuleName.
+ * Represents a rule name in the system.
+ * 
+ * This class maps to the "rulename" table in the database
+ * 
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #RuleName(String, String, String, String, String, String)}
+ * :</b> Creates a new RuleName with the specified name, description, json,
+ * template, sql string, and sql part.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #name}, {@link #description}, {@link #json}, {@link #template},
+ * {@link #sqlStr}, and {@link #sqlPart} must not be blank.</li>
+ * </ul>
  */
 @Entity
 @Data
@@ -58,12 +77,12 @@ public class RuleName {
 	/**
 	 * Instantiates a new rule name.
 	 *
-	 * @param name        the name
-	 * @param description the description
-	 * @param json        the json
-	 * @param template    the template
-	 * @param sqlStr      the sql str
-	 * @param sqlPart     the sql part
+	 * @param name        the name of the rule
+	 * @param description the description of the rule
+	 * @param json        the json of the rule
+	 * @param template    the template of the rule
+	 * @param sqlStr      the SQL string of the rule
+	 * @param sqlPart     the SQL part of the rule
 	 */
 	public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
 		super();

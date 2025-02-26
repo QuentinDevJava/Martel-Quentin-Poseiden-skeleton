@@ -14,7 +14,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The Class Trade.
+ * Represents a trade in the system.
+ *
+ * This class maps to the "trade" table in the database.
+ * 
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #Trade(String, String, Double)} :</b> Creates a new trade with
+ * the specified account, type, and buy quantity.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #account} and {@link #type} must not be blank.</li>
+ * <li>{@link #buyQuantity} must not be null.</li>
+ * </ul>
+ * 
  */
 @Entity
 @Data
@@ -112,10 +131,11 @@ public class Trade {
 	private String side;
 
 	/**
-	 * Instantiates a new trade.
+	 * Instantiates a new trade with the specified account, type, and buy quantity.
 	 *
-	 * @param account the account
-	 * @param type    the type
+	 * @param account     the account associated with the trade
+	 * @param type        the type of trade
+	 * @param buyQuantity the quantity of the trade
 	 */
 	public Trade(String account, String type, Double buyQuantity) {
 		super();

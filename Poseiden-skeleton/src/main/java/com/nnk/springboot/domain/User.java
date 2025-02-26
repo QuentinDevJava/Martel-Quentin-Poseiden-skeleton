@@ -12,7 +12,27 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Class User.
+ * Represents a user in the system.
+ * 
+ * This class maps to the "users" table in the database.
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #User(String, String, String, String)} :</b> Creates a new user
+ * with the specified fullname, username, password, and role.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #username}, {@link #password}, {@link #fullname}, and
+ * {@link #role} must not be blank.</li>
+ * <li>{@link #password} must match the regular expression: at least 8
+ * characters long, containing at least one uppercase letter, one lowercase
+ * letter, one number, and one special character.</li>
+ * </ul>
  */
 @Data
 @RequiredArgsConstructor
@@ -31,7 +51,13 @@ public class User {
 	@NotBlank(message = "Username is mandatory")
 	private String username;
 
-	/** The password. */
+	/**
+	 * 
+	 * The password must be at least 8 characters long, containing at least one
+	 * uppercase letter, one lowercase letter, one number, and one special
+	 * character.
+	 * 
+	 */
 	@Column(name = "password")
 	@NotBlank(message = "Password is mandatory")
 	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,1000}$", message = "The password must contain at least 8 characters,, including at least one uppercase letter, one lowercase letter, one number, and one special character.")
@@ -47,6 +73,15 @@ public class User {
 	@NotBlank(message = "Role is mandatory")
 	private String role;
 
+	/**
+	 * Instantiates a new user with the specified full name, username, password, and
+	 * role.
+	 *
+	 * @param fullname the full name of the user
+	 * @param username the username of the user
+	 * @param password the password of the user
+	 * @param role     the role of the user
+	 */
 	public User(String fullname, String username, String password, String role) {
 		super();
 		this.fullname = fullname;

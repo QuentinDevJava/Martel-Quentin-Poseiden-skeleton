@@ -7,15 +7,21 @@ import com.nnk.springboot.domain.CurvePoint;
 
 /**
  * The Interface CurvePointRepository.
+ * 
+ * <p>
+ * Repository interface for accessing {@link CurvePoint} entities from the
+ * database. This interface extends {@link JpaRepository} for basic CRUD
+ * operations.
+ * </p>
  */
 @Repository
 public interface CurvePointRepository extends JpaRepository<CurvePoint, Integer> {
 
 	/**
-	 * Find by curve id.
+	 * Find by curveId.
 	 *
 	 * @param curveId the curve id
-	 * @return the curve point
+	 * @return the {@link CurvePoint} or null no curve point is found
 	 */
 	CurvePoint findByCurveId(Integer curveId);
 

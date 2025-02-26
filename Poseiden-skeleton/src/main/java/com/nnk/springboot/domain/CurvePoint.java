@@ -14,7 +14,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The Class CurvePoint.
+ * Represents a curve point in the system.
+ * 
+ * This class maps to the "curvepoint" table in the database.
+ * 
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #CurvePoint(Integer, Double, Double)} :</b> Creates a new curve
+ * point with the specified curve ID, term, and value.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #term} and {@link #value} must not be null and must be greater
+ * than or equal to 0.01.</li>
+ * </ul>
  */
 @Entity
 @Data
@@ -53,11 +71,11 @@ public class CurvePoint {
 	private Timestamp creationDate;
 
 	/**
-	 * Instantiates a new curve point.
-	 *
-	 * @param curveId the curve id
-	 * @param term    the term
-	 * @param value   the value
+	 * Instantiates a new curve point with the specified curve ID, term, and value.
+	 * 
+	 * @param curveId the curve ID this point belongs to
+	 * @param term    the term associated with the curve point
+	 * @param value   the value associated with the curve point
 	 */
 	public CurvePoint(Integer curveId, Double term, Double value) {
 		super();
