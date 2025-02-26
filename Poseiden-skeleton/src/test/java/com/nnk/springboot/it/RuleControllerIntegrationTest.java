@@ -29,11 +29,8 @@ import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import com.nnk.springboot.service.RuleNameService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class RuleControllerIntegrationTest {
 
@@ -115,7 +112,7 @@ class RuleControllerIntegrationTest {
 
 		ruleNameTest = ruleNameService.getByName(ruleName.getName());
 
-		assertNotNull(ruleName);
+		assertNotNull(ruleNameTest);
 
 		assertEquals(ruleName.getName(), ruleNameTest.getName());
 		assertEquals(ruleName.getDescription(), ruleNameTest.getDescription());
@@ -123,6 +120,40 @@ class RuleControllerIntegrationTest {
 		assertEquals(ruleName.getTemplate(), ruleNameTest.getTemplate());
 		assertEquals(ruleName.getSqlStr(), ruleNameTest.getSqlStr());
 		assertEquals(ruleName.getSqlPart(), ruleNameTest.getSqlPart());
+
+	}
+
+	@Test
+	void testValidateRuleNameErrorForm() throws Exception {
+
+		RuleName ruleNameTest = ruleNameService.getByName(ruleName.getName());
+		assertNull(ruleNameTest);
+
+		mockMvc.perform(post("/ruleName/validate")
+
+				.param("name", "")
+
+				.param("description", ruleName.getDescription())
+
+				.param("json", ruleName.getJson())
+
+				.param("template", ruleName.getTemplate())
+
+				.param("sqlStr", ruleName.getSqlStr())
+
+				.param("sqlPart", ruleName.getSqlPart())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("ruleName/add"));
+
+		ruleNameTest = ruleNameService.getByName(ruleName.getName());
+
+		assertNull(ruleNameTest);
 
 	}
 
@@ -176,6 +207,43 @@ class RuleControllerIntegrationTest {
 		ruleName = ruleNameService.getById(ruleNameId);
 
 		assertEquals("Test", ruleName.getDescription());
+
+	}
+
+	@Test
+	void testUpdateRuleNameErrorForm() throws Exception {
+
+		ruleNameService.save(ruleName);
+		ruleName = ruleNameService.getByName(ruleName.getName());
+		int ruleNameId = ruleName.getId();
+
+		ruleName.setName("Test");
+
+		mockMvc.perform(post("/ruleName/update/{id}", ruleNameId)
+
+				.param("name", "")
+
+				.param("description", ruleName.getDescription())
+
+				.param("json", ruleName.getJson())
+
+				.param("template", ruleName.getTemplate())
+
+				.param("sqlStr", ruleName.getSqlStr())
+
+				.param("sqlPart", ruleName.getSqlPart())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("ruleName/update"));
+
+		ruleName = ruleNameService.getById(ruleNameId);
+
+		assertEquals("Rule Name1", ruleName.getName());
 
 	}
 

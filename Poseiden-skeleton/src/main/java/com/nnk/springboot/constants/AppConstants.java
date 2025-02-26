@@ -36,4 +36,8 @@ public final class AppConstants {
 	public static final String TRADE_UPDATE = "trade/update";
 	public static final String REDIRECT_TRADE_LIST = "redirect:/trade/list";
 
+	public static final String ERROR_MSG = "errorMsg";
+	public static final String ERROR_TITLE = "errorTitle";
+	public static final String USERNAME = "username";
+
 }

@@ -29,11 +29,8 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import com.nnk.springboot.service.CurveService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class CurveControllerIntegrationTest {
 
@@ -109,10 +106,38 @@ class CurveControllerIntegrationTest {
 
 		curvePointTest = curveService.getByCurveId(curvePoint.getCurveId());
 
-		assertNotNull(curvePoint);
+		assertNotNull(curvePointTest);
 
 		assertEquals(curvePoint.getTerm(), curvePointTest.getTerm());
 		assertEquals(curvePoint.getValue(), curvePointTest.getValue());
+
+	}
+
+	@Test
+	void testValidateCurvePointErrorForm() throws Exception {
+
+		CurvePoint curvePointTest = curveService.getByCurveId(curvePoint.getCurveId());
+		assertNull(curvePointTest);
+
+		mockMvc.perform(post("/curvePoint/validate")
+
+				.param("curveId", curvePoint.getCurveId().toString())
+
+				.param("term", curvePoint.getTerm().toString())
+
+				.param("value", "0")
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("curvePoint/add"));
+
+		curvePointTest = curveService.getByCurveId(curvePoint.getCurveId());
+
+		assertNull(curvePointTest);
 
 	}
 
@@ -160,6 +185,37 @@ class CurveControllerIntegrationTest {
 		curvePoint = curveService.getById(curvePointId);
 
 		assertEquals(200, curvePoint.getValue());
+
+	}
+
+	@Test
+	void testUpdateCurvePointErrorForm() throws Exception {
+
+		curveService.save(curvePoint);
+		curvePoint = curveService.getByCurveId(curvePoint.getCurveId());
+		int curvePointId = curvePoint.getId();
+
+		curvePoint.setValue(200.00);
+
+		mockMvc.perform(post("/curvePoint/update/{id}", curvePointId)
+
+				.param("curveId", curvePoint.getCurveId().toString())
+
+				.param("term", curvePoint.getTerm().toString())
+
+				.param("value", "0")
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("curvePoint/update"));
+
+		CurvePoint curvePointTest = curveService.getById(curvePointId);
+
+		assertEquals(10, curvePointTest.getValue());
 
 	}
 

@@ -29,11 +29,8 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.service.RatingService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class RatingControllerIntegrationTest {
 
@@ -112,11 +109,42 @@ class RatingControllerIntegrationTest {
 
 		ratingTest = ratingService.getByMoodysRating(rating.getMoodysRating());
 
-		assertNotNull(rating);
+		assertNotNull(ratingTest);
 
 		assertEquals(rating.getFitchRating(), ratingTest.getFitchRating());
 		assertEquals(rating.getSandPRating(), ratingTest.getSandPRating());
 		assertEquals(rating.getOrderNumber(), ratingTest.getOrderNumber());
+
+	}
+
+	@Test
+	void testValidateRatingErrorForm() throws Exception {
+
+		Rating ratingTest = ratingService.getByMoodysRating(rating.getMoodysRating());
+
+		assertNull(ratingTest);
+
+		mockMvc.perform(post("/rating/validate")
+
+				.param("moodysRating", "")
+
+				.param("sandPRating", rating.getSandPRating())
+
+				.param("fitchRating", rating.getFitchRating())
+
+				.param("orderNumber", rating.getOrderNumber().toString())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("rating/add"));
+
+		ratingTest = ratingService.getByMoodysRating(rating.getMoodysRating());
+
+		assertNull(ratingTest);
 
 	}
 
@@ -166,6 +194,39 @@ class RatingControllerIntegrationTest {
 		rating = ratingService.getById(ratingId);
 
 		assertEquals(200, rating.getOrderNumber());
+
+	}
+
+	@Test
+	void testUpdateRatingErrorForm() throws Exception {
+
+		ratingService.save(rating);
+		rating = ratingService.getByMoodysRating(rating.getMoodysRating());
+		int ratingId = rating.getId();
+
+		rating.setMoodysRating("test");
+
+		mockMvc.perform(post("/rating/update/{id}", ratingId)
+
+				.param("moodysRating", "")
+
+				.param("fitchRating", rating.getFitchRating())
+
+				.param("sandPRating", rating.getSandPRating())
+
+				.param("orderNumber", rating.getOrderNumber().toString())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("rating/update"));
+
+		rating = ratingService.getById(ratingId);
+
+		assertEquals("Moodys Rating1", rating.getMoodysRating());
 
 	}
 

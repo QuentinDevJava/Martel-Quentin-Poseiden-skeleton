@@ -29,11 +29,8 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.service.TradeService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class TradeControllerIntegrationTest {
 
@@ -109,10 +106,37 @@ class TradeControllerIntegrationTest {
 
 		tradeTest = tradeService.getByAccount(trade.getAccount());
 
-		assertNotNull(trade);
+		assertNotNull(tradeTest);
 
 		assertEquals(trade.getType(), tradeTest.getType());
 
+	}
+
+	@Test
+	void testValidateTradeErrorForm() throws Exception {
+
+		Trade tradeTest = tradeService.getByAccount(trade.getAccount());
+		assertNull(tradeTest);
+
+		mockMvc.perform(post("/trade/validate")
+
+				.param("account", trade.getAccount())
+
+				.param("type", "")
+
+				.param("buyQuantity", trade.getBuyQuantity().toString())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("trade/add"));
+
+		tradeTest = tradeService.getByAccount(trade.getAccount());
+
+		assertNull(tradeTest);
 	}
 
 	@Test
@@ -159,6 +183,37 @@ class TradeControllerIntegrationTest {
 		trade = tradeService.getById(tradeId);
 
 		assertEquals("Test", trade.getType());
+
+	}
+
+	@Test
+	void testUpdateTradeErrorForm() throws Exception {
+
+		tradeService.save(trade);
+		trade = tradeService.getByAccount(trade.getAccount());
+		int tradeId = trade.getTradeId();
+
+		trade.setType("Test");
+
+		mockMvc.perform(post("/trade/update/{id}", tradeId)
+
+				.param("account", trade.getAccount())
+
+				.param("type", "")
+
+				.param("buyQuantity", trade.getBuyQuantity().toString())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("trade/update"));
+
+		trade = tradeService.getById(tradeId);
+
+		assertEquals("test1", trade.getType());
 
 	}
 

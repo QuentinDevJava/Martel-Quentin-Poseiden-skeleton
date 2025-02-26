@@ -16,7 +16,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * The Class BidList.
+ * Represents a bid list in the system.
+ * 
+ * This class maps to the "bidlist" table in the database.
+ * 
+ * <p>
+ * <b>Constructor:</b>
+ * </p>
+ * <ul>
+ * <li><b>{@link #BidList(String, String, Double)} :</b> Creates a new bid list
+ * with the specified account, type, and bid quantity.</li>
+ * </ul>
+ * 
+ * <p>
+ * <b>Validation:</b>
+ * </p>
+ * <ul>
+ * <li>{@link #account} and {@link #type} are required and cannot be blank.</li>
+ * <li>{@link #bidQuantity} must be a non-null value greater than or equal to
+ * 0.01.</li>
+ * </ul>
  */
 @Entity
 @Getter
@@ -120,10 +139,10 @@ public class BidList {
 	private String side;
 
 	/**
-	 * Instantiates a new bid list.
-	 *
-	 * @param account     the account
-	 * @param type        the type
+	 * Instantiates a new bid list with the given account, type, and bid quantity.
+	 * 
+	 * @param account     the account associated with the bid
+	 * @param type        the type of the bid
 	 * @param bidQuantity the bid quantity
 	 */
 	public BidList(String account, String type, Double bidQuantity) {

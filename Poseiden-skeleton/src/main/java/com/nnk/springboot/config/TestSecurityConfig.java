@@ -34,13 +34,11 @@ public class TestSecurityConfig {
 	SecurityFilterChain web(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 
-				.requestMatchers("/login", "/css/**", "/logout").permitAll()
+				.requestMatchers("/login", "/css/**", "/logout", "/error").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
 				.anyRequest().authenticated())
-
-				.exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
 				.formLogin(Customizer.withDefaults());
 

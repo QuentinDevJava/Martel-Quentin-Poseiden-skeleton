@@ -105,10 +105,38 @@ class BidControllerIntegrationTest {
 
 		bidTest = bidService.getByAccount(bid1.getAccount());
 
-		assertNotNull(bid1);
+		assertNotNull(bidTest);
 
 		assertEquals(bid1.getType(), bidTest.getType());
 		assertEquals(bid1.getBidQuantity(), bidTest.getBidQuantity());
+
+	}
+
+	@Test
+	void testValidateBidErrorFrom() throws Exception {
+
+		BidList bidTest = bidService.getByAccount(bid1.getAccount());
+		assertNull(bidTest);
+
+		mockMvc.perform(post("/bidList/validate")
+
+				.param("account", "")
+
+				.param("type", bid1.getType())
+
+				.param("bidQuantity", bid1.getBidQuantity().toString())
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("bidList/add"));
+
+		bidTest = bidService.getByAccount(bid1.getAccount());
+
+		assertNull(bidTest);
 
 	}
 
@@ -158,6 +186,37 @@ class BidControllerIntegrationTest {
 		bid1 = bidService.getById(bidId);
 
 		assertEquals(200, bid1.getBidQuantity());
+
+	}
+
+	@Test
+	void testUpdateBidErrorForm() throws Exception {
+
+		bidService.save(bid1);
+		bid1 = bidService.getByAccount("Account test");
+		int bidId = bid1.getBidListId();
+
+		mockMvc.perform(post("/bidList/update/{id}", bidId)
+
+				.param("bidListId", String.valueOf(bidId))
+
+				.param("type", bid1.getType())
+
+				.param("account", bid1.getAccount())
+
+				.param("bidQuantity", "")
+
+				.with(csrf()))
+
+				.andDo(print())
+
+				.andExpect(status().isOk())
+
+				.andExpect(view().name("bidList/update"));
+
+		BidList bid1Test = bidService.getById(bidId);
+
+		assertEquals(10, bid1Test.getBidQuantity());
 
 	}
 

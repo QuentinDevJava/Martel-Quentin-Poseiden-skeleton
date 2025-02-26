@@ -46,15 +46,4 @@ public class HomeController {
 		return "home";
 	}
 
-	/**
-	 * Admin home.
-	 *
-	 * @param model the model
-	 * @return the string
-	 */
-	@GetMapping("/admin/home")
-	public String adminHome(Model model) {
-		return "redirect:/bidList/list";
-	}
-
 }

@@ -27,19 +27,6 @@ public class LoginController {
 	private final UserService userService;
 
 	/**
-	 * Displays the login view for authentication. To use the custom page, configure
-	 * Spring Security with {@code formLogin().loginPage("/login")}.
-	 * 
-	 * @return A ModelAndView initialized with the "login" view
-	 */
-	@GetMapping("/login")
-	public ModelAndView login() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("login");
-		return mav;
-	}
-
-	/**
 	 * Displays the list of authenticated users. This method requires valid
 	 * authentication and users with the "ADMIN" role.
 	 * 
@@ -53,3 +40,16 @@ public class LoginController {
 		return mav;
 	}
 }
+
+/**
+ * Displays the login view for authentication. To use the custom page, configure
+ * Spring Security with {@code formLogin().loginPage("/login")}.
+ * 
+ * @return A ModelAndView initialized with the "login" view
+ */
+//@GetMapping("/login")
+//public ModelAndView login() {
+//	ModelAndView mav = new ModelAndView();
+//	mav.setViewName("login");
+//	return mav;
+//}
