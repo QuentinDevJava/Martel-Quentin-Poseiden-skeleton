@@ -45,34 +45,26 @@ public class HandleErrorController implements ErrorController {
 		case "404":
 			errorMessage = "The requested page could not be found.";
 			errorTitle = "Page Not Found Exception";
-			model.addAttribute(ERROR_MSG, errorMessage);
-			model.addAttribute(ERROR_TITLE, errorTitle);
-			model.addAttribute(USERNAME, userConnect.getName());
 			break;
+
 		case "500":
 			errorMessage = "An internal server error has occurred.";
 			errorTitle = "Internal Server Error";
-			model.addAttribute(ERROR_MSG, errorMessage);
-			model.addAttribute(ERROR_TITLE, errorTitle);
-			model.addAttribute(USERNAME, userConnect.getName());
 			break;
 
 		case "403":
 			errorMessage = "You are not authorized to access the requested data.";
 			errorTitle = "Access Denied Exception";
-			model.addAttribute(ERROR_MSG, errorMessage);
-			model.addAttribute(ERROR_TITLE, errorTitle);
-			model.addAttribute(USERNAME, userConnect.getName());
 			break;
 
 		default:
 			errorMessage = "An unexpected error has occurred.";
 			errorTitle = "Error Occurred";
-			model.addAttribute(ERROR_MSG, errorMessage);
-			model.addAttribute(ERROR_TITLE, errorTitle);
-			model.addAttribute(USERNAME, userConnect.getName());
 			break;
 		}
+		model.addAttribute(ERROR_MSG, errorMessage);
+		model.addAttribute(ERROR_TITLE, errorTitle);
+		model.addAttribute(USERNAME, userConnect.getName());
 		return "error/error";
 
 	}

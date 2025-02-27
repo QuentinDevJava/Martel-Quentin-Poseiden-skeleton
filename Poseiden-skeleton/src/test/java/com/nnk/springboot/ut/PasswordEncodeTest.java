@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * Time: 11:26 AM
  */
 @SpringBootTest
-public class PasswordEncodeTest {
+class PasswordEncodeTest {
 	@Test
 	void testPassword() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

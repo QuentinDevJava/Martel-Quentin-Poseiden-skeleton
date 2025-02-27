@@ -32,7 +32,7 @@ class HandleErrorControllerTest {
 	HttpServletRequest request;
 
 	@Test
-	public void testHandleError_403() throws Exception {
+	void testHandleError_403() throws Exception {
 
 		when(request.getAttribute(any())).thenReturn(403);
 
