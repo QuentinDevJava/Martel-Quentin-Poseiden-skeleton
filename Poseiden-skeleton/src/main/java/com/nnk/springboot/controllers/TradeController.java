@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class TradeController.
+ * Controller responsible for managing Trade entities. Allows displaying,
+ * adding, updating, and deleting Trade.
  */
 @Slf4j
 @Controller
@@ -34,17 +35,20 @@ public class TradeController {
 	/** The trade service. */
 	private final TradeService tradeService;
 
-	/** The http servlet request. */
+	/**
+	 * The HTTP servlet request used to retrieve the authenticated user's
+	 * information.
+	 */
 	private final HttpServletRequest httpServletRequest;
 
 	/**
-	 * Home.
+	 * Displays the list of all Trade.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of Trade.
 	 */
 	@GetMapping("/trade/list")
-	public String home(Model model) {
+	public String homeTrade(Model model) {
 
 		List<Trade> trades = tradeService.getAll();
 		Principal userConnect = httpServletRequest.getUserPrincipal();
@@ -56,13 +60,13 @@ public class TradeController {
 	}
 
 	/**
-	 * Adds the user.
+	 * Displays the list of all Trade.
 	 *
-	 * @param bid the bid
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of Trade.
 	 */
 	@GetMapping("/trade/add")
-	public String addUser(Trade bid) {
+	public String addTrade(Trade trade) {
 		return TRADE_ADD;
 	}
 
@@ -78,7 +82,7 @@ public class TradeController {
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("Trade formulaire erreur");
 			return TRADE_ADD;
 		}
 		tradeService.save(trade);
@@ -112,7 +116,7 @@ public class TradeController {
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("Trade formulaire erreur");
 			return TRADE_UPDATE;
 		}
 

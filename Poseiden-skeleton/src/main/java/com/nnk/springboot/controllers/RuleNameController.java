@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class RuleNameController.
+ * Controller responsible for managing RuleName entities. Allows displaying,
+ * adding, updating, and deleting RuleName.
  */
 @Slf4j
 @Controller
@@ -34,14 +35,18 @@ public class RuleNameController {
 	/** The rule name service. */
 	private final RuleNameService ruleNameService;
 
-	/** The http servlet request. */
+	/**
+	 * The HTTP servlet request used to retrieve the authenticated user's
+	 * information.
+	 */
+
 	private final HttpServletRequest httpServletRequest;
 
 	/**
-	 * Home.
+	 * Displays the list of all RuleName.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of RuleName.
 	 */
 	@GetMapping("/ruleName/list")
 	public String home(Model model) {
@@ -56,10 +61,10 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Adds the rule form.
+	 * Displays the list of all RuleName.
 	 *
-	 * @param ruleName the rule name
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of RuleName.
 	 */
 	@GetMapping("/ruleName/add")
 	public String addRuleForm(RuleName ruleName) {
@@ -113,7 +118,7 @@ public class RuleNameController {
 			Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("ruleName formulaire erreur");
 			return RULENAME_UPDATE;
 		}
 

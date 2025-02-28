@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class RatingController.
+ * Controller responsible for managing Rating entities. Allows displaying,
+ * adding, updating, and deleting Rating.
  */
 @Slf4j
 @Controller
@@ -34,14 +35,17 @@ public class RatingController {
 	/** The rating service. */
 	private final RatingService ratingService;
 
-	/** The http servlet request. */
+	/**
+	 * The HTTP servlet request used to retrieve the authenticated user's
+	 * information.
+	 */
 	private final HttpServletRequest httpServletRequest;
 
 	/**
-	 * Home.
+	 * Displays the list of all Rating.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of Rating.
 	 */
 	@GetMapping("/rating/list")
 	public String home(Model model) {
@@ -55,10 +59,10 @@ public class RatingController {
 	}
 
 	/**
-	 * Adds the rating form.
+	 * Displays the list of all Rating.
 	 *
-	 * @param rating the rating
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of Rating.
 	 */
 	@GetMapping("/rating/add")
 	public String addRatingForm(Rating rating) {
@@ -113,7 +117,7 @@ public class RatingController {
 			Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("rating formulaire erreur");
 			return RATING_UPDATE;
 		}
 

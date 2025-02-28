@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class CurveController.
+ * Controller responsible for managing CurvePoint entities. Allows displaying,
+ * adding, updating, and deleting CurvePoint.
  */
 @Slf4j
 @Controller
@@ -34,14 +35,17 @@ public class CurveController {
 	/** The curve service. */
 	private final CurveService curveService;
 
-	/** The http servlet request. */
+	/**
+	 * The HTTP servlet request used to retrieve the authenticated user's
+	 * information.
+	 */
 	private final HttpServletRequest httpServletRequest;
 
 	/**
-	 * Home.
+	 * Displays the list of all CurvePoints.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of CurvePoint.
 	 */
 	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
@@ -56,29 +60,31 @@ public class CurveController {
 	}
 
 	/**
-	 * Adds the curve point form.
+	 * Displays the form for adding a new CurvePoint.
 	 *
-	 * @param bid the bid
-	 * @return the string
+	 * @param curvePoint The empty {@link CurvePoint} object to bind to the form.
+	 * @return The name of the view displaying the add CurvePoint form.
 	 */
 	@GetMapping("/curvePoint/add")
-	public String addCurvePointForm(CurvePoint bid) {
+	public String addCurvePointForm(CurvePoint curvePoint) {
 		return CURVEPOINT_ADD;
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves a new CurvePoint if no errors are present.
 	 *
-	 * @param curvePoint the curve point
-	 * @param result     the result
-	 * @param model      the model
-	 * @return the string
+	 * @param curvePoint The {@link CurvePoint} object to save.
+	 * @param result     The result of binding the form data to the CurvePoint
+	 *                   object.
+	 * @param model      The model object used to pass data to the view.
+	 * @return The redirect URL to the CurvePoints list or the add form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/curvePoint/validate")
 	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("curvePoint formulaire erreur");
+			log.warn("CurvePoint form error.");
 			return CURVEPOINT_ADD;
 		}
 		curveService.save(curvePoint);
@@ -86,11 +92,11 @@ public class CurveController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing CurvePoint.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the CurvePoint to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update form for the CurvePoint.
 	 */
 	@GetMapping("/curvePoint/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -100,22 +106,23 @@ public class CurveController {
 	}
 
 	/**
-	 * Update curve point.
+	 * Updates an existing CurvePoint after validation.
 	 *
-	 * @param id         the id
-	 * @param curvePoint the curve point
-	 * @param result     the result
-	 * @param model      the model
-	 * @return the string
+	 * @param id         The ID of the CurvePoint to update.
+	 * @param curvePoint The {@link CurvePoint} object containing the updated data.
+	 * @param result     The result of binding the form data to the CurvePoint
+	 *                   object.
+	 * @param model      The model object used to pass data to the view.
+	 * @return The redirect URL to the list of CurvePoint or the update form in case
+	 *         of validation errors.
 	 */
 	@PostMapping("/curvePoint/update/{id}")
 	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
 			Model model) {
 
 		if (result.hasErrors()) {
-			log.warn("curvepoint formulaire erreur");
+			log.warn("CurvePoint form error.");
 			return CURVEPOINT_UPDATE;
-
 		}
 		curvePoint.setId(id);
 		curveService.save(curvePoint);
@@ -125,11 +132,11 @@ public class CurveController {
 	}
 
 	/**
-	 * Delete curve point.
+	 * Deletes a CurvePoint by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the CurvePoint to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining CurvePoints.
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {

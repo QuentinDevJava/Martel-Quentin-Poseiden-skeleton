@@ -24,7 +24,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class BidListController.
+ * Controller responsible for managing BidList entities. Allows displaying,
+ * adding, updating, and deleting BidList.
  */
 @Slf4j
 @Controller
@@ -34,14 +35,14 @@ public class BidListController {
 	/** The bid service. */
 	private final BidService bidService;
 
-	/** The http servlet request. */
+	/** The HTTP request used to retrieve the authenticated user's information. */
 	private final HttpServletRequest httpServletRequest;
 
 	/**
-	 * Home.
+	 * Displays the list of all BidList.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of bid.
 	 */
 	@GetMapping("/bidList/list")
 	public String home(Model model) {
@@ -55,10 +56,10 @@ public class BidListController {
 	}
 
 	/**
-	 * Adds the bid form.
+	 * Displays the form for adding a new BidList.
 	 *
-	 * @param bid the bid
-	 * @return the string
+	 * @param bid The empty {@link BidList} object to bind to the form.
+	 * @return The name of the view displaying the add BidList form.
 	 */
 	@GetMapping("/bidList/add")
 	public String addBidForm(BidList bid) {
@@ -66,17 +67,18 @@ public class BidListController {
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves the new BidList if there are no errors.
 	 *
-	 * @param bid    the bid
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param bid    The {@link BidList} to save.
+	 * @param result The result of binding the form data to the BidList object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the list of BidList or the add form if errors
+	 *         occur.
 	 */
 	@PostMapping("/bidList/validate")
 	public String validate(@Valid BidList bid, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("Error in BidList form submission.");
 			return BIDLISTS_ADD;
 		}
 		bidService.save(bid);
@@ -84,11 +86,11 @@ public class BidListController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing BidList.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the BidList to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update BidList form.
 	 */
 	@GetMapping("/bidList/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -98,18 +100,19 @@ public class BidListController {
 	}
 
 	/**
-	 * Update bid.
+	 * Updates an existing BidList after validation.
 	 *
-	 * @param id      the id
-	 * @param bidList the bid list
-	 * @param result  the result
-	 * @param model   the model
-	 * @return the string
+	 * @param id      The ID of the BidList to update.
+	 * @param bidList The {@link BidList} object containing updated information.
+	 * @param result  The result of binding the form data to the BidList object.
+	 * @param model   The model object used to pass data to the view.
+	 * @return The redirect URL to the list of BidList or the update form if errors
+	 *         occur.
 	 */
 	@PostMapping("/bidList/update/{id}")
 	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			log.warn("bidList formulaire erreur");
+			log.warn("Error in BidList form submission.");
 			return BIDLISTS_UPDATE;
 		}
 		bidList.setBidListId(id);
@@ -120,11 +123,11 @@ public class BidListController {
 	}
 
 	/**
-	 * Delete bid.
+	 * Deletes a BidList by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the BidList to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining BidList.
 	 */
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {

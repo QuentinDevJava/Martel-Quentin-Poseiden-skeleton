@@ -19,7 +19,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Class UserController.
+ * Controller responsible for managing User entities. Allows displaying, adding,
+ * updating, and deleting User.
  */
 @Controller
 @RequiredArgsConstructor
@@ -29,10 +30,10 @@ public class UserController {
 	private final UserService userService;
 
 	/**
-	 * Home.
+	 * Displays the list of all User.
 	 *
-	 * @param model the model
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of User.
 	 */
 	@GetMapping("/user/list")
 	public String home(Model model) {
@@ -41,10 +42,10 @@ public class UserController {
 	}
 
 	/**
-	 * Adds the user.
+	 * Displays the list of all User.
 	 *
-	 * @param bid the bid
-	 * @return the string
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the list of User.
 	 */
 	@GetMapping("/user/add")
 	public String addUser(User bid) {
