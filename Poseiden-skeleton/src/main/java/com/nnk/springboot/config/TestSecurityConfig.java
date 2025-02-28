@@ -34,11 +34,11 @@ public class TestSecurityConfig {
 	SecurityFilterChain web(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 
-				.requestMatchers("/login", "/css/**", "/logout", "/error").permitAll()
+				.requestMatchers("/login", "/css/**", "/logout", "/error", "/h2-console").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
-				.anyRequest().authenticated())
+				.anyRequest().permitAll())
 
 				.formLogin(Customizer.withDefaults());
 
