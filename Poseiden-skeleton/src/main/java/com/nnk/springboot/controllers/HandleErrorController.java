@@ -1,13 +1,26 @@
 package com.nnk.springboot.controllers;
 
+import static com.nnk.springboot.constants.AppConstants.ERROR_MSG;
+import static com.nnk.springboot.constants.AppConstants.ERROR_TITLE;
+import static com.nnk.springboot.constants.AppConstants.USERNAME;
+
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+
 /**
  * Controller handling error pages for the application. This controller is
  * responsible for processing and displaying different error pages (404, 500,
  * 403) with appropriate messages and authentication information.
  *
  */
-//@Controller
-public class HandleErrorController {
+@Controller
+public class HandleErrorController implements ErrorController {
 
 	/**
 	 * Handles error requests for the application. This method is called when Spring
@@ -22,47 +35,43 @@ public class HandleErrorController {
 	 * @return The name of the view to display (error/error).
 	 * 
 	 */
-	// @GetMapping("/error")
-	// public String handleError(HttpServletRequest request, Model model) {
+	@GetMapping("/error")
+	public String handleError(Authentication userConnect, HttpServletRequest request, Model model) {
+		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+		String errorMessage;
+		String errorTitle;
+		String username = userConnect.getName();
 
-	// int statusCode = (Integer)
-	// request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-//		String message = (String) request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-//
-//		model.addAttribute(ERROR_MSG, message);
-//		model.addAttribute(ERROR_TITLE, "");
-//		model.addAttribute(USERNAME, "");
-//
-//		return "error/error";
+		if (username.isEmpty()) {
+			username = "Error user no found";
+		}
 
-//		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-//		String errorMessage;
-//		String errorTitle;
-//
-//		switch (status.toString()) {
-//		case "404":
-//			errorMessage = "The requested page could not be found.";
-//			errorTitle = "Page Not Found Exception";
-//			break;
-//
-//		case "500":
-//			errorMessage = "An internal server error has occurred.";
-//			errorTitle = "Internal Server Error";
-//			break;
-//
-//		case "403":
-//			errorMessage = "You are not authorized to access the requested data.";
-//			errorTitle = "Access Denied Exception";
-//			break;
-//
-//		default:
-//			errorMessage = "An unexpected error has occurred.";
-//			errorTitle = "Error Occurred";
-//			break;
-//		}
-//		model.addAttribute(ERROR_MSG, errorMessage);
-//		model.addAttribute(ERROR_TITLE, errorTitle);
-//		model.addAttribute(USERNAME, userConnect.getName());
+		switch (status.toString()) {
+		case "404":
+			errorMessage = "The requested page could not be found.";
+			errorTitle = "Page Not Found Exception";
+			break;
 
-//	}
+		case "500":
+			errorMessage = "An internal server error has occurred.";
+			errorTitle = "Internal Server Error";
+			break;
+
+		case "403":
+			errorMessage = "You are not authorized to access the requested data.";
+			errorTitle = "Access Denied Exception";
+			break;
+
+		default:
+			errorMessage = "An unexpected error has occurred.";
+			errorTitle = "Error Occurred";
+			break;
+		}
+
+		model.addAttribute(ERROR_MSG, errorMessage);
+		model.addAttribute(ERROR_TITLE, errorTitle);
+		model.addAttribute(USERNAME, username);
+		return "error/error";
+
+	}
 }

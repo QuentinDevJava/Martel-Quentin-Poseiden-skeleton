@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * for password encoding. It defines access rules for various resources and
  * integrates custom authentication logic.
  */
-@Profile("prod")
+@Profile({ "prod", "testH2" })
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -46,11 +46,9 @@ public class SecurityConfig {
 
 				.requestMatchers("/login", "/css/**", "/logout", "/error").permitAll()
 
-				.requestMatchers("/user/**", "/secure/**").hasAnyRole("ADMIN")
+				.requestMatchers("/user/**", "/secure/**").permitAll()
 
 				.anyRequest().authenticated())
-
-				// .exceptionHandling(handling -> handling.accessDeniedPage("/error403"))
 
 				.formLogin(Customizer.withDefaults())
 

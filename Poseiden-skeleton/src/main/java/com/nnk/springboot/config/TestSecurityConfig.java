@@ -6,7 +6,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -20,7 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
-@Profile("test")
+@Profile({ "test" })
 public class TestSecurityConfig {
 
 	/**
@@ -34,11 +38,11 @@ public class TestSecurityConfig {
 	SecurityFilterChain web(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 
-				.requestMatchers("/login", "/css/**", "/logout", "/error", "/h2-console").permitAll()
+				.requestMatchers("/login", "/css/**", "/logout", "/error", "/h2/**").permitAll()
 
 				.requestMatchers("/user/**").hasRole("ADMIN")
 
-				.anyRequest().permitAll())
+				.anyRequest().authenticated())
 
 				.formLogin(Customizer.withDefaults());
 
@@ -53,6 +57,15 @@ public class TestSecurityConfig {
 	@Bean
 	BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public UserDetailsService users() {
+		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER")
+				.build();
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin"))
+				.roles("USER", "ADMIN").build();
+		return new InMemoryUserDetailsManager(user, admin);
 	}
 
 }

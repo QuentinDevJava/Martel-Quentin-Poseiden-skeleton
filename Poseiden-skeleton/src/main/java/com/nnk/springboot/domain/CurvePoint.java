@@ -61,7 +61,7 @@ public class CurvePoint {
 	private Double term;
 
 	/** The value. */
-	@Column(name = "value")
+	@Column(name = "value_col")
 	@NotNull(message = "Value is mandatory")
 	@DecimalMin(value = "0.01", message = "Term must be greater than or equal to 0.01.")
 	private Double value;
