@@ -42,23 +42,24 @@ public class UserController {
 	}
 
 	/**
-	 * Displays the list of all User.
+	 * Displays the form for adding a new User.
 	 *
-	 * @param model The model object used to pass data to the view.
-	 * @return The name of the view displaying the list of User.
+	 * @param user The empty {@link User} object to bind to the form.
+	 * @return The name of the view displaying the add User form.
 	 */
 	@GetMapping("/user/add")
-	public String addUser(User bid) {
+	public String addUser(User user) {
 		return USER_ADD;
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves a new User if no errors are present.
 	 *
-	 * @param user   the user
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param user   The {@link User} object to save.
+	 * @param result The result of binding the form data to the User object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the User list or the add form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/user/validate")
 	public String validate(@Valid User user, BindingResult result, Model model) {
@@ -76,11 +77,11 @@ public class UserController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing User.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the User to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update form for the User.
 	 */
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -92,13 +93,14 @@ public class UserController {
 	}
 
 	/**
-	 * Update user.
+	 * Updates an existing User after validation.
 	 *
-	 * @param id     the id
-	 * @param user   the user
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param id     The ID of the User to update.
+	 * @param user   The {@link User} object containing the updated data.
+	 * @param result The result of binding the form data to the User object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the list of User or the update form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/user/update/{id}")
 	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
@@ -112,11 +114,11 @@ public class UserController {
 	}
 
 	/**
-	 * Delete user.
+	 * Deletes a User by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the User to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining User.
 	 */
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser(@PathVariable("id") Integer id, Model model) {

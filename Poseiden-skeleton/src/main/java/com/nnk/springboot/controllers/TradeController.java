@@ -60,10 +60,10 @@ public class TradeController {
 	}
 
 	/**
-	 * Displays the list of all Trade.
+	 * Displays the form for adding a new Trade.
 	 *
-	 * @param model The model object used to pass data to the view.
-	 * @return The name of the view displaying the list of Trade.
+	 * @param trade The empty {@link Trade} object to bind to the form.
+	 * @return The name of the view displaying the add Trade form.
 	 */
 	@GetMapping("/trade/add")
 	public String addTrade(Trade trade) {
@@ -71,12 +71,13 @@ public class TradeController {
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves a new Trade if no errors are present.
 	 *
-	 * @param trade  the trade
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param trade  The {@link Trade} object to save.
+	 * @param result The result of binding the form data to the Trade object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the Trade list or the add form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
@@ -90,11 +91,11 @@ public class TradeController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing Trade.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the Trade to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update form for the Trade.
 	 */
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -104,13 +105,14 @@ public class TradeController {
 	}
 
 	/**
-	 * Update trade.
+	 * Updates an existing Trade after validation.
 	 *
-	 * @param id     the id
-	 * @param trade  the trade
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param id     The ID of the Trade to update.
+	 * @param trade  The {@link Trade} object containing the updated data.
+	 * @param result The result of binding the form data to the Trade object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the list of Trade or the update form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
@@ -129,11 +131,11 @@ public class TradeController {
 	}
 
 	/**
-	 * Delete trade.
+	 * Deletes a Trade by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the Trade to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining Trade.
 	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {

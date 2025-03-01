@@ -59,6 +59,15 @@ public class TestSecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * Creates an in-memory user service for manual testing.
+	 * 
+	 * This method is used for authentication and authorization tests in development
+	 * environments.
+	 * 
+	 * @return an {@link UserDetailsService} configured with two in-memory users: a
+	 *         "user" and an "admin".
+	 */
 	@Bean
 	public UserDetailsService users() {
 		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER")

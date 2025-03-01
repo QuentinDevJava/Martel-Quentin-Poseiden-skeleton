@@ -77,7 +77,7 @@ public class CurveController {
 	 * @param result     The result of binding the form data to the CurvePoint
 	 *                   object.
 	 * @param model      The model object used to pass data to the view.
-	 * @return The redirect URL to the CurvePoints list or the add form in case of
+	 * @return The redirect URL to the CurvePoint list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/curvePoint/validate")

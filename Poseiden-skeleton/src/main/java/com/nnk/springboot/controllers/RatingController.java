@@ -59,10 +59,10 @@ public class RatingController {
 	}
 
 	/**
-	 * Displays the list of all Rating.
+	 * Displays the form for adding a new Rating.
 	 *
-	 * @param model The model object used to pass data to the view.
-	 * @return The name of the view displaying the list of Rating.
+	 * @param rating The empty {@link Rating} object to bind to the form.
+	 * @return The name of the view displaying the add Rating form.
 	 */
 	@GetMapping("/rating/add")
 	public String addRatingForm(Rating rating) {
@@ -70,12 +70,13 @@ public class RatingController {
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves a new Rating if no errors are present.
 	 *
-	 * @param rating the rating
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param rating The {@link Rating} object to save.
+	 * @param result The result of binding the form data to the Rating object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the Rating list or the add form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/rating/validate")
 	public String validate(@Valid Rating rating, BindingResult result, Model model) {
@@ -90,11 +91,11 @@ public class RatingController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing Rating.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the Rating to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update form for the Rating.
 	 */
 	@GetMapping("/rating/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -104,13 +105,14 @@ public class RatingController {
 	}
 
 	/**
-	 * Update rating.
+	 * Updates an existing Rating after validation.
 	 *
-	 * @param id     the id
-	 * @param rating the rating
-	 * @param result the result
-	 * @param model  the model
-	 * @return the string
+	 * @param id     The ID of the Rating to update.
+	 * @param rating The {@link Rating} object containing the updated data.
+	 * @param result The result of binding the form data to the Rating object.
+	 * @param model  The model object used to pass data to the view.
+	 * @return The redirect URL to the list of Rating or the update form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/rating/update/{id}")
 	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
@@ -129,11 +131,11 @@ public class RatingController {
 	}
 
 	/**
-	 * Delete rating.
+	 * Deletes a Rating by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the Rating to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining Rating.
 	 */
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {

@@ -61,10 +61,10 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Displays the list of all RuleName.
+	 * Displays the form for adding a new RuleName.
 	 *
-	 * @param model The model object used to pass data to the view.
-	 * @return The name of the view displaying the list of RuleName.
+	 * @param ruleName The empty {@link RuleName} object to bind to the form.
+	 * @return The name of the view displaying the add RuleName form.
 	 */
 	@GetMapping("/ruleName/add")
 	public String addRuleForm(RuleName ruleName) {
@@ -72,12 +72,13 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Validate.
+	 * Validates and saves a new RuleName if no errors are present.
 	 *
-	 * @param ruleName the rule name
-	 * @param result   the result
-	 * @param model    the model
-	 * @return the string
+	 * @param ruleName The {@link RuleName} object to save.
+	 * @param result   The result of binding the form data to the RuleName object.
+	 * @param model    The model object used to pass data to the view.
+	 * @return The redirect URL to the RuleName list or the add form in case of
+	 *         validation errors.
 	 */
 	@PostMapping("/ruleName/validate")
 	public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
@@ -91,11 +92,11 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Show update form.
+	 * Displays the form for updating an existing RuleName.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the RuleName to update.
+	 * @param model The model object used to pass data to the view.
+	 * @return The name of the view displaying the update form for the RuleName.
 	 */
 	@GetMapping("/ruleName/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
@@ -105,13 +106,14 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Update rule name.
+	 * Updates an existing RuleName after validation.
 	 *
-	 * @param id       the id
-	 * @param ruleName the rule name
-	 * @param result   the result
-	 * @param model    the model
-	 * @return the string
+	 * @param id       The ID of the RuleName to update.
+	 * @param ruleName The {@link RuleName} object containing the updated data.
+	 * @param result   The result of binding the form data to the RuleName object.
+	 * @param model    The model object used to pass data to the view.
+	 * @return The redirect URL to the list of RuleName or the update form in case
+	 *         of validation errors.
 	 */
 	@PostMapping("/ruleName/update/{id}")
 	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
@@ -131,11 +133,11 @@ public class RuleNameController {
 	}
 
 	/**
-	 * Delete rule name.
+	 * Deletes a RuleName by its ID.
 	 *
-	 * @param id    the id
-	 * @param model the model
-	 * @return the string
+	 * @param id    The ID of the RuleName to delete.
+	 * @param model The model object used to pass data to the view.
+	 * @return The redirect URL to the list of remaining RuleName.
 	 */
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
