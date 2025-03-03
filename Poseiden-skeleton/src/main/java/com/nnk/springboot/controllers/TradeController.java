@@ -75,17 +75,17 @@ public class TradeController {
 	 *
 	 * @param trade  The {@link Trade} object to save.
 	 * @param result The result of binding the form data to the Trade object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the Trade list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/trade/validate")
-	public String validate(@Valid Trade trade, BindingResult result, Model model) {
+	public String validate(@Valid Trade trade, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("Trade formulaire erreur");
 			return TRADE_ADD;
 		}
+
 		tradeService.save(trade);
 		return REDIRECT_TRADE_LIST;
 	}
@@ -110,12 +110,11 @@ public class TradeController {
 	 * @param id     The ID of the Trade to update.
 	 * @param trade  The {@link Trade} object containing the updated data.
 	 * @param result The result of binding the form data to the Trade object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the list of Trade or the update form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/trade/update/{id}")
-	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("Trade formulaire erreur");
@@ -124,24 +123,18 @@ public class TradeController {
 
 		trade.setTradeId(id);
 		tradeService.save(trade);
-		List<Trade> trades = tradeService.getAll();
-		model.addAttribute(TRADES, trades);
-
 		return REDIRECT_TRADE_LIST;
 	}
 
 	/**
 	 * Deletes a Trade by its ID.
 	 *
-	 * @param id    The ID of the Trade to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the Trade to delete.
 	 * @return The redirect URL to the list of remaining Trade.
 	 */
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
 		tradeService.deleteById(id);
-		List<Trade> trades = tradeService.getAll();
-		model.addAttribute(TRADES, trades);
 		return REDIRECT_TRADE_LIST;
 	}
 }

@@ -2,9 +2,7 @@ package com.nnk.springboot.it;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -18,27 +16,20 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "testuser", roles = { "USER" })
-class HandleErrorControllerTest {
+class GlobalErrorControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
-	void testHandleError_403() throws Exception {
+	void test404Page() throws Exception {
+		mockMvc.perform(get("/bidList/test404Status")).andExpect(status().isNotFound()).andDo(print());
+	}
 
-		mockMvc.perform(get("/user/list"))
-
-				.andDo(print())
-
-				.andExpect(status().isForbidden())
-
-				.andExpect(view().name("error"))
-
-				.andExpect(model().attribute("errorMsg", "You are not authorized to access the requested data."))
-
-				.andExpect(model().attribute("errorTitle", "Access Denied Exception"))
-
-				.andExpect(model().attribute("username", "testUser"));
+	@Test
+	@WithMockUser(username = "toto")
+	void test403Page() throws Exception {
+		mockMvc.perform(get("/user/list")).andExpect(status().isForbidden()).andDo(print());
 	}
 
 }

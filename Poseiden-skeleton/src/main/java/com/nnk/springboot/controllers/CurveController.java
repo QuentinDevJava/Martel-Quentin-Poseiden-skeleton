@@ -76,12 +76,11 @@ public class CurveController {
 	 * @param curvePoint The {@link CurvePoint} object to save.
 	 * @param result     The result of binding the form data to the CurvePoint
 	 *                   object.
-	 * @param model      The model object used to pass data to the view.
 	 * @return The redirect URL to the CurvePoint list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+	public String validate(@Valid CurvePoint curvePoint, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("CurvePoint form error.");
@@ -112,13 +111,11 @@ public class CurveController {
 	 * @param curvePoint The {@link CurvePoint} object containing the updated data.
 	 * @param result     The result of binding the form data to the CurvePoint
 	 *                   object.
-	 * @param model      The model object used to pass data to the view.
 	 * @return The redirect URL to the list of CurvePoint or the update form in case
 	 *         of validation errors.
 	 */
 	@PostMapping("/curvePoint/update/{id}")
-	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
-			Model model) {
+	public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("CurvePoint form error.");
@@ -126,23 +123,18 @@ public class CurveController {
 		}
 		curvePoint.setId(id);
 		curveService.save(curvePoint);
-		List<CurvePoint> curvePoints = curveService.getAll();
-		model.addAttribute(CURVEPOINTS, curvePoints);
 		return REDIRECT_CURVEPOINT_LIST;
 	}
 
 	/**
 	 * Deletes a CurvePoint by its ID.
 	 *
-	 * @param id    The ID of the CurvePoint to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the CurvePoint to delete.
 	 * @return The redirect URL to the list of remaining CurvePoints.
 	 */
 	@GetMapping("/curvePoint/delete/{id}")
-	public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
+	public String deleteCurvePoint(@PathVariable("id") Integer id) {
 		curveService.deleteById(id);
-		List<CurvePoint> curvePoints = curveService.getAll();
-		model.addAttribute(CURVEPOINTS, curvePoints);
 		return REDIRECT_CURVEPOINT_LIST;
 	}
 }

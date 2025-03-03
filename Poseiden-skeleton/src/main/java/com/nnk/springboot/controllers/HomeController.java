@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Class HomeController.
+ * Controller for handling home page.
  */
 @Slf4j
 @Controller
@@ -24,20 +25,27 @@ public class HomeController {
 
 	private String userInfo;
 
+	@Value("${spring.profiles.active}")
+	private String activeProfile;
+
 	/**
-	 * Home.
-	 *
-	 * @param userConnect the user connect
-	 * @param model       the model
-	 * @return the string
+	 * Handles requests to the home page ("/" or "").
+	 * 
+	 * @param userConnect the authentication object representing the current user.
+	 * @param model       the model object that holds attributes to be passed to the
+	 *                    view.
+	 * @return the name of the view displaying ("home").
 	 */
 	@GetMapping({ "/", "" })
 	public String home(Authentication userConnect, Model model) {
 
 		if (userConnect instanceof UsernamePasswordAuthenticationToken) {
 			userInfo = userService.getUsernameLoginInfo(userConnect);
-			model.addAttribute("adminRole", userService.isAdmin(userInfo));
-
+			if ("local".equals(activeProfile)) {
+				model.addAttribute("adminRole", userInfo.equals("admin"));
+			} else {
+				model.addAttribute("adminRole", userService.isAdmin(userInfo));
+			}
 		} else if (userConnect instanceof OAuth2AuthenticationToken) {
 			userInfo = userService.getOauth2LoginInfo(userConnect);
 			model.addAttribute("adminRole", userService.isAdmin(userInfo));

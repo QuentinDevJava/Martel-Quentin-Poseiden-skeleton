@@ -1,5 +1,6 @@
 package com.nnk.springboot.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -9,23 +10,28 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Security configuration for the application in test mode. Only active when the
- * 'test' profile is used.
+ * 'test' or 'local' profile is used.
  * 
- * - Allows access to certain pages (login, logout, css) without authentication.
- * - Restricts access to "/user/**" pages to users with the "ADMIN" role. - Uses
- * BCrypt password encoding. - Defines an in-memory user "userTest" and an admin
- * "adminTest".
+ * <ul>
+ * <li>Allows access to certain pages without authentication.</li>
+ * <li>Restricts access to certain pages to users with the "ADMIN" role.</li>
+ * <li>Uses BCrypt password encoding.</li>
+ * <li>Defines an in-memory user "user" and an admin "admin".</li>
+ * </ul>
  */
 @Configuration
 @EnableWebSecurity
-@Profile({ "test" })
+@Profile({ "test", "local" })
 public class TestSecurityConfig {
+
+	@Autowired // TODO verif
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * Configures HTTP security for the test mode.
@@ -40,23 +46,13 @@ public class TestSecurityConfig {
 
 				.requestMatchers("/login", "/css/**", "/logout", "/error", "/h2/**").permitAll()
 
-				.requestMatchers("/user/**").hasRole("ADMIN")
+				.requestMatchers("/user/**", "/secure/**").hasRole("ADMIN")
 
 				.anyRequest().authenticated())
 
 				.formLogin(Customizer.withDefaults());
 
 		return http.build();
-	}
-
-	/**
-	 * Declares a password encoder for hashing passwords using the BCrypt algorithm.
-	 * 
-	 * @return A {@link BCryptPasswordEncoder} for password encoding.
-	 */
-	@Bean
-	BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 
 	/**
@@ -69,12 +65,14 @@ public class TestSecurityConfig {
 	 *         "user" and an "admin".
 	 */
 	@Bean
-	public UserDetailsService users() {
-		UserDetails user = User.builder().username("user").password(passwordEncoder().encode("user")).roles("USER")
+	UserDetailsService users() {
+
+		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("user")).roles("USER")
 				.build();
-		UserDetails admin = User.builder().username("admin").password(passwordEncoder().encode("admin"))
-				.roles("USER", "ADMIN").build();
+		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("admin")).roles("ADMIN")
+				.build();
 		return new InMemoryUserDetailsManager(user, admin);
+
 	}
 
 }

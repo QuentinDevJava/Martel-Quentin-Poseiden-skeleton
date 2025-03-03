@@ -18,7 +18,7 @@ import com.nnk.springboot.service.UserService;
  * Custom service to load user details in production. Implements Spring
  * Security's UserDetailsService.
  */
-@Profile({ "prod", "localH2" })
+@Profile({ "prod" })
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

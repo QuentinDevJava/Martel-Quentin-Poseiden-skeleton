@@ -71,16 +71,17 @@ public class BidListController {
 	 *
 	 * @param bid    The {@link BidList} to save.
 	 * @param result The result of binding the form data to the BidList object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the list of BidList or the add form if errors
 	 *         occur.
 	 */
 	@PostMapping("/bidList/validate")
-	public String validate(@Valid BidList bid, BindingResult result, Model model) {
+	public String validate(@Valid BidList bid, BindingResult result) {
+
 		if (result.hasErrors()) {
 			log.warn("Error in BidList form submission.");
 			return BIDLISTS_ADD;
 		}
+
 		bidService.save(bid);
 		return REDIRECT_BIDLISTS;
 	}
@@ -88,8 +89,7 @@ public class BidListController {
 	/**
 	 * Displays the form for updating an existing BidList.
 	 *
-	 * @param id    The ID of the BidList to update.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the BidList to update.
 	 * @return The name of the view displaying the update BidList form.
 	 */
 	@GetMapping("/bidList/update/{id}")
@@ -105,35 +105,31 @@ public class BidListController {
 	 * @param id      The ID of the BidList to update.
 	 * @param bidList The {@link BidList} object containing updated information.
 	 * @param result  The result of binding the form data to the BidList object.
-	 * @param model   The model object used to pass data to the view.
 	 * @return The redirect URL to the list of BidList or the update form if errors
 	 *         occur.
 	 */
 	@PostMapping("/bidList/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
+	public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result) {
+
 		if (result.hasErrors()) {
 			log.warn("Error in BidList form submission.");
 			return BIDLISTS_UPDATE;
 		}
+
 		bidList.setBidListId(id);
 		bidService.save(bidList);
-		List<BidList> bidLists = bidService.getAll();
-		model.addAttribute(BIDLISTS, bidLists);
 		return REDIRECT_BIDLISTS;
 	}
 
 	/**
 	 * Deletes a BidList by its ID.
 	 *
-	 * @param id    The ID of the BidList to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the BidList to delete.
 	 * @return The redirect URL to the list of remaining BidList.
 	 */
 	@GetMapping("/bidList/delete/{id}")
-	public String deleteBid(@PathVariable("id") Integer id, Model model) {
+	public String deleteBid(@PathVariable("id") Integer id) {
 		bidService.deleteById(id);
-		List<BidList> bidLists = bidService.getAll();
-		model.addAttribute(BIDLISTS, bidLists);
 		return REDIRECT_BIDLISTS;
 	}
 }

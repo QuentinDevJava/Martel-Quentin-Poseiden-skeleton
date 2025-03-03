@@ -1,5 +1,6 @@
 package com.nnk.springboot.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -20,10 +22,13 @@ import org.springframework.security.web.SecurityFilterChain;
  * for password encoding. It defines access rules for various resources and
  * integrates custom authentication logic.
  */
-@Profile({ "prod", "localH2" })
+@Profile({ "prod" })
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+	@Autowired
+	private PasswordEncoder passwordEncoder; // TODO verif
 
 	/** The custom user details service for loading user details. */
 	private final CustomUserDetailsService customUserDetailsService;
@@ -58,16 +63,6 @@ public class SecurityConfig {
 	}
 
 	/**
-	 * Declares a password encoder for hashing passwords using the BCrypt algorithm.
-	 * 
-	 * @return A {@link BCryptPasswordEncoder} for password encoding.
-	 */
-	@Bean
-	BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	/**
 	 * Configures an {@link AuthenticationManager} to handle user authentication.
 	 * Uses the {@link CustomUserDetailsService} to load user details and the
 	 * {@link BCryptPasswordEncoder} to verify passwords.
@@ -80,12 +75,10 @@ public class SecurityConfig {
 	 * @throws Exception If any error occurs during configuration.
 	 */
 	@Bean
-	AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-			throws Exception {
+	AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
 		AuthenticationManagerBuilder authenticationManagerBuilder = http
 				.getSharedObject(AuthenticationManagerBuilder.class);
-		authenticationManagerBuilder.userDetailsService(customUserDetailsService)
-				.passwordEncoder(bCryptPasswordEncoder);
+		authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
 		return authenticationManagerBuilder.build();
 	}
 

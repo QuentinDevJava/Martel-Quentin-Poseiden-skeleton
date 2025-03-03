@@ -76,12 +76,11 @@ public class RuleNameController {
 	 *
 	 * @param ruleName The {@link RuleName} object to save.
 	 * @param result   The result of binding the form data to the RuleName object.
-	 * @param model    The model object used to pass data to the view.
 	 * @return The redirect URL to the RuleName list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/ruleName/validate")
-	public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
+	public String validate(@Valid RuleName ruleName, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("ruleName formulaire erreur");
@@ -111,13 +110,11 @@ public class RuleNameController {
 	 * @param id       The ID of the RuleName to update.
 	 * @param ruleName The {@link RuleName} object containing the updated data.
 	 * @param result   The result of binding the form data to the RuleName object.
-	 * @param model    The model object used to pass data to the view.
 	 * @return The redirect URL to the list of RuleName or the update form in case
 	 *         of validation errors.
 	 */
 	@PostMapping("/ruleName/update/{id}")
-	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
-			Model model) {
+	public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("ruleName formulaire erreur");
@@ -126,25 +123,18 @@ public class RuleNameController {
 
 		ruleName.setId(id);
 		ruleNameService.save(ruleName);
-		List<RuleName> ruleNames = ruleNameService.getAll();
-		model.addAttribute("ruleName", ruleNames);
-
 		return REDIRECT_RULENAME_LIST;
 	}
 
 	/**
 	 * Deletes a RuleName by its ID.
 	 *
-	 * @param id    The ID of the RuleName to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the RuleName to delete.
 	 * @return The redirect URL to the list of remaining RuleName.
 	 */
 	@GetMapping("/ruleName/delete/{id}")
-	public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
+	public String deleteRuleName(@PathVariable("id") Integer id) {
 		ruleNameService.deleteById(id);
-		List<RuleName> ruleNames = ruleNameService.getAll();
-		model.addAttribute(RULENAMES, ruleNames);
-
 		return REDIRECT_RULENAME_LIST;
 	}
 }

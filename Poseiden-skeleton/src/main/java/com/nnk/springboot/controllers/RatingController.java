@@ -74,12 +74,11 @@ public class RatingController {
 	 *
 	 * @param rating The {@link Rating} object to save.
 	 * @param result The result of binding the form data to the Rating object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the Rating list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/rating/validate")
-	public String validate(@Valid Rating rating, BindingResult result, Model model) {
+	public String validate(@Valid Rating rating, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("rating formulaire erreur");
@@ -110,13 +109,11 @@ public class RatingController {
 	 * @param id     The ID of the Rating to update.
 	 * @param rating The {@link Rating} object containing the updated data.
 	 * @param result The result of binding the form data to the Rating object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the list of Rating or the update form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
-			Model model) {
+	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 
 		if (result.hasErrors()) {
 			log.warn("rating formulaire erreur");
@@ -125,24 +122,18 @@ public class RatingController {
 
 		rating.setId(id);
 		ratingService.save(rating);
-		List<Rating> ratings = ratingService.getAll();
-		model.addAttribute(RATINGS, ratings);
 		return REDIRECT_RATING_LIST;
 	}
 
 	/**
 	 * Deletes a Rating by its ID.
 	 *
-	 * @param id    The ID of the Rating to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the Rating to delete.
 	 * @return The redirect URL to the list of remaining Rating.
 	 */
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating(@PathVariable("id") Integer id, Model model) {
 		ratingService.deleteById(id);
-		List<Rating> ratings = ratingService.getAll();
-		model.addAttribute(RATINGS, ratings);
-
 		return REDIRECT_RATING_LIST;
 	}
 }

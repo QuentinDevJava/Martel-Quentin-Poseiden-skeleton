@@ -57,20 +57,20 @@ public class UserController {
 	 *
 	 * @param user   The {@link User} object to save.
 	 * @param result The result of binding the form data to the User object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the User list or the add form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/user/validate")
-	public String validate(@Valid User user, BindingResult result, Model model) {
+	public String validate(@Valid User user, BindingResult result) {
+
 		if (result.hasErrors()) {
 			return USER_ADD;
 		}
 
 		if (userService.addUser(user)) {
-			model.addAttribute(USERS, userService.getAll());
 			return REDIRECT_USER_LIST;
 		}
+
 		result.rejectValue("username", "error.user", "The username: " + user.getUsername() + " is used");
 		return USER_ADD;
 
@@ -86,7 +86,6 @@ public class UserController {
 	@GetMapping("/user/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 		User user = userService.getById(id);
-
 		user.setPassword("");
 		model.addAttribute("user", user);
 		return USER_UPDATE;
@@ -98,32 +97,30 @@ public class UserController {
 	 * @param id     The ID of the User to update.
 	 * @param user   The {@link User} object containing the updated data.
 	 * @param result The result of binding the form data to the User object.
-	 * @param model  The model object used to pass data to the view.
 	 * @return The redirect URL to the list of User or the update form in case of
 	 *         validation errors.
 	 */
 	@PostMapping("/user/update/{id}")
-	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
+	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result) {
+
 		if (result.hasErrors()) {
 			return USER_UPDATE;
 		}
+
 		user.setId(id);
 		userService.save(user);
-		model.addAttribute(USERS, userService.getAll());
 		return REDIRECT_USER_LIST;
 	}
 
 	/**
 	 * Deletes a User by its ID.
 	 *
-	 * @param id    The ID of the User to delete.
-	 * @param model The model object used to pass data to the view.
+	 * @param id The ID of the User to delete.
 	 * @return The redirect URL to the list of remaining User.
 	 */
 	@GetMapping("/user/delete/{id}")
-	public String deleteUser(@PathVariable("id") Integer id, Model model) {
+	public String deleteUser(@PathVariable("id") Integer id) {
 		userService.deleteById(id);
-		model.addAttribute(USERS, userService.getAll());
 		return REDIRECT_USER_LIST;
 	}
 }
