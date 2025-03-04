@@ -28,11 +28,8 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.UserService;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @WithMockUser(username = "testuser", roles = { "ADMIN" })
 class UserControllerIntegrationTest {
 

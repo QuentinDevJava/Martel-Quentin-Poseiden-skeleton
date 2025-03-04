@@ -7,6 +7,7 @@ import java.util.Objects;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,12 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 
 	private final UserRepository userRepository;
-	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); // TODO Verification avec Omar a faire
+																					// les tests sont ok
+
+//	@Autowired
+//	private final PasswordEncoder passwordEncoder; // TODO Verification avec Omar a faire les tests ne sont pas ok
 
 	/**
 	 * Retrieves a user by their username.
@@ -77,6 +83,7 @@ public class UserService {
 	 * @param user the user to save
 	 */
 	public void save(User user) {
+		System.out.println(passwordEncoder.encode(user.getPassword()));
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
@@ -160,4 +167,5 @@ public class UserService {
 		}
 		return protectedInfo.toString();
 	}
+
 }

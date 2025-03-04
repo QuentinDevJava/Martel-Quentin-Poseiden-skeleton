@@ -1,6 +1,5 @@
 package com.nnk.springboot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -29,9 +28,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Profile({ "test", "local" })
 public class TestSecurityConfig {
-
-	@Autowired // TODO verif
-	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * Configures HTTP security for the test mode.
@@ -65,7 +61,7 @@ public class TestSecurityConfig {
 	 *         "user" and an "admin".
 	 */
 	@Bean
-	UserDetailsService users() {
+	UserDetailsService users(PasswordEncoder passwordEncoder) {
 
 		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("user")).roles("USER")
 				.build();

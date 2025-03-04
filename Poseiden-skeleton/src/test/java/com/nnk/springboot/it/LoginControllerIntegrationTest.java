@@ -13,11 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import jakarta.transaction.Transactional;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 class LoginControllerIntegrationTest {
 
 	@Autowired

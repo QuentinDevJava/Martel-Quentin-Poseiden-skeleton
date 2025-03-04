@@ -28,7 +28,6 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.service.BidService;
 
-//TODO tester les services a travers les controllers supp les ServiceIntegrationTest
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username = "testuser", roles = { "ADMIN" })

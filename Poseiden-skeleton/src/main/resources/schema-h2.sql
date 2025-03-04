@@ -3,7 +3,7 @@
 -- Structure de la table `bidlist`
 --
 
-CREATE TABLE bidlist (
+CREATE TABLE IF NOT EXISTS bidlist (
   bid_list_id INT NOT NULL AUTO_INCREMENT,
   account VARCHAR(255) NOT NULL,
   ask DOUBLE ,
@@ -33,7 +33,7 @@ CREATE TABLE bidlist (
 -- Structure de la table `curvepoint`
 --
 
-CREATE TABLE curvepoint (
+CREATE TABLE IF NOT EXISTS curvepoint (
   id INT NOT NULL AUTO_INCREMENT,
   as_of_date TIMESTAMP ,
   creation_date TIMESTAMP ,
@@ -47,7 +47,7 @@ CREATE TABLE curvepoint (
 -- Structure de la table `rating`
 --
 
-CREATE TABLE rating (
+CREATE TABLE IF NOT EXISTS rating (
   id INT NOT NULL AUTO_INCREMENT,
   fitch_rating VARCHAR(255) NOT NULL,
   moodys_rating VARCHAR(255) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE rating (
 -- Structure de la table `rulename`
 --
 
-CREATE TABLE rulename (
+CREATE TABLE IF NOT EXISTS rulename (
   id INT NOT NULL AUTO_INCREMENT,
   description VARCHAR(255) NOT NULL,
   json VARCHAR(255) NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE rulename (
 -- Structure de la table `trade`
 --
 
-CREATE TABLE trade (
+CREATE TABLE IF NOT EXISTS trade (
   trade_id INT NOT NULL AUTO_INCREMENT,
   account VARCHAR(255) NOT NULL,
   benchmark VARCHAR(255) ,
@@ -104,7 +104,7 @@ CREATE TABLE trade (
 -- Structure de la table `users`
 --
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT,
   fullname VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,

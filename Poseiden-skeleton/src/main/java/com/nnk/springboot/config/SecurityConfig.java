@@ -1,6 +1,5 @@
 package com.nnk.springboot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -27,15 +26,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder; // TODO verif
-
-	/** The custom user details service for loading user details. */
-	private final CustomUserDetailsService customUserDetailsService;
-
-	SecurityConfig(CustomUserDetailsService customUserDetailsService) {
-		this.customUserDetailsService = customUserDetailsService;
-	}
+//	/** The custom user details service for loading user details. */
+//	private final CustomUserDetailsService customUserDetailsService;
+//
+//	SecurityConfig(CustomUserDetailsService customUserDetailsService) {
+//		this.customUserDetailsService = customUserDetailsService;
+//	}
 
 	/**
 	 * Configures HTTP security rules, including access permissions for specific
@@ -75,7 +71,8 @@ public class SecurityConfig {
 	 * @throws Exception If any error occurs during configuration.
 	 */
 	@Bean
-	AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+	AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder passwordEncoder,
+			CustomUserDetailsService customUserDetailsService) throws Exception {
 		AuthenticationManagerBuilder authenticationManagerBuilder = http
 				.getSharedObject(AuthenticationManagerBuilder.class);
 		authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
