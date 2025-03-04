@@ -3,6 +3,7 @@ package com.nnk.springboot.ut;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
@@ -26,6 +28,9 @@ class UserServiceTest {
 
 	@Mock
 	private UserRepository userRepository;
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@InjectMocks
 	private UserService userService;
@@ -59,11 +64,13 @@ class UserServiceTest {
 	@Test
 	void testSave() {
 		// Arrange
+		when(passwordEncoder.encode(user1.getPassword())).thenReturn(anyString());
 
 		// Act
 		userService.save(user1);
 
 		// Assert
+		verify(passwordEncoder, times(1)).encode(anyString());
 		verify(userRepository, times(1)).save(user1);
 	}
 
@@ -71,11 +78,13 @@ class UserServiceTest {
 	void testAddUser() {
 		// Arrange
 		when(userRepository.findByUsername(user1.getUsername())).thenReturn(null);
+		when(passwordEncoder.encode(user1.getPassword())).thenReturn(anyString());
 
 		// Act
 		userService.addUser(user1);
 
 		// Assert
+		verify(passwordEncoder, times(1)).encode(anyString());
 		verify(userRepository, times(1)).save(user1);
 	}
 

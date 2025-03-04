@@ -40,14 +40,10 @@ public class GlobalErrorController implements ErrorController {
 
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
-		if (status == null) {
-			return "error/error";
-		}
+		final int statusCode = Integer.parseInt(status.toString());
 
-		int statusCode = Integer.parseInt(status.toString());
-
-		String errorMessage;
-		String errorTitle;
+		final String errorMessage;
+		final String errorTitle;
 		String username = userConnect.getName();
 
 		if (username.isEmpty()) {

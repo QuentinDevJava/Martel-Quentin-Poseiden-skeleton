@@ -8,7 +8,7 @@
 - **Bootstrap**: Version 4.3.1 for responsive and modern design
 - **Database**: MySQL (or other DBMS, depending on your configuration)
 
-## Prerequisites
+## Requirements
 
 Before you begin, make sure you have the following tools installed on your machine:
 
@@ -25,13 +25,9 @@ Before you begin, make sure you have the following tools installed on your machi
 
 ## Setup in Production
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/spring-boot-project.git
-    ```
-2. **Run the SQL script** to create the `demo` database and necessary tables:
+1. **Run the SQL script** to create the `demo` database and necessary tables:
 
-3. **Configure environment variables** for production (example for MySQL and OAuth2 GitHub):
+2. **Configure environment variables** for production (example for MySQL and OAuth2 GitHub):
     - **Database**:
       ```properties
       spring.datasource.username=${DB_USERNAME}
@@ -45,7 +41,7 @@ Before you begin, make sure you have the following tools installed on your machi
 
     You need to define these environment variables before starting the application.
 
-4. **Run the application in production mode**:
+3. **Run the application in production mode**:
     Use Maven to compile and start the application with the `prod` profile:
     ```bash
     mvn spring-boot:run -Dspring.profiles.active=prod
