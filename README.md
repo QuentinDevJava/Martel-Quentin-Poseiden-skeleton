@@ -46,6 +46,10 @@ Before you begin, make sure you have the following tools installed on your machi
     ```bash
     mvn spring-boot:run -Dspring.profiles.active=prod
     ```
+    Or
+    ```bash
+     java -Dspring.profiles.active=prod -jar spring-boot-skeleton.jar
+    ```
     The application will be available at `http://localhost:5001`.
 
 ## Setup in Local
@@ -54,5 +58,9 @@ Before you begin, make sure you have the following tools installed on your machi
     To start the application with the `local` profile, use the following command:
     ```bash
     mvn spring-boot:run -Dspring.profiles.active=local
+    ```
+    Or
+    ```bash
+     java -Dspring.profiles.active=local -jar spring-boot-skeleton.jar
     ```
     The application will be available at `http://localhost:5001`.
