@@ -41,6 +41,8 @@ public class LoginController {
 	}
 }
 
+
+// TODO supprimer ce bout de code si non utilise
 /**
  * Displays the login view for authentication. To use the custom page, configure
  * Spring Security with {@code formLogin().loginPage("/login")}.

@@ -26,6 +26,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+	// TODO cleaning supprimer ces bouts de code en commentaire si elles ne sont plus pertinentes
+
 //	/** The custom user details service for loading user details. */
 //	private final CustomUserDetailsService customUserDetailsService;
 //
@@ -58,6 +60,7 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+	// TODO update ce block de javadoc, bCryptPasswordEncoder semble avoir ete bouge vers la main class
 	/**
 	 * Configures an {@link AuthenticationManager} to handle user authentication.
 	 * Uses the {@link CustomUserDetailsService} to load user details and the

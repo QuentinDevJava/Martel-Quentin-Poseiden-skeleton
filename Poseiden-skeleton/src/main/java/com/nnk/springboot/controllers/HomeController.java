@@ -28,6 +28,7 @@ public class HomeController {
 	@Value("${spring.profiles.active}")
 	private String activeProfile;
 
+	// TODO cette logique m'a echappe pendant la revue mais pourrait etre améliorer car bcp de if/else. Prete pas attention cependant.
 	/**
 	 * Handles requests to the home page ("/" or "").
 	 * 

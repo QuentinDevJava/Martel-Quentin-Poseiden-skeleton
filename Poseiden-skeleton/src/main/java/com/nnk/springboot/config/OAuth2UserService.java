@@ -33,7 +33,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	private final UserService userService;
 
 	/** The random. */
-	private Random random = new SecureRandom();
+	private final Random random = new SecureRandom();
 
 	/**
 	 * Loads an OAuth2 user, creating a new user if needed.
@@ -43,7 +43,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
-		log.info("Load user {}", oAuth2UserRequest);
+		log.info("Load user {}", oAuth2UserRequest); // TODO faudrait voir le contenu de l'objet oAuth2UserRequest que tu loggues, verifier si pas d'infos sensibles. De preference, logguer juste le username
 		OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
 		String username = oAuth2User.getAttribute("login");

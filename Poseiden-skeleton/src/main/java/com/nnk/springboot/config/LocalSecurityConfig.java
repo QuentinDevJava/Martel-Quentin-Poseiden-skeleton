@@ -27,7 +27,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @Profile({ "test", "local" })
-public class TestSecurityConfig {
+public class LocalSecurityConfig {
 
 	/**
 	 * Configures HTTP security for the test mode.
