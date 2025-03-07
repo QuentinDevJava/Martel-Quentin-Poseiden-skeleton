@@ -26,15 +26,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-	// TODO cleaning supprimer ces bouts de code en commentaire si elles ne sont plus pertinentes
-
-//	/** The custom user details service for loading user details. */
-//	private final CustomUserDetailsService customUserDetailsService;
-//
-//	SecurityConfig(CustomUserDetailsService customUserDetailsService) {
-//		this.customUserDetailsService = customUserDetailsService;
-//	}
-
 	/**
 	 * Configures HTTP security rules, including access permissions for specific
 	 * URLs, and integrates form-based login and OAuth2 authentication.
@@ -60,16 +51,14 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	// TODO update ce block de javadoc, bCryptPasswordEncoder semble avoir ete bouge vers la main class
 	/**
 	 * Configures an {@link AuthenticationManager} to handle user authentication.
 	 * Uses the {@link CustomUserDetailsService} to load user details and the
-	 * {@link BCryptPasswordEncoder} to verify passwords.
+	 * {@link PasswordEncoder} to verify passwords.
 	 * 
-	 * @param http                  The {@link HttpSecurity} object for configuring
-	 *                              authentication.
-	 * @param bCryptPasswordEncoder The {@link BCryptPasswordEncoder} for password
-	 *                              encoding.
+	 * @param http            The {@link HttpSecurity} object for configuring
+	 *                        authentication.
+	 * @param PasswordEncoder The {@link PasswordEncoder} for password encoding.
 	 * @return The configured {@link AuthenticationManager}.
 	 * @throws Exception If any error occurs during configuration.
 	 */

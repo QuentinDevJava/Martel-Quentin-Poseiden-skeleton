@@ -43,26 +43,33 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
-		log.info("Load user {}", oAuth2UserRequest); // TODO faudrait voir le contenu de l'objet oAuth2UserRequest que tu loggues, verifier si pas d'infos sensibles. De preference, logguer juste le username
 		OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
-		String username = oAuth2User.getAttribute("login");
+		String clientOAuth2Name = oAuth2UserRequest.getClientRegistration().getClientName();
+		log.info("User load by {}", clientOAuth2Name);
+		if (clientOAuth2Name.contentEquals("GitHub")) {
 
-		User user = userService.getByUsername(username);
+			String username = oAuth2User.getAttribute("login");
+			log.info("Username of user: {}", username);
 
-		if (user == null) {
-			user = new User();
-			user.setFullname(username);
-			user.setUsername(username);
-			user.setPassword(generateValidTemporaryPassword());
-			user.setRole("USER");
-			userService.save(user);
+			User user = userService.getByUsername(username);
+
+			if (user == null) {
+				user = new User();
+				user.setFullname(username);
+				user.setUsername(username);
+				user.setPassword(generateValidTemporaryPassword());
+				user.setRole("USER");
+				userService.save(user);
+			}
+			Collection<GrantedAuthority> authorities = Collections
+					.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+
+			return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), "login");
+		} else {
+			log.error("Unsupported OAuth2 client: {}. The client is not supported.", clientOAuth2Name);
+			throw new UnsupportedOperationException("OAuth2 client " + clientOAuth2Name + " is not supported.");
 		}
-		Collection<GrantedAuthority> authorities = Collections
-				.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-
-		return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), "login");
-
 	}
 
 	/**

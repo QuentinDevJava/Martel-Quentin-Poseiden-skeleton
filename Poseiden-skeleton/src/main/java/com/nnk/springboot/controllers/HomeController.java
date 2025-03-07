@@ -28,7 +28,6 @@ public class HomeController {
 	@Value("${spring.profiles.active}")
 	private String activeProfile;
 
-	// TODO cette logique m'a echappe pendant la revue mais pourrait etre améliorer car bcp de if/else. Prete pas attention cependant.
 	/**
 	 * Handles requests to the home page ("/" or "").
 	 * 
@@ -40,13 +39,14 @@ public class HomeController {
 	@GetMapping({ "/", "" })
 	public String home(Authentication userConnect, Model model) {
 
-		if (userConnect instanceof UsernamePasswordAuthenticationToken) {
+		if ("local".equals(activeProfile)) {
 			userInfo = userService.getUsernameLoginInfo(userConnect);
-			if ("local".equals(activeProfile)) {
-				model.addAttribute("adminRole", userInfo.equals("admin"));
-			} else {
-				model.addAttribute("adminRole", userService.isAdmin(userInfo));
-			}
+			model.addAttribute("adminRole", userInfo.equals("admin"));
+
+		} else if (userConnect instanceof UsernamePasswordAuthenticationToken) {
+			userInfo = userService.getUsernameLoginInfo(userConnect);
+			model.addAttribute("adminRole", userService.isAdmin(userInfo));
+
 		} else if (userConnect instanceof OAuth2AuthenticationToken) {
 			userInfo = userService.getOauth2LoginInfo(userConnect);
 			model.addAttribute("adminRole", userService.isAdmin(userInfo));

@@ -39,7 +39,9 @@ public class GlobalErrorController implements ErrorController {
 	public String handleError(Authentication userConnect, HttpServletRequest request, Model model) {
 
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		// TODO plus prudent de toujours verifier que l'objet n'est pas null, ici status, car on ne sait jamais. Mais prete pas attention
+		if (status == null) {
+			throw new IllegalArgumentException("The status code is null.");
+		}
 		final int statusCode = Integer.parseInt(status.toString());
 
 		final String errorMessage;
