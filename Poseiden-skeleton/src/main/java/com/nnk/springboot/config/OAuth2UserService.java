@@ -66,10 +66,11 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 				if (user == null) {
 					user = new User(username, username, generateValidTemporaryPassword(), "USER");
 					userService.save(user);
+					log.info("New user created and added to DB: username = {}, role = {}", username, user.getRole());
 				}
 				Collection<GrantedAuthority> authorities = Collections
 						.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-
+				log.info("User found in DB: username = {}, role = {}", username, user.getRole());
 				return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), "login");
 			}
 		} else {

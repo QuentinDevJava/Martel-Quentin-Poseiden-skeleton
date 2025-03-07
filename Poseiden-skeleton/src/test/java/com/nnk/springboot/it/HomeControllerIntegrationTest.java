@@ -1,6 +1,5 @@
 package com.nnk.springboot.it;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,18 +14,25 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@WithMockUser(username = "testuser", roles = { "USER" })
 class HomeControllerIntegrationTest {
 
 	@Autowired
 	MockMvc mockMvc;
 
 	@Test
-	void testHome() throws Exception {
+	@WithMockUser(username = "testUser", roles = { "USER" })
+	void testHomeUserRole() throws Exception {
 
 		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("home"))
-				.andExpect(model().attribute("username", notNullValue()))
-				.andExpect(model().attribute("adminRole", notNullValue()));
+				.andExpect(model().attribute("username", "testUser")).andExpect(model().attribute("adminRole", false));
+	}
+
+	@Test
+	@WithMockUser(username = "testAdmin", roles = { "ADMIN" })
+	void testHomeAdminRole() throws Exception {
+
+		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("home"))
+				.andExpect(model().attribute("username", "testAdmin")).andExpect(model().attribute("adminRole", true));
 	}
 
 }

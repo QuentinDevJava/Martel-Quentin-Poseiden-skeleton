@@ -1,9 +1,6 @@
 package com.nnk.springboot.controllers;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +20,6 @@ public class HomeController {
 
 	private final UserService userService;
 
-	private String userInfo;
-
-	@Value("${spring.profiles.active}")
-	private String activeProfile;
-
 	/**
 	 * Handles requests to the home page ("/" or "").
 	 * 
@@ -38,21 +30,9 @@ public class HomeController {
 	 */
 	@GetMapping({ "/", "" })
 	public String home(Authentication userConnect, Model model) {
-
-		if ("local".equals(activeProfile)) {
-			userInfo = userService.getUsernameLoginInfo(userConnect);
-			model.addAttribute("adminRole", userInfo.equals("admin"));
-
-		} else if (userConnect instanceof UsernamePasswordAuthenticationToken) {
-			userInfo = userService.getUsernameLoginInfo(userConnect);
-			model.addAttribute("adminRole", userService.isAdmin(userInfo));
-
-		} else if (userConnect instanceof OAuth2AuthenticationToken) {
-			userInfo = userService.getOauth2LoginInfo(userConnect);
-			model.addAttribute("adminRole", userService.isAdmin(userInfo));
-		}
-		model.addAttribute("username", userInfo);
+		boolean isAdmin = userService.isAdmin(userConnect);
+		model.addAttribute("adminRole", isAdmin);
+		model.addAttribute("username", userConnect.getName());
 		return "home";
 	}
-
 }

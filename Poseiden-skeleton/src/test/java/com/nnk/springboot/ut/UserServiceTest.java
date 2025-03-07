@@ -1,8 +1,6 @@
 package com.nnk.springboot.ut;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -133,26 +131,6 @@ class UserServiceTest {
 
 		// Assert
 		verify(userRepository, times(1)).findByUsername(user1.getUsername());
-	}
-
-	@Test
-	void testIsAdminTrue() {
-		// Arrange
-		when(userRepository.findByUsername(user2.getUsername())).thenReturn(user2);
-
-		// Act
-		assertTrue(userService.isAdmin(user2.getUsername()));
-
-	}
-
-	@Test
-	void testIsAdminFalse() {
-		// Arrange
-		when(userRepository.findByUsername(user1.getUsername())).thenReturn(user1);
-
-		// Act
-		assertFalse(userService.isAdmin(user1.getUsername()));
-
 	}
 
 }
