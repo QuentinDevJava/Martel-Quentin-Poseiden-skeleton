@@ -17,11 +17,13 @@ import com.nnk.springboot.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Controller responsible for managing User entities. Allows displaying, adding,
  * updating, and deleting User.
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UserController {
@@ -64,13 +66,14 @@ public class UserController {
 	public String validate(@Valid User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			log.warn("User formulaire erreur");
 			return USER_ADD;
 		}
 
 		if (userService.addUser(user)) {
 			return REDIRECT_USER_LIST;
 		}
-
+		log.warn("User formulaire erreur");
 		result.rejectValue("username", "error.user", "The username: " + user.getUsername() + " is used");
 		return USER_ADD;
 
@@ -104,6 +107,7 @@ public class UserController {
 	public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			log.warn("Trade formulaire erreur");
 			return USER_UPDATE;
 		}
 

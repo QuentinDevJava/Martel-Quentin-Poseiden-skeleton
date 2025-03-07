@@ -14,10 +14,13 @@ import org.springframework.stereotype.Service;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Custom service to load user details in production. Implements Spring
  * Security's UserDetailsService.
  */
+@Slf4j
 @Profile({ "prod" })
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -40,10 +43,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
 		User dataBaseUser = userService.getByUsername(username);
+		log.info("Attempting to load user from database with username: {}", username);
+
 		if (dataBaseUser == null) {
-			throw new UsernameNotFoundException("Username or password unknow");
+			log.error("User not found");
+			throw new UsernameNotFoundException("Username or password is incorrect");
 		}
+
+		log.info("User successfully found in the database");
 		return new org.springframework.security.core.userdetails.User(dataBaseUser.getUsername(),
 				dataBaseUser.getPassword(), getGrantedAuthorities(dataBaseUser.getRole()));
 	}
