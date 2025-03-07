@@ -43,30 +43,37 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) {
-		OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
+		// Retrieve the OAuth2 client name GitHub, Google, etc.)
 		String clientOAuth2Name = oAuth2UserRequest.getClientRegistration().getClientName();
-		log.info("User load by {}", clientOAuth2Name);
-		if (clientOAuth2Name.contentEquals("GitHub")) {
+		log.info("User loaded by {}", clientOAuth2Name);
 
+		// Check if the OAuth2 client is GitHub
+		if (clientOAuth2Name.contentEquals("GitHub")) {
+			OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 			String username = oAuth2User.getAttribute("login");
 			log.info("Username of user: {}", username);
 
-			User user = userService.getByUsername(username);
+			// Check if the username is blank or null, and throw an exception if it is
+			if (username.isBlank() || username == null) {
+				log.error("Login value is invalid: {}", username);
+				throw new UnsupportedOperationException("OAuth2 client " + clientOAuth2Name + " is not supported.");
+			} else {
+				User user = userService.getByUsername(username);
 
-			if (user == null) {
-				user = new User();
-				user.setFullname(username);
-				user.setUsername(username);
-				user.setPassword(generateValidTemporaryPassword());
-				user.setRole("USER");
-				userService.save(user);
+				// If the user doesn't exist in the database, create one with a temporary
+				// password and a default role USER
+				if (user == null) {
+					user = new User(username, username, generateValidTemporaryPassword(), "USER");
+					userService.save(user);
+				}
+				Collection<GrantedAuthority> authorities = Collections
+						.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+
+				return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), "login");
 			}
-			Collection<GrantedAuthority> authorities = Collections
-					.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-
-			return new DefaultOAuth2User(authorities, oAuth2User.getAttributes(), "login");
 		} else {
+			// If the OAuth2 client is not supported, throw an exception
 			log.error("Unsupported OAuth2 client: {}. The client is not supported.", clientOAuth2Name);
 			throw new UnsupportedOperationException("OAuth2 client " + clientOAuth2Name + " is not supported.");
 		}

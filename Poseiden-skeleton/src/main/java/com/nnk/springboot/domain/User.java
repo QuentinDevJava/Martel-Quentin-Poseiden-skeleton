@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * Represents a user in the system.
@@ -35,7 +35,7 @@ import lombok.RequiredArgsConstructor;
  * </ul>
  */
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {

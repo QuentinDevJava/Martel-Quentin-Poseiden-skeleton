@@ -6,7 +6,7 @@
 - **Java**: Version 17
 - **Thymeleaf**: Template engine for dynamic web page rendering
 - **Bootstrap**: Version 4.3.1 for responsive and modern design
-- **Database**: MySQL (or other DBMS, depending on your configuration)
+- **Database**: MySQL
 
 ## Requirements
 
@@ -22,6 +22,14 @@ Before you begin, make sure you have the following tools installed on your machi
     mvn -v
     ```
 - **MySQL**: Make sure you have a running database server (MySQL).
+
+## Cloning the Repository
+
+To get started, first clone this repository to your local machine using the following command:
+
+```bash
+git clone <https://github.com/QuentinDevJava/Martel-Quentin-Poseiden-skeleton.git>
+```
 
 ## Setup in Production
 
@@ -64,3 +72,10 @@ Before you begin, make sure you have the following tools installed on your machi
      java -Dspring.profiles.active=local -jar spring-boot-skeleton.jar
     ```
     The application will be available at `http://localhost:5001`.
+
+    In local mode, two users with the roles `ADMIN` and `USER` are preloaded in memory. You can log in with the following credentials:
+
+    - **ADMIN**: `admin` / `admin`
+    - **USER**: `user` / `user`
+
+    These users are used to facilitate testing and development in local mode.
