@@ -37,10 +37,10 @@ public class LocalSecurityConfig {
 	 * @throws Exception if there is a configuration error.
 	 */
 	@Bean
-	SecurityFilterChain web(HttpSecurity http) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
 
-				.requestMatchers("/login", "/css/**", "/logout", "/error", "/h2/**").permitAll()
+				.requestMatchers("/login", "/static/**", "/logout", "/error", "/h2/**").permitAll()
 
 				.requestMatchers("/user/**", "/secure/**").hasRole("ADMIN")
 
